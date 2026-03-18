@@ -1,0 +1,720 @@
+openapi: 3.1.0
+info:
+  title: Spectral POC SCOR
+  version: 1.0.0
+  description: |
+    A professional API for managing customer data.
+    Adheres to OWASP API Security best practices.
+  contact:
+    name: API Support
+    email: support@example.com
+servers:
+  - url: https://api.example.com/v1
+    description: Production environment
+    x-internal: false
+  - url: https://staging-api.example.com/v1
+    description: Staging environment
+    x-internal: true
+
+tags:
+  - name: Customers
+    description: Customer management operations
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 with refresh tokens. RFC8725 compliant.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.example.com/oauth/authorize
+          tokenUrl: https://auth.example.com/oauth/token
+          refreshUrl: https://auth.example.com/oauth/refresh
+          scopes:
+            read:customers: Read customer data
+            write:customers: Modify customer data
+
+  schemas:
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          minimum: 100
+          maximum: 600
+        message:
+          type: string
+          maxLength: 255
+          pattern: "^[a-zA-Z0-9 .!?-]+$"
+
+    Customer:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the customer (UUID)
+          maxLength: 36
+        firstName:
+          type: string
+          maxLength: 50
+          pattern: "^[a-zA-Z]+$"
+        lastName:
+          type: string
+          maxLength: 50
+          pattern: "^[a-zA-Z]+$"
+        email:
+          type: string
+          format: email
+          maxLength: 100
+        age:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 120
+        tags:
+          type: array
+          maxItems: 20
+          items:
+            type: string
+            maxLength: 20
+            pattern: "^[a-zA-Z0-9-]+$"
+
+  headers:
+    RateLimit-Limit:
+      description: The number of allowed requests in the current period
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 10000
+    RateLimit-Reset:
+      description: The number of seconds left in the current period
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 3600
+    Access-Control-Allow-Origin:
+      description: CORS header
+      schema:
+        type: string
+        const: "*"
+
+security:
+  - OAuth2: [read:customers, write:customers]
+
+paths:
+  /customers:
+    get:
+      summary: List customers
+      description: Retrieve a paginated list of customers.
+      operationId: listCustomers
+      tags:
+        - Customers
+      security:
+        - OAuth2: [read:customers]
+      parameters:
+        - name: limit
+          in: query
+          description: Max number of results
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: A list of customers
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 100
+                items:
+                  $ref: '#/components/schemas/Customer'
+        '400':
+          description: Bad Request
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            Retry-After:
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Create a new customer
+      description: Register a new customer in the system.
+      operationId: createCustomer
+      tags:
+        - Customers
+      security:
+        - OAuth2: [write:customers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Customer created
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Bad Request
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            Retry-After:
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /customers/{customerId}:
+    parameters:
+      - name: customerId
+        in: path
+        required: true
+        description: The UUID of the customer
+        schema:
+          type: string
+          format: uuid
+          maxLength: 36
+    get:
+      summary: Get a customer by ID
+      description: Retrieve details of a specific customer by their UUID.
+      operationId: getCustomerById
+      tags:
+        - Customers
+      security:
+        - OAuth2: [read:customers]
+      responses:
+        '200':
+          description: Customer details
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Bad Request
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Customer not found
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            Retry-After:
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update a customer (Full)
+      description: Fully replace a customer resource.
+      operationId: updateCustomer
+      tags:
+        - Customers
+      security:
+        - OAuth2: [write:customers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Customer updated
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Bad Request
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Customer not found
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            Retry-After:
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      summary: Update a customer (Partial)
+      description: Partially update specific fields of a customer resource.
+      operationId: patchCustomer
+      tags:
+        - Customers
+      security:
+        - OAuth2: [write:customers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Customer updated
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Bad Request
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Customer not found
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            Retry-After:
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete a customer
+      description: Permanently remove a customer from the system.
+      operationId: deleteCustomer
+      tags:
+        - Customers
+      security:
+        - OAuth2: [write:customers]
+      responses:
+        '204':
+          description: Customer deleted (No Content)
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+        '400':
+          description: Bad Request
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Customer not found
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            Retry-After:
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 3600
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

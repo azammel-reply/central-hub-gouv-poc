@@ -1,0 +1,480 @@
+openapi: 3.1.0
+info:
+  title: Enterprise Rules Demo - FAILING Spec
+  version: 1.0.0
+  description: |
+    This API specification intentionally violates all Enterprise governance rules.
+    Use this spec to demonstrate Spectral linting capabilities.
+    Every endpoint below breaks one or more enterprise rules.
+  contact:
+    name: API Team
+    email: api@example.com
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production environment
+    x-internal: false
+
+tags:
+  - name: Demo
+    description: Demo operations that violate REST best practices
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 with refresh tokens. RFC8725 compliant.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.example.com/oauth/authorize
+          tokenUrl: https://auth.example.com/oauth/token
+          refreshUrl: https://auth.example.com/oauth/refresh
+          scopes:
+            read: Read access
+            write: Write access
+
+  schemas:
+    User:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          format: uuid
+          maxLength: 36
+        name:
+          type: string
+          maxLength: 100
+          pattern: "^[a-zA-Z ]+$"
+
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: integer
+          format: int32
+          minimum: 100
+          maximum: 600
+        message:
+          type: string
+          maxLength: 255
+
+  headers:
+    RateLimit-Limit:
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 10000
+    RateLimit-Reset:
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 3600
+    Access-Control-Allow-Origin:
+      schema:
+        type: string
+        const: "*"
+
+security:
+  - OAuth2: [read, write]
+
+paths:
+  # ❌ RULE VIOLATIONS:
+  # - Verb in path (getUsers)
+  # - camelCase instead of kebab-case
+  /getUsers:
+    get:
+      summary: Get all users
+      # ❌ Missing description
+      tags:
+        - Demo
+      responses:
+        '200':
+          description: List of users
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 100
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ❌ RULE VIOLATIONS:
+  # - Singular resource (user instead of users)
+  # - Sensitive data in path (email)
+  /user/{email}:
+    parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+          format: email
+          maxLength: 100
+    get:
+      summary: Get user by email
+      # ❌ Missing description
+      tags:
+        - Demo
+      responses:
+        '200':
+          description: User found
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ❌ RULE VIOLATIONS:
+  # - Action suffix (create)
+  # - CRUD word in path
+  /orders/create:
+    post:
+      summary: Create new order
+      # ❌ Missing description
+      tags:
+        - Demo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                productId:
+                  type: string
+                  format: uuid
+                  maxLength: 36
+            # ❌ Missing example
+      responses:
+        '201':
+          description: Order created
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  orderId:
+                    type: string
+                    format: uuid
+                    maxLength: 36
+        '400':
+          description: Bad request
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ❌ RULE VIOLATIONS:
+  # - Format extension (.json)
+  /reports.json:
+    get:
+      summary: Get reports
+      # ❌ Missing description
+      tags:
+        - Demo
+      responses:
+        '200':
+          description: Reports list
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 50
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      maxLength: 36
+        '401':
+          description: Unauthorized
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ❌ RULE VIOLATIONS:
+  # - Trailing slash
+  /items/:
+    get:
+      summary: List items
+      # ❌ Missing description
+      tags:
+        - Demo
+      responses:
+        '200':
+          description: Items list
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 100
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ❌ RULE VIOLATIONS:
+  # - Deprecated without sunset date
+  /legacy-endpoint:
+    get:
+      deprecated: true
+      summary: Legacy endpoint
+      # ❌ Missing description with sunset date
+      tags:
+        - Demo
+      responses:
+        '200':
+          description: Legacy response
+          headers:
+            RateLimit-Limit:
+              $ref: '#/components/headers/RateLimit-Limit'
+            RateLimit-Reset:
+              $ref: '#/components/headers/RateLimit-Reset'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: string
+                    maxLength: 255
+        '401':
+          description: Unauthorized
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+          content:
+            application/json:
+                $ref: '#/components/schemas/Error'
+
+  # ❌ RULE VIOLATIONS:
+  # - File upload without declared maxLength
+  /upload-document:
+    post:
+      summary: Upload document
+      # ❌ Missing description
+      tags:
+        - Demo
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  # ❌ Missing maxLength
+      responses:
+        '201':
+          description: Uploaded
+
+  # ❌ RULE VIOLATIONS:
+  # - File upload too large (10MB > 5MB limit)
+  /upload-huge-file:
+    post:
+      summary: Upload huge file
+      tags: [Demo]
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  maxLength: 10485760 # 10MB (Too big!)
+      responses:
+        '201':
+          description: Uploaded
+
+  # ❌ RULE VIOLATIONS:
+  # - Valid maxLength, but MISSING description text about size
+  /upload-valid-but-undocumented:
+    post:
+      summary: Upload with hidden limit
+      tags: [Demo]
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  maxLength: 5242880 # ✅ Valid (5MB)
+                  description: "Upload your ID card." # ❌ Missing "Max 5MB"
+      responses:
+          description: Uploaded
+
+  # ❌ RULE VIOLATIONS:
+  # - Unsafe MIME types (*/* and octet-stream)
+  /upload-unsafe-wildcard:
+    post:
+      summary: Upload with wildcard
+      tags: [Demo]
+      requestBody:
+        content:
+          "*/*": # ❌ ERROR: Wildcard forbidden
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: OK
+
+  /upload-unsafe-octet:
+    post:
+      summary: Upload with octet-stream
+      tags: [Demo]
+      requestBody:
+        content:
+          application/octet-stream: # ❌ ERROR: Generic type forbidden
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: OK

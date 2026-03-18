@@ -1,0 +1,114 @@
+openapi: 3.1.0
+info:
+  title: Spectral POC SCOR (Insecure)
+  version: 1.0.0
+  description: |
+    A professional-looking but INSECURE API for managing customer data.
+    Intentionally violates OWASP API Security best practices.
+  contact:
+    name: API Support
+    email: support@example.com
+servers:
+  - url: http://api.example.com/v1
+    description: Production environment (HTTP!)
+
+tags:
+  - name: Customers
+    description: Customer management operations
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: Basic Auth (Insecure!)
+
+  schemas:
+    Customer:
+      type: object
+      # Missing additionalProperties: false
+      properties:
+        id:
+          type: integer # Numeric ID (Insecure!)
+          format: int32
+        firstName:
+          type: string
+          # Missing maxLength
+        lastName:
+          type: string
+          # Missing maxLength
+        password:
+          type: string # Password in response model if used carelessly?
+        apiKey:
+          type: string # apiKey in response?
+
+paths:
+  /customers:
+    get:
+      summary: List customers
+      description: List customers (insecurely).
+      operationId: listCustomers
+      tags:
+        - Customers
+      security:
+        - BasicAuth: []
+      parameters:
+        - name: apiKey
+          in: query # Credential in URL!
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of customers
+          # Missing RateLimit headers
+          content:
+            application/json:
+              schema:
+                type: array
+                # Missing maxItems
+                items:
+                  $ref: '#/components/schemas/Customer'
+        # Missing 4xx, 5xx error responses
+
+    post:
+      summary: Create a customer
+      description: Create a customer (insecurely).
+      operationId: createCustomer
+      tags:
+        - Customers
+      # Missing security!
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+
+  /customers/{customerId}:
+    parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: integer # Numeric ID in path!
+    get:
+      summary: Get customer
+      description: Get customer (insecurely).
+      operationId: getCustomerById
+      tags:
+        - Customers
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
