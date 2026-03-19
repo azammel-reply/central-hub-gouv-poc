@@ -18,6 +18,7 @@ import logging
 import os
 import sys
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 from config import GRADE_COLORS
@@ -46,6 +47,8 @@ def color_class(value: float) -> str:
 
 def build_api_rows(api_list: list[dict]) -> str:
     """Build HTML table rows for an API list."""
+    if not api_list:
+        return "<tr><td colspan='10' style='text-align:center; padding: 20px; color: var(--text2);'>No APIs to display.</td></tr>"
     rows = ""
     for r in api_list:
         score_val = int(r.get("numerical_score", 0))
@@ -84,22 +87,32 @@ def generate_dashboard(scores: list[dict], violations: list[dict]) -> str:
         g = r.get("grade", "E")
         grade_counts[g] = grade_counts.get(g, 0) + 1
 
-    # Top violations
-    violation_totals: dict[str, int] = {}
+    # Top violations (split)
+    owasp_totals: dict[str, int] = {}
+    design_totals: dict[str, int] = {}
     for v in violations:
         rule = v.get("rule", "")
         occ = int(v.get("occurrences", 0))
-        violation_totals[rule] = violation_totals.get(rule, 0) + occ
-    top_violations = sorted(violation_totals.items(), key=lambda x: x[1], reverse=True)[:10]
+        if rule.startswith("owasp:"):
+            owasp_totals[rule] = owasp_totals.get(rule, 0) + occ
+        else:
+            design_totals[rule] = design_totals.get(rule, 0) + occ
 
-    violations_rows = ""
-    for rule, occ in top_violations:
-        violations_rows += f"<tr><td>{rule}</td><td class='occ-cell'>{occ:,}</td></tr>"
+    top_owasp = sorted(owasp_totals.items(), key=lambda x: x[1], reverse=True)[:10]
+    top_design = sorted(design_totals.items(), key=lambda x: x[1], reverse=True)[:10]
+
+    owasp_rows = ""
+    for rule, occ in top_owasp:
+        owasp_rows += f"<tr><td>{rule}</td><td class='occ-cell'>{occ:,}</td></tr>"
+    
+    design_rows = ""
+    for rule, occ in top_design:
+        design_rows += f"<tr><td>{rule}</td><td class='occ-cell'>{occ:,}</td></tr>"
 
     # Sorted API lists
     sorted_by_score = sorted(scores, key=lambda x: int(x["numerical_score"]), reverse=True)
     top_apis = sorted_by_score[:10]
-    bottom_apis = sorted_by_score[-10:][::-1] if len(sorted_by_score) > 10 else sorted_by_score[::-1]
+    bottom_apis = [r for r in sorted_by_score if r.get("grade") in ("D", "E")]
 
     # Chart data
     grade_labels = list(grade_counts.keys())
@@ -108,14 +121,15 @@ def generate_dashboard(scores: list[dict], violations: list[dict]) -> str:
 
     # Replace template placeholders
     replacements = {
-        "{{TIMESTAMP}}":          datetime.now().strftime("%d/%m/%Y %H:%M"),
+        "{{TIMESTAMP}}":          datetime.now(ZoneInfo("Europe/Paris")).strftime("%d/%m/%Y %H:%M"),
         "{{TOTAL_APIS}}":         str(total_apis),
         "{{AVG_SCORE}}":          f"{avg_score:.0f}",
         "{{AVG_SCORE_COLOR}}":    color_class(avg_score),
         "{{COMPLIANCE_RATE}}":    f"{compliance_rate:.1f}",
         "{{COMPLIANCE_COLOR}}":   color_class(compliance_rate),
         "{{COMPLIANT_COUNT}}":    str(compliant_count),
-        "{{VIOLATIONS_ROWS}}":    violations_rows,
+        "{{OWASP_VIOLATIONS_ROWS}}": owasp_rows,
+        "{{DESIGN_VIOLATIONS_ROWS}}": design_rows,
         "{{TOP_APIS_ROWS}}":      build_api_rows(top_apis),
         "{{BOTTOM_APIS_ROWS}}":   build_api_rows(bottom_apis),
         "{{ALL_APIS_ROWS}}":      build_api_rows(sorted_by_score),
