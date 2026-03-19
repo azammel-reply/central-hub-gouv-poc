@@ -292,5 +292,266 @@
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "operation-description",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get"
+		],
+		"message": "Operation \"description\" must be present and non-empty string.",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 601,
+				"character": 8
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "operation-operationId",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get"
+		],
+		"message": "Operation must have \"operationId\".",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 601,
+				"character": 8
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "operation-tags",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get"
+		],
+		"message": "Operation must have non-empty \"tags\" array.",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 601,
+				"character": 8
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api2:2023-read-restricted",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get"
+		],
+		"message": "This read operation is not protected by any security scheme. Path: #/paths/~1bad-endpoint/get",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 601,
+				"character": 8
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api4:2023-rate-limit-responses-429",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get",
+			"responses"
+		],
+		"message": "Operation is missing rate limiting response in responses[429]. Path: #/paths/~1bad-endpoint/get/responses",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 602,
+				"character": 16
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api4:2023-rate-limit-responses-429",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get",
+			"responses"
+		],
+		"message": "Operation is missing rate limiting response in responses[429].content. Path: #/paths/~1bad-endpoint/get/responses",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 602,
+				"character": 16
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api8:2023-define-error-responses-401",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get",
+			"responses"
+		],
+		"message": "Operation is missing responses[401]. Path: #/paths/~1bad-endpoint/get/responses",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 602,
+				"character": 16
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api8:2023-define-error-responses-401",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get",
+			"responses"
+		],
+		"message": "Operation is missing responses[401].content. Path: #/paths/~1bad-endpoint/get/responses",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 602,
+				"character": 16
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api8:2023-define-error-responses-500",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get",
+			"responses"
+		],
+		"message": "Operation is missing responses[500].  Path: #/paths/~1bad-endpoint/get/responses",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 602,
+				"character": 16
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api8:2023-define-error-responses-500",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get",
+			"responses"
+		],
+		"message": "Operation is missing responses[500].content.  Path: #/paths/~1bad-endpoint/get/responses",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 602,
+				"character": 16
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api8:2023-define-error-validation",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get",
+			"responses"
+		],
+		"message": "Missing error response of either 400, 422 or 4XX.  Path: #/paths/~1bad-endpoint/get/responses",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 602,
+				"character": 16
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api4:2023-rate-limit",
+		"path": [
+			"paths",
+			"/bad-endpoint",
+			"get",
+			"responses",
+			"200"
+		],
+		"message": "All 2XX and 4XX responses should define rate limiting headers. Path: #/paths/~1bad-endpoint/get/responses/200",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 603,
+				"character": 14
+			},
+			"end": {
+				"line": 604,
+				"character": 25
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
 	}
 ]
