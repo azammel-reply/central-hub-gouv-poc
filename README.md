@@ -15,7 +15,7 @@ The rules are maintained in the `rulesets/` directory. By hosting them centrally
 ### Using the Central Rules locally
 To test your API specification locally against the central ruleset, run:
 ```bash
-npx spectral lint my-api-spec.yaml -r https://raw.githubusercontent.com/scor/central-hub-gouv-poc/main/rulesets/enterprise-rules.spectral.yml
+npx -y spectral lint my-api-spec.yaml -r https://raw.githubusercontent.com/scor/central-hub-gouv-poc/main/rulesets/owasp23-ruleset.spectral.yml
 ```
 
 ---
@@ -44,8 +44,8 @@ jobs:
 
       - name: Run Spectral Linter
         run: |
-          npx @stoplight/spectral-cli lint openapi.yaml \
-            -r https://raw.githubusercontent.com/scor/central-hub-gouv-poc/main/rulesets/enterprise-rules.spectral.yml \
+          npx -y @stoplight/spectral-cli lint openapi.yaml \
+            -r https://raw.githubusercontent.com/scor/central-hub-gouv-poc/main/rulesets/owasp23-ruleset.spectral.yml \
             -f json -o spectral-results.json || true # We continue even if there are errors to publish the report
 
       - name: Push Report to Central Hub
