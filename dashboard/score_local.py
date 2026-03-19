@@ -1,105 +1,49 @@
 """
-scripts/score_local.py
------------------------
-Lit tous les fichiers *_spectral.json dans --results-dir,
-calcule un score NutriDoc-style pour chaque spec,
-et écrit :
-  - results/scores.csv          → source Power BI Desktop (mode local)
-  - results/scores.json         → source Power BI via Blob (mode prod)
-  - results/violations_flat.csv → table secondaire Power BI Top Rules Violation
+dashboard/score_local.py
+------------------------
+Reads all *.json Spectral results from --results-dir,
+computes a NutriDoc-style score per API,
+and writes:
+  - results/scores.csv
+  - results/scores.json
+  - results/violations_flat.csv
 
-Usage :
-  python3 scripts/score_local.py \
-    --results-dir results \
+Usage:
+  python3 dashboard/score_local.py \
+    --results-dir incoming-reports \
     --output-dir results
-
-En mode CI/CD (push Azure Blob), utiliser scripts/spectral_to_blob.py à la place.
 """
 
 import argparse
 import csv
 import json
+import logging
 import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-try:
-    import yaml  # pip install pyyaml (optional, for operations_count)
-except ImportError:
-    yaml = None
+from config import (
+    GRADE_SCALE,
+    OWASP_CATEGORY_MAP,
+    SEVERITY_LABELS,
+    SEVERITY_WEIGHTS,
+)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)-5s  %(message)s",
+)
+log = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Mapping règles OWASP → catégorie lisible pour Power BI
-# Basé sur les règles de ton owasp23-ruleset.spectral.yml
-# ---------------------------------------------------------------------------
-OWASP_CATEGORY_MAP = {
-    "owasp:api1:2023-no-numeric-ids":                  "API1 - Broken Object Level Auth",
-    "owasp:api2:2023-no-http-basic":                   "API2 - Broken Authentication",
-    "owasp:api2:2023-no-api-keys-in-url":              "API2 - Broken Authentication",
-    "owasp:api2:2023-no-credentials-in-url":           "API2 - Broken Authentication",
-    "owasp:api2:2023-auth-insecure-schemes":           "API2 - Broken Authentication",
-    "owasp:api2:2023-jwt-best-practices":              "API2 - Broken Authentication",
-    "owasp:api2:2023-short-lived-access-tokens":       "API2 - Broken Authentication",
-    "owasp:api2:2023-write-restricted":                "API2 - Broken Authentication",
-    "owasp:api2:2023-read-restricted":                 "API2 - Broken Authentication",
-    "owasp:api3:2023-no-additionalProperties":         "API3 - Broken Object Property Auth",
-    "owasp:api3:2023-constrained-additionalProperties":"API3 - Broken Object Property Auth",
-    "owasp:api3:2023-no-unevaluatedProperties":        "API3 - Broken Object Property Auth",
-    "owasp:api3:2023-constrained-unevaluatedProperties":"API3 - Broken Object Property Auth",
-    "owasp:api4:2023-rate-limit":                      "API4 - Unrestricted Resource Consumption",
-    "owasp:api4:2023-rate-limit-retry-after":          "API4 - Unrestricted Resource Consumption",
-    "owasp:api4:2023-rate-limit-responses-429":        "API4 - Unrestricted Resource Consumption",
-    "owasp:api4:2023-array-limit":                     "API4 - Unrestricted Resource Consumption",
-    "owasp:api4:2023-string-limit":                    "API4 - Unrestricted Resource Consumption",
-    "owasp:api4:2023-string-restricted":               "API4 - Unrestricted Resource Consumption",
-    "owasp:api4:2023-integer-limit":                   "API4 - Unrestricted Resource Consumption",
-    "owasp:api4:2023-integer-limit-legacy":            "API4 - Unrestricted Resource Consumption",
-    "owasp:api4:2023-integer-format":                  "API4 - Unrestricted Resource Consumption",
-    "owasp:api5:2023-admin-security-unique":           "API5 - Broken Function Level Auth",
-    "owasp:api7:2023-concerning-url-parameter":        "API7 - Server Side Request Forgery",
-    "owasp:api8:2023-define-cors-origin":              "API8 - Security Misconfiguration",
-    "owasp:api8:2023-no-scheme-http":                  "API8 - Security Misconfiguration",
-    "owasp:api8:2023-no-server-http":                  "API8 - Security Misconfiguration",
-    "owasp:api8:2023-define-error-validation":         "API8 - Security Misconfiguration",
-    "owasp:api8:2023-define-error-responses-401":      "API8 - Security Misconfiguration",
-    "owasp:api8:2023-define-error-responses-500":      "API8 - Security Misconfiguration",
-    "owasp:api9:2023-inventory-access":                "API9 - Improper Inventory Management",
-    "owasp:api9:2023-inventory-environment":           "API9 - Improper Inventory Management",
-}
-
-# ---------------------------------------------------------------------------
-# Poids de pénalité par sévérité Spectral
-# TOUTES tes règles sont en warn (severity=1) — poids à ajuster selon ton SLA
-# error=0   → -20 pts (si tu ajoutes des règles error plus tard)
-# warning=1 → -5  pts par règle distincte violée
-# info=2    → -2  pts
-# hint=3    → -1  pt
-# ---------------------------------------------------------------------------
-SEVERITY_WEIGHTS = {
-    0: 20,
-    1: 5,
-    2: 2,
-    3: 1,
-}
-
-GRADE_SCALE = [
-    (85, "A"),
-    (70, "B"),
-    (50, "C"),
-    (30, "D"),
-    (0,  "E"),
-]
-
-SEVERITY_LABELS = {0: "error", 1: "warning", 2: "info", 3: "hint"}
-
+# ── Scoring ──────────────────────────────────────────────────────────────────
 
 def compute_score(issues: list) -> tuple:
     """
-    Retourne (score, grade, rules_summary).
-    Pénalité dédupliquée par rule_id : une règle violée 100 fois
-    ne pénalise qu'une fois — mais on garde le count pour le drill-down.
+    Returns (score, grade, rules_summary).
+    Penalty is deduplicated per rule_id: a rule violated 100 times
+    penalises only once — but we keep the count for drill-down.
     """
     rules_seen: dict = {}
 
@@ -136,30 +80,10 @@ def compute_score(issues: list) -> tuple:
     return score, grade, rules_summary
 
 
+# ── File processing ──────────────────────────────────────────────────────────
 
-def count_operations(spec_path: str) -> int:
-    """Count HTTP operations (GET, POST, PUT, DELETE, PATCH) in a YAML spec."""
-    if yaml is None:
-        return 0
-    if not os.path.exists(spec_path):
-        return 0
-    try:
-        with open(spec_path) as f:
-            spec = yaml.safe_load(f)
-        if not spec or "paths" not in spec:
-            return 0
-        methods = {"get", "post", "put", "delete", "patch", "options", "head", "trace"}
-        count = 0
-        for path_item in spec["paths"].values():
-            if isinstance(path_item, dict):
-                count += sum(1 for m in path_item if m.lower() in methods)
-        return count
-    except Exception:
-        return 0
-
-
-def process_spectral_file(spectral_file: str, specs_dir: str = "specs") -> dict | None:
-    """Parse un fichier *_spectral.json et retourne un record scoré."""
+def process_spectral_file(spectral_file: str) -> dict | None:
+    """Parse a Spectral JSON results file and return a scored record."""
     if not os.path.exists(spectral_file):
         return None
 
@@ -167,27 +91,16 @@ def process_spectral_file(spectral_file: str, specs_dir: str = "specs") -> dict 
         try:
             issues = json.load(f)
         except json.JSONDecodeError:
-            print(f"[WARN] Could not parse {spectral_file}")
+            log.warning("Could not parse %s — skipping", spectral_file)
             return None
 
-    # Déduit le nom du service depuis le nom du fichier
-    # pattern attendu : {service_name}_spectral.json
-    stem = Path(spectral_file).stem.replace("_spectral", "")
+    if not isinstance(issues, list):
+        log.warning("Expected a JSON array in %s — skipping", spectral_file)
+        return None
 
+    stem = Path(spectral_file).stem
     score, grade, rules_summary = compute_score(issues)
 
-    # Cherche le fichier YAML source pour compter les opérations
-    ops_count = 0
-    spec_yaml = None
-    for ext in (".yaml", ".yml"):
-        candidate = Path(specs_dir) / f"{stem}{ext}"
-        if candidate.exists():
-            spec_yaml = str(candidate)
-            break
-    if spec_yaml:
-        ops_count = count_operations(spec_yaml)
-
-    # Date de dernière modification du fichier spectral
     updated_date = datetime.fromtimestamp(
         os.path.getmtime(spectral_file), tz=timezone.utc
     ).strftime("%d/%m/%Y %H:%M:%S")
@@ -203,15 +116,17 @@ def process_spectral_file(spectral_file: str, specs_dir: str = "specs") -> dict 
         "grade": grade,
         "compliant": grade in ("A", "B", "C"),
         "total_issues": len(issues),
-        "operations_count": ops_count,
+        "operations_count": 0,
         "total_rules_violated": len(rules_summary),
         "top_violations": rules_summary,
         "updated_date": updated_date,
     }
 
 
+# ── Output writers ───────────────────────────────────────────────────────────
+
 def write_csv(records: list, output_dir: str):
-    """Écrit scores.csv — table principale Power BI."""
+    """Write scores.csv — main table."""
     csv_path = os.path.join(output_dir, "scores.csv")
     fields = [
         "timestamp", "service_name", "domain", "region", "version",
@@ -223,11 +138,11 @@ def write_csv(records: list, output_dir: str):
         w.writeheader()
         for r in records:
             w.writerow({k: r.get(k, "") for k in fields})
-    print(f"[OK] scores.csv → {csv_path}")
+    log.info("scores.csv → %s", csv_path)
 
 
 def write_violations_csv(records: list, output_dir: str):
-    """Écrit violations_flat.csv — table secondaire Top Rules Violation."""
+    """Write violations_flat.csv — per-rule detail table."""
     csv_path = os.path.join(output_dir, "violations_flat.csv")
     fields = [
         "service_name", "domain", "region", "grade",
@@ -249,25 +164,26 @@ def write_violations_csv(records: list, output_dir: str):
                     "occurrences":    v["occurrences"],
                     "penalty":        v["penalty"],
                 })
-    print(f"[OK] violations_flat.csv → {csv_path}")
+    log.info("violations_flat.csv → %s", csv_path)
 
 
 def write_json(records: list, output_dir: str):
-    """Écrit scores.json — pour upload Azure Blob en prod."""
+    """Write scores.json — machine-readable output."""
     json_path = os.path.join(output_dir, "scores.json")
     with open(json_path, "w") as f:
         json.dump(records, f, indent=2, ensure_ascii=False)
-    print(f"[OK] scores.json → {json_path}")
+    log.info("scores.json → %s", json_path)
 
 
 def print_summary(records: list):
-    """Affiche un résumé console style LV NEO dashboard."""
-    print("\n" + "="*56)
-    print(f"  SCOR API Quality — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    print("="*56)
+    """Print a console summary."""
     total = len(records)
     avg = sum(r["numerical_score"] for r in records) / total if total else 0
     compliant = sum(1 for r in records if r["compliant"])
+
+    print(f"\n{'='*56}")
+    print(f"  API Governance — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"{'='*56}")
     print(f"  Total APIs scored  : {total}")
     print(f"  Average score      : {avg:.0f}/100")
     print(f"  Compliance rate    : {compliant}/{total} ({100*compliant//total if total else 0}%)")
@@ -276,34 +192,38 @@ def print_summary(records: list):
         bar = "█" * (r["numerical_score"] // 10) + "░" * (10 - r["numerical_score"] // 10)
         flag = "✓" if r["compliant"] else "✗"
         print(f"  {flag} [{r['grade']}] {bar} {r['numerical_score']:3d}/100  {r['service_name']}")
-    print("="*56 + "\n")
+    print(f"{'='*56}\n")
 
+
+# ── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="Score Spectral results → CSV/JSON for Power BI")
-    parser.add_argument("--results-dir",    default="results",
-                        help="Dossier contenant les *_spectral.json")
-    parser.add_argument("--output-dir",     default="results",
-                        help="Dossier de sortie pour les CSV/JSON scorés")
-    parser.add_argument("--specs-dir",      default="specs",
-                        help="Dossier contenant les specs YAML")
+    parser = argparse.ArgumentParser(description="Score Spectral results → CSV/JSON")
+    parser.add_argument("--results-dir", default="incoming-reports")
+    parser.add_argument("--output-dir",  default="results")
     args = parser.parse_args()
 
     os.makedirs(args.output_dir, exist_ok=True)
 
-    # Trouver tous les *.json
-    spectral_files = list(Path(args.results_dir).glob("*.json"))
+    # Find all *.json (skip .gitkeep and non-JSON)
+    spectral_files = sorted(
+        p for p in Path(args.results_dir).glob("*.json")
+        if p.suffix == ".json"
+    )
     if not spectral_files:
-        print(f"[ERROR] No *.json found in {args.results_dir}")
-        print("Run 'npm run lint:json' first.")
+        log.error("No *.json found in %s", args.results_dir)
         sys.exit(1)
 
     records = []
-    for sf in sorted(spectral_files):
-        record = process_spectral_file(str(sf), specs_dir=args.specs_dir)
+    for sf in spectral_files:
+        record = process_spectral_file(str(sf))
         if record:
             records.append(record)
-            print(f"[INFO] {record['service_name']:40s} grade={record['grade']}  score={record['numerical_score']:3d}  issues={record['total_issues']}")
+            log.info(
+                "%-40s grade=%s  score=%3d  issues=%d",
+                record["service_name"], record["grade"],
+                record["numerical_score"], record["total_issues"],
+            )
 
     # Compute rank (1 = best score)
     records.sort(key=lambda x: x["numerical_score"], reverse=True)
@@ -311,7 +231,7 @@ def main():
         r["rank"] = i
 
     if not records:
-        print("[ERROR] No records generated.")
+        log.error("No records generated.")
         sys.exit(1)
 
     write_csv(records, args.output_dir)

@@ -23,3 +23,4 @@ dist/
 results/
 spectral_result.json
 pdfs/
+**/__pycache__/

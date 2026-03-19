@@ -3,8 +3,8 @@ name: "Governance Hub: Aggregate Dashboard"
 on:
   push:
     paths:
-      - 'incoming-reports/*.json'
-    branches: [ "main" ]
+      - "incoming-reports/*.json"
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -12,27 +12,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.12"
 
       - name: Install Dependencies
-        run: |
-          pip install pandas
+        run: pip install --quiet pandas
 
       - name: Aggregate Scores
-        run: |
-          python dashboard/score_local.py --results-dir incoming-reports --specs-dir . --output-dir results
+        working-directory: dashboard
+        run: python score_local.py --results-dir ../incoming-reports --output-dir ../results
 
       - name: Generate Dashboard HTML
+        working-directory: dashboard
         run: |
-          python dashboard/generate_dashboard.py --scores-file results/scores.csv --violations-file results/violations_flat.csv --output results/dashboard.html
+          python generate_dashboard.py \
+            --scores-file ../results/scores.csv \
+            --violations-file ../results/violations_flat.csv \
+            --output ../results/dashboard.html
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./results

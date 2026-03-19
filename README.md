@@ -1,65 +1,103 @@
-# Central API Governance Hub
+# 🛡️ Central API Governance Hub
 
-Welcome to the **API Governance Hub**. This central repository acts as the single source of truth for our enterprise API design standards. 
+[![Dashboard](https://github.com/azammel-reply/central-hub-gouv-poc/actions/workflows/aggregate-dashboard.yml/badge.svg)](https://github.com/azammel-reply/central-hub-gouv-poc/actions/workflows/aggregate-dashboard.yml)
+[![Dashboard Live](https://img.shields.io/badge/Dashboard-Live-blue?logo=github)](https://azammel-reply.github.io/central-hub-gouv-poc/dashboard.html)
 
-It serves two main functions:
-1. **Central Rulesets**: Hosts the Spectral linting rules (`rulesets/enterprise-rules.spectral.yml`) that all API teams must adhere to.
-2. **Global Dashboard**: Acts as a drop-zone for linting reports from all microservices, automatically generating a global compliance dashboard.
+> Central governance hub that collects API linting results from multiple repositories, scores them against the OWASP API Security Top 10 2023 ruleset, and publishes an automated compliance dashboard.
 
----
+## Architecture
 
-## 🛡️ Enterprise API Rules
+```
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│  poc-api-1   │     │  poc-api-2   │     │  api-xxx-N   │
+│  (Grade A)   │     │  (Grade E)   │     │  (Grade ?)   │
+└──────┬───────┘     └──────┬───────┘     └──────┬───────┘
+       │                    │                    │
+       └────── push JSON ───┼──── push JSON ─────┘
+                            ▼
+              ┌──────────────────────────┐
+              │   central-hub-gouv-poc   │
+              │                          │
+              │  incoming-reports/*.json  │  ← raw Spectral results
+              │  dashboard/config.py     │  ← scoring config
+              │  dashboard/score_local.py│  ← scoring engine
+              │  dashboard/template.html │  ← HTML template
+              │  dashboard/generate.py   │  ← dashboard generator
+              │  rulesets/owasp23-*.yml   │  ← central ruleset
+              └────────────┬─────────────┘
+                           │ GitHub Actions
+                           ▼
+                 GitHub Pages Dashboard
+          azammel-reply.github.io/central-hub-gouv-poc
+```
 
-The rules are maintained in the `rulesets/` directory. By hosting them centrally, we ensure all microservices follow the same naming conventions, security standards, and documentation requirements.
+## How It Works
 
-### Using the Central Rules locally
-To test your API specification locally against the central ruleset, run:
+1. **API repos** (poc-api-1, poc-api-2, ...) run Spectral against the central OWASP ruleset on every push to `main`.
+2. Linting results (JSON) are pushed to `incoming-reports/` via a Governance Bot.
+3. The **Aggregate Dashboard** workflow detects new/changed JSON files and:
+   - Scores each API using a deduplicated penalty system
+   - Generates CSV, JSON, and an interactive HTML dashboard
+   - Deploys to GitHub Pages automatically
+
+## Scoring Algorithm
+
+| Severity | Penalty per distinct rule violated |
+|----------|-----------------------------------|
+| Error    | -20 pts |
+| Warning  | -5 pts  |
+| Info     | -2 pts  |
+| Hint     | -1 pt   |
+
+**Grade Scale**: A (≥85) → B (≥70) → C (≥50) → D (≥30) → E (<30)
+
+> A rule violated 100 times only penalises once — but occurrences are tracked for drill-down.
+
+## Onboarding a New API
+
+1. Create a new repository with your OpenAPI spec in `specs/openapi.yaml`.
+2. Copy the workflow from [poc-api-1/.github/workflows/lint-and-push.yml](https://github.com/reply-fr/poc-api-1/blob/main/.github/workflows/lint-and-push.yml).
+3. Add a GitHub secret `HUB_PAT` — a Personal Access Token with `repo` scope from the hub owner.
+4. Push to `main` — the API will appear on the dashboard automatically!
+
+## Project Structure
+
+```
+central-hub-gouv-poc/
+├── .github/workflows/
+│   └── aggregate-dashboard.yml    # CI/CD: score + deploy
+├── dashboard/
+│   ├── config.py                  # Scoring configuration
+│   ├── score_local.py             # Scoring engine
+│   ├── generate_dashboard.py      # Dashboard generator
+│   └── dashboard_template.html    # HTML/CSS/JS template
+├── incoming-reports/              # Raw Spectral JSON results
+├── rulesets/
+│   └── owasp23-ruleset.spectral.yml  # Central OWASP ruleset
+├── results/                       # Generated output (CSV/JSON/HTML)
+└── README.md
+```
+
+## Local Development
+
 ```bash
-npx -y spectral lint my-api-spec.yaml -r https://raw.githubusercontent.com/azammel-reply/central-hub-gouv-poc/main/rulesets/owasp23-ruleset.spectral.yml
+# Score the incoming reports
+cd dashboard
+python score_local.py --results-dir ../incoming-reports --output-dir ../results
+
+# Generate the dashboard
+python generate_dashboard.py \
+  --scores-file ../results/scores.csv \
+  --violations-file ../results/violations_flat.csv \
+  --output ../results/dashboard.html
+
+# Open in browser
+open ../results/dashboard.html
 ```
 
----
+## Related Repositories
 
-## 🚀 How to Integrate Your Microservice
-
-To have your API appear on the Global Compliance Dashboard, you must push your linter results to this repository during your CI/CD pipeline.
-
-### Step-by-Step Integration (GitHub Actions)
-
-1. Ensure your API repository has an OpenAPI specification (e.g., `openapi.yaml`).
-2. Add the following GitHub Action workflow to your repository (`.github/workflows/api-lint-publish.yml`):
-
-```yaml
-name: "API Governance: Lint & Publish"
-on:
-  push:
-    branches: [ "main" ]
-
-jobs:
-  lint-and-publish:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Run Spectral Linter
-        run: |
-          npx -y @stoplight/spectral-cli lint openapi.yaml \
-            -r https://raw.githubusercontent.com/azammel-reply/central-hub-gouv-poc/main/rulesets/owasp23-ruleset.spectral.yml \
-            -f json -o spectral-results.json || true # We continue even if there are errors to publish the report
-
-      - name: Push Report to Central Hub
-        run: |
-          git clone https://$API_HUB_TOKEN@github.com/azammel-reply/central-hub-gouv-poc.git hub-repo
-          cp spectral-results.json hub-repo/incoming-reports/${{ github.event.repository.name }}.json
-          cd hub-repo
-          git config user.name "API Bot"
-          git config user.email "bot@scor.com"
-          git add incoming-reports/
-          git commit -m "chore: Update API report for ${{ github.event.repository.name }}"
-          git push
-```
-
-### What happens next?
-Whenever you merge to `main`, your repository will push its JSON report to the `incoming-reports/` folder of this Central Hub. 
-A workflow in this repository will detect the change, recalculate the global scores, and publish the updated **Enterprise Dashboard** on GitHub Pages.
+| Repository | Grade | Description |
+|------------|-------|-------------|
+| [poc-api-1](https://github.com/reply-fr/poc-api-1) | A | Best-practice OWASP-compliant API |
+| [poc-api-2](https://github.com/reply-fr/poc-api-2) | E | Intentionally insecure API |
