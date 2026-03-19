@@ -39,6 +39,15 @@ if command -v python3 &> /dev/null; then
 
     echo -e "\n"
     echo -e "--------------------------------------------------------"
+    echo -e "${BLUE}Generating Excel file for Power BI Web (.xlsx)${NC}"
+    echo -e "--------------------------------------------------------"
+    python3 scripts/generate_excel.py \
+      --scores-file results/scores.csv \
+      --violations-file results/violations_flat.csv \
+      --output results/powerbi_data.xlsx
+
+    echo -e "\n"
+    echo -e "--------------------------------------------------------"
     echo -e "${BLUE}Generating HTML dashboard${NC}"
     echo -e "--------------------------------------------------------"
     python3 scripts/generate_dashboard.py \

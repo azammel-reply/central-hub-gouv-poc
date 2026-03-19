@@ -1,16 +1,14 @@
 {
-  "name": "spectral-scor-poc",
+  "name": "@scor/api-governance-hub",
   "version": "1.0.0",
-  "description": "This is a Proof of Concept (POC) for using the **Spectral** linter to secure SCOR's API specifications. It incorporates standard OpenAPI rules and the **OWASP API Security Top 10** ruleset to detect common security vulnerabilities early in the design phase.",
+  "description": "Enterprise API Governance Hub for SCOR. Hosts central Spectral rulesets and generates global compliance dashboards.",
   "main": "index.js",
   "scripts": {
     "test": "./run-tests.sh",
-    "lint": "spectral lint specs/*.yaml --ruleset owasp23-ruleset.spectral.yml",
-    "lint:valid": "spectral lint specs/customer-api-v1.yaml --ruleset owasp23-ruleset.spectral.yml",
-    "lint:insecure": "spectral lint specs/customer-api-v1-insecure.yaml --ruleset owasp23-ruleset.spectral.yml",
-    "lint:json": "mkdir -p results && for spec in specs/*.yaml; do name=$(basename \"$spec\" .yaml); spectral lint \"$spec\" --ruleset owasp23-ruleset.spectral.yml --format json --output \"results/${name}_spectral.json\" || true; done",
-    "score": "python3 scripts/score_local.py --results-dir results --specs-dir specs --output-dir results",
-    "dashboard": "python3 scripts/generate_dashboard.py --scores-file results/scores.csv --violations-file results/violations_flat.csv --output results/dashboard.html",
+    "lint": "spectral lint specs/*.yaml --ruleset rulesets/owasp23-ruleset.spectral.yml",
+    "lint:json": "mkdir -p results && for spec in specs/*.yaml; do name=$(basename \"$spec\" .yaml); spectral lint \"$spec\" --ruleset rulesets/owasp23-ruleset.spectral.yml --format json --output \"results/${name}_spectral.json\" || true; done",
+    "score": "python3 dashboard/score_local.py --results-dir results --specs-dir specs --output-dir results",
+    "dashboard": "python3 dashboard/generate_dashboard.py --scores-file results/scores.csv --violations-file results/violations_flat.csv --output results/dashboard.html",
     "pipeline": "npm run lint:json && npm run score && npm run dashboard"
   },
   "keywords": [],

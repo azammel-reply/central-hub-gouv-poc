@@ -1,0 +1,39 @@
+name: "Governance Hub: Aggregate Dashboard"
+
+on:
+  push:
+    paths:
+      - 'incoming-reports/*.json'
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install pandas
+
+      - name: Aggregate Scores
+        run: |
+          python dashboard/score_local.py --results-dir incoming-reports --specs-dir . --output-dir results
+
+      - name: Generate Dashboard HTML
+        run: |
+          python dashboard/generate_dashboard.py --scores-file results/scores.csv --violations-file results/violations_flat.csv --output results/dashboard.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./results
+          keep_files: true
