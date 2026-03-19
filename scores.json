@@ -1,6 +1,23 @@
 [
   {
-    "timestamp": "2026-03-19T14:55:02.222853+00:00",
+    "timestamp": "2026-03-19T15:09:18.949895+00:00",
+    "service_name": "poc-api-1",
+    "domain": "unknown",
+    "region": "unknown",
+    "version": "1.0.0",
+    "spec_file": "poc-api-1@1.0.0",
+    "numerical_score": 100,
+    "grade": "A",
+    "compliant": true,
+    "total_issues": 0,
+    "operations_count": 0,
+    "total_rules_violated": 0,
+    "top_violations": [],
+    "updated_date": "19/03/2026 15:09:08",
+    "rank": 1
+  },
+  {
+    "timestamp": "2026-03-19T15:09:18.950137+00:00",
     "service_name": "poc-api-2",
     "domain": "unknown",
     "region": "unknown",
@@ -46,7 +63,7 @@
         "penalty": 5
       }
     ],
-    "updated_date": "19/03/2026 14:54:51",
-    "rank": 1
+    "updated_date": "19/03/2026 15:09:08",
+    "rank": 2
   }
 ]
