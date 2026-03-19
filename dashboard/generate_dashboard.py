@@ -111,7 +111,7 @@ def generate_dashboard(scores: list[dict], violations: list[dict]) -> str:
 
     # Sorted API lists
     sorted_by_score = sorted(scores, key=lambda x: int(x["numerical_score"]), reverse=True)
-    top_apis = sorted_by_score[:10]
+    top_apis = [r for r in sorted_by_score if r.get("grade") in ("A", "B", "C")][:10]
     bottom_apis = [r for r in sorted_by_score if r.get("grade") in ("D", "E")]
 
     # Chart data
