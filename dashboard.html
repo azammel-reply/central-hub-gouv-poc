@@ -126,7 +126,7 @@
 
 <div class="header">
     <h1>🛡️ API Design Governance — Dashboard</h1>
-    <span class="timestamp">Generated: 19/03/2026 15:09</span>
+    <span class="timestamp">Generated: 19/03/2026 18:04</span>
 </div>
 
 <!-- KPI Cards -->
@@ -137,15 +137,15 @@
     </div>
     <div class="kpi-card">
         <div class="label">Average Score</div>
-        <div class="value green">90/100</div>
+        <div class="value green">72/100</div>
     </div>
     <div class="kpi-card">
         <div class="label">Compliance Rate</div>
-        <div class="value green">100.0%</div>
+        <div class="value yellow">50.0%</div>
     </div>
     <div class="kpi-card">
         <div class="label">Compliant APIs (A/B/C)</div>
-        <div class="value green">2/2</div>
+        <div class="value green">1/2</div>
     </div>
 </div>
 
@@ -158,10 +158,15 @@
         </div>
     </div>
     <div class="card">
-        <h2>Top Rules Violation</h2>
+        <h2>🔒 Top OWASP Rules Violation</h2>
         <table>
             <thead><tr><th>Rule</th><th style="text-align:right">Total Occurrences</th></tr></thead>
-            <tbody><tr><td>operation-description</td><td class='occ-cell'>6</td></tr><tr><td>operation-tags</td><td class='occ-cell'>6</td></tr><tr><td>info-contact</td><td class='occ-cell'>1</td></tr><tr><td>owasp:api1:2023-no-numeric-ids</td><td class='occ-cell'>1</td></tr></tbody>
+            <tbody><tr><td>owasp:api4:2023-rate-limit-responses-429</td><td class='occ-cell'>2</td></tr><tr><td>owasp:api8:2023-define-error-responses-401</td><td class='occ-cell'>2</td></tr><tr><td>owasp:api8:2023-define-error-responses-500</td><td class='occ-cell'>2</td></tr><tr><td>owasp:api1:2023-no-numeric-ids</td><td class='occ-cell'>1</td></tr><tr><td>owasp:api2:2023-read-restricted</td><td class='occ-cell'>1</td></tr><tr><td>owasp:api8:2023-define-error-validation</td><td class='occ-cell'>1</td></tr><tr><td>owasp:api4:2023-rate-limit</td><td class='occ-cell'>1</td></tr></tbody>
+        </table>
+        <h2 style="margin-top: 24px;">🎨 Top Design Rules Violation</h2>
+        <table>
+            <thead><tr><th>Rule</th><th style="text-align:right">Total Occurrences</th></tr></thead>
+            <tbody><tr><td>operation-description</td><td class='occ-cell'>7</td></tr><tr><td>operation-tags</td><td class='occ-cell'>7</td></tr><tr><td>info-contact</td><td class='occ-cell'>1</td></tr><tr><td>operation-operationId</td><td class='occ-cell'>1</td></tr></tbody>
         </table>
     </div>
 </div>
@@ -185,18 +190,18 @@
             <td>0</td>
             <td>0</td>
             <td>1</td>
-            <td class="date-cell">19/03/2026 15:09:08</td>
+            <td class="date-cell">19/03/2026 17:04:20</td>
         </tr><tr>
             <td>poc-api-2</td>
             <td>1.0.0</td>
             <td>unknown</td>
             <td>unknown</td>
-            <td class="score-cell">80</td>
-            <td><span class="grade-badge" style="background:#84cc16">B</span></td>
-            <td>14</td>
+            <td class="score-cell">45</td>
+            <td><span class="grade-badge" style="background:#f97316">D</span></td>
+            <td>26</td>
             <td>0</td>
             <td>2</td>
-            <td class="date-cell">19/03/2026 15:09:08</td>
+            <td class="date-cell">19/03/2026 17:04:20</td>
         </tr></tbody>
         </table>
     </div>
@@ -212,23 +217,12 @@
             <td>1.0.0</td>
             <td>unknown</td>
             <td>unknown</td>
-            <td class="score-cell">80</td>
-            <td><span class="grade-badge" style="background:#84cc16">B</span></td>
-            <td>14</td>
+            <td class="score-cell">45</td>
+            <td><span class="grade-badge" style="background:#f97316">D</span></td>
+            <td>26</td>
             <td>0</td>
             <td>2</td>
-            <td class="date-cell">19/03/2026 15:09:08</td>
-        </tr><tr>
-            <td>poc-api-1</td>
-            <td>1.0.0</td>
-            <td>unknown</td>
-            <td>unknown</td>
-            <td class="score-cell">100</td>
-            <td><span class="grade-badge" style="background:#22c55e">A</span></td>
-            <td>0</td>
-            <td>0</td>
-            <td>1</td>
-            <td class="date-cell">19/03/2026 15:09:08</td>
+            <td class="date-cell">19/03/2026 17:04:20</td>
         </tr></tbody>
         </table>
     </div>
@@ -252,18 +246,18 @@
             <td>0</td>
             <td>0</td>
             <td>1</td>
-            <td class="date-cell">19/03/2026 15:09:08</td>
+            <td class="date-cell">19/03/2026 17:04:20</td>
         </tr><tr>
             <td>poc-api-2</td>
             <td>1.0.0</td>
             <td>unknown</td>
             <td>unknown</td>
-            <td class="score-cell">80</td>
-            <td><span class="grade-badge" style="background:#84cc16">B</span></td>
-            <td>14</td>
+            <td class="score-cell">45</td>
+            <td><span class="grade-badge" style="background:#f97316">D</span></td>
+            <td>26</td>
             <td>0</td>
             <td>2</td>
-            <td class="date-cell">19/03/2026 15:09:08</td>
+            <td class="date-cell">19/03/2026 17:04:20</td>
         </tr></tbody>
     </table>
 </div>
@@ -275,7 +269,7 @@ new Chart(document.getElementById('complianceChart'), {
         labels: ["A", "B", "C", "D", "E"],
         datasets: [{
             label: 'Number of APIs',
-            data: [1, 1, 0, 0, 0],
+            data: [1, 0, 0, 1, 0],
             backgroundColor: ["#22c55e", "#84cc16", "#eab308", "#f97316", "#ef4444"],
             borderRadius: 6,
             borderSkipped: false,
