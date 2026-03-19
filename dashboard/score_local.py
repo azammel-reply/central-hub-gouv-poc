@@ -291,10 +291,10 @@ def main():
 
     os.makedirs(args.output_dir, exist_ok=True)
 
-    # Trouver tous les *_spectral.json
-    spectral_files = list(Path(args.results_dir).glob("*_spectral.json"))
+    # Trouver tous les *.json
+    spectral_files = list(Path(args.results_dir).glob("*.json"))
     if not spectral_files:
-        print(f"[ERROR] No *_spectral.json found in {args.results_dir}")
+        print(f"[ERROR] No *.json found in {args.results_dir}")
         print("Run 'npm run lint:json' first.")
         sys.exit(1)
 
