@@ -1,18 +1,5 @@
 service_name,domain,region,grade,rule,owasp_category,severity_label,occurrences,penalty
-poc-api-1,unknown,unknown,A,owasp:api9:2023-inventory-access,API9 - Improper Inventory Management,warning,1,5
-poc-api-2,unknown,unknown,E,owasp:api4:2023-rate-limit-responses-429,API4 - Unrestricted Resource Consumption,warning,6,5
-poc-api-2,unknown,unknown,E,owasp:api8:2023-define-error-responses-401,API8 - Security Misconfiguration,warning,6,5
-poc-api-2,unknown,unknown,E,owasp:api8:2023-define-error-responses-500,API8 - Security Misconfiguration,warning,6,5
-poc-api-2,unknown,unknown,E,owasp:api4:2023-string-limit,API4 - Unrestricted Resource Consumption,warning,5,5
-poc-api-2,unknown,unknown,E,owasp:api4:2023-string-restricted,API4 - Unrestricted Resource Consumption,warning,5,5
-poc-api-2,unknown,unknown,E,owasp:api8:2023-define-error-validation,API8 - Security Misconfiguration,warning,3,5
-poc-api-2,unknown,unknown,E,owasp:api4:2023-rate-limit,API4 - Unrestricted Resource Consumption,warning,3,5
-poc-api-2,unknown,unknown,E,owasp:api4:2023-integer-limit,API4 - Unrestricted Resource Consumption,warning,2,5
-poc-api-2,unknown,unknown,E,owasp:api9:2023-inventory-access,API9 - Improper Inventory Management,warning,1,5
-poc-api-2,unknown,unknown,E,owasp:api8:2023-no-server-http,API8 - Security Misconfiguration,warning,1,5
-poc-api-2,unknown,unknown,E,owasp:api2:2023-no-http-basic,API2 - Broken Authentication,warning,1,5
-poc-api-2,unknown,unknown,E,owasp:api2:2023-no-credentials-in-url,API2 - Broken Authentication,warning,1,5
-poc-api-2,unknown,unknown,E,owasp:api4:2023-array-limit,API4 - Unrestricted Resource Consumption,warning,1,5
-poc-api-2,unknown,unknown,E,owasp:api2:2023-write-restricted,API2 - Broken Authentication,warning,1,5
-poc-api-2,unknown,unknown,E,owasp:api1:2023-no-numeric-ids,API1 - Broken Object Level Auth,warning,1,5
-poc-api-2,unknown,unknown,E,owasp:api4:2023-integer-format,API4 - Unrestricted Resource Consumption,warning,1,5
+poc-api-2,unknown,unknown,B,operation-description,Other,warning,6,5
+poc-api-2,unknown,unknown,B,operation-tags,Other,warning,6,5
+poc-api-2,unknown,unknown,B,info-contact,Other,warning,1,5
+poc-api-2,unknown,unknown,B,owasp:api1:2023-no-numeric-ids,API1 - Broken Object Level Auth,warning,1,5
