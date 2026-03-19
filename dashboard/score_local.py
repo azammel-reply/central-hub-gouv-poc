@@ -99,6 +99,13 @@ def process_spectral_file(spectral_file: str) -> dict | None:
         return None
 
     stem = Path(spectral_file).stem
+    
+    # Dynamic versioning: extract service name and version from "service@version"
+    if "@" in stem:
+        service_name, version = stem.split("@", 1)
+    else:
+        service_name, version = stem, "v1"
+
     score, grade, rules_summary = compute_score(issues)
 
     updated_date = datetime.fromtimestamp(
@@ -107,10 +114,10 @@ def process_spectral_file(spectral_file: str) -> dict | None:
 
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "service_name": stem,
+        "service_name": service_name,
         "domain": "unknown",
         "region": "unknown",
-        "version": "v1",
+        "version": version,
         "spec_file": stem,
         "numerical_score": score,
         "grade": grade,
