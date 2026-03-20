@@ -31,6 +31,19 @@
           azammel-reply.github.io/central-hub-gouv-poc
 ```
 
+## Enterprise-Grade Resilience
+
+The Governance Hub and its downstream APIs implement advanced structural checks for high-scale enterprise scenarios:
+
+- **Spoke API CI/CD Guardrails**: 
+  - **Missing Spec Handling**: Custom `if/exit 0` guards to avoid failing pipelines when specs are moving or absent.
+  - **Path-based Execution Filters**: Linting triggers strictly only on `specs/**` file changes.
+  - **Checksum Optimization**: Diff comparison blocks redundant commits/pushes for unmodified APIs.
+  - **Git Collision Resilience**: Up to 3x `git pull --rebase` exponential retrys against `non-fast-forward` merge blocks when dozens of APIs simultaneously push reports.
+- **Hub Version Accumulation Management**:
+  - `score_local.py` mathematically parses semantic version fragments (`1.10.0` vs `1.2.0`) from the incoming JSON filenames.
+  - It automatically deduplicates and **retains only the latest absolute version** for any API. This guarantees Dashboard accuracy and prevents accumulating "garbage reports" over years.
+
 ## How It Works
 
 1. **API repos** (poc-api-1, poc-api-2, ...) run Spectral against the central OWASP ruleset on every push to `main`.
