@@ -19,6 +19,7 @@ import csv
 import json
 import logging
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -226,25 +227,50 @@ def main():
         record = process_spectral_file(str(sf))
         if record:
             records.append(record)
-            log.info(
-                "%-40s grade=%s  score=%3d  issues=%d",
-                record["service_name"], record["grade"],
-                record["numerical_score"], record["total_issues"],
-            )
+            
+    # Filter to keep only the latest semantic version per service
+    def parse_version(v_str: str) -> tuple:
+        nums = re.findall(r'\d+', str(v_str))
+        return tuple(int(n) for n in nums) if nums else (0,)
+
+    latest_records: dict[str, dict] = {}
+    for r in records:
+        svc = r["service_name"]
+        curr_ver = parse_version(r["version"])
+        
+        if svc not in latest_records:
+            latest_records[svc] = r
+        else:
+            existing_ver = parse_version(latest_records[svc]["version"])
+            if curr_ver > existing_ver:
+                latest_records[svc] = r
+            elif curr_ver == existing_ver:
+                # Same semantic version, compare updated dates
+                if r["updated_date"] > latest_records[svc]["updated_date"]:
+                    latest_records[svc] = r
+
+    final_records = list(latest_records.values())
+
+    for record in final_records:
+        log.info(
+            "%-40s version=%-6s grade=%s  score=%3d  issues=%d",
+            record["service_name"], record["version"], record["grade"],
+            record["numerical_score"], record["total_issues"],
+        )
 
     # Compute rank (1 = best score)
-    records.sort(key=lambda x: x["numerical_score"], reverse=True)
-    for i, r in enumerate(records, 1):
+    final_records.sort(key=lambda x: int(x["numerical_score"]), reverse=True)
+    for i, r in enumerate(final_records, 1):
         r["rank"] = i
 
-    if not records:
+    if not final_records:
         log.error("No records generated.")
         sys.exit(1)
 
-    write_csv(records, args.output_dir)
-    write_violations_csv(records, args.output_dir)
-    write_json(records, args.output_dir)
-    print_summary(records)
+    write_csv(final_records, args.output_dir)
+    write_violations_csv(final_records, args.output_dir)
+    write_json(final_records, args.output_dir)
+    print_summary(final_records)
 
 
 if __name__ == "__main__":
