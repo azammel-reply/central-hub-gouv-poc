@@ -88,6 +88,13 @@ def process_spectral_file(spectral_file: str) -> dict | None:
     if not os.path.exists(spectral_file):
         return None
 
+    # Protect against JSON bombs / malicious files (limit to 5 MB)
+    MAX_SIZE_BYTES = 5 * 1024 * 1024
+    file_size = os.path.getsize(spectral_file)
+    if file_size > MAX_SIZE_BYTES:
+        log.warning("File %s is too large (%d bytes). Ignoring to prevent OOM/JSON bomb.", spectral_file, file_size)
+        return None
+
     with open(spectral_file) as f:
         try:
             issues = json.load(f)
