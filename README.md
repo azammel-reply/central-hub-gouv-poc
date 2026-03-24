@@ -117,34 +117,44 @@ open ../results/dashboard.html
 
 ---
 
-## 🚀 Next Phase: Hyper-Scale for 1000+ APIs
+## 🚀 Next Phase: Enterprise Industrialization (V2)
 
-While the current Git-based storage architecture easily scales up to ~100 APIs without impact, an enterprise with **1000+ APIs** pushing continuous JSON reports will eventually encounter Git history bloat and GitHub API rate limits. 
+While the current POC architecture is highly resilient, heavily scaled organizations (e.g., 500+ APIs, 1000+ developers) require further industrialization. The following three pillars represent the target V2 architecture:
 
-To achieve massive scale, the next architectural iteration will eliminate Git as a database and migrate the storage of `spectral-results.json` into **Microsoft Azure Blob Storage**.
+### 1. Stateless Hub (Azure Blob Storage)
+**The limitation**: Thousands of APIs pushing continuous JSON reports will eventually cause Git history bloat and hit GitHub API rate limits. 
+**The target**: Eliminate Git as a database and migrate the storage of raw `spectral-results.json` files into **Microsoft Azure Blob Storage**. 
+- The Hub Git history remains pristine (0 data commits).
+- Azure Blob Storage native lifecycle policies auto-delete JSONs older than 6 months.
 
-### Target Architecture (Phase 2)
+### 2. Zero-Trust Security (GitHub App Registration)
+**The limitation**: For POC simplicity, all API spoke pipelines share a static GitHub Personal Access Token (`HUB_PAT`) to authenticate and push to the Hub.
+**The target**: Replace the PAT with a dedicated **GitHub App**. Each API repository will install the App and dynamically request a short-lived OAuth token strictly scoped to write to the storage layer, ensuring true zero-trust security and granular auditability.
+
+### 3. Shift-Left (Pull Request Feedback)
+**The limitation**: Currently, the central dashboard updates *after* code is merged to `main`, meaning non-compliant API designs are already in production.
+**The target**: Integrate Spectral execution directly on feature branches during **Pull Requests**. If the score drops below an acceptable grade (e.g., below 'C'), the CI pipeline fails. Furthermore, a Git bot automatically posts a comment on the PR detailing the exact OWASP violations to fix *before* the branch can be merged.
+
+### Target Architecture Diagram (Phase 2)
 
 ```mermaid
 graph TD
     classDef azure fill:#0078D4,stroke:#fff,stroke-width:2px,color:#fff;
     classDef git fill:#24292e,stroke:#fff,stroke-width:2px,color:#fff;
     
-    A[API 1..500] -->|Upload JSON| B[(Azure Blob Storage)]:::azure
-    C[API 501..1000+] -->|Upload JSON| B
+    A[API Feature Branch] -->|1. Spectral Lint| PR[Pull Request]
+    PR -->|2. Score < C | B[Bot: Blocks Merge + Comments]
+    PR -->|3. Score >= C | C[Merge to Main]
     
-    B -.->|Triggers Webhook| D[GitHub Actions Hub]:::git
+    C -->|4. App Auth Upload| D[(Azure Blob Storage)]:::azure
+    
+    D -.->|5. Triggers Webhook| E[GitHub Actions Hub]:::git
     
     subgraph central-hub-gouv-poc [Hub Repository]
-    D --> E(Download all APIs JSONs)
-    E --> F(Python score_local.py)
-    F --> G(dashboard_template.html)
+    E --> F(Download JSONs from Azure)
+    F --> G(Python score_local.py)
+    G --> H(dashboard_template.html)
     end
     
-    G --> H[GitHub Pages / Azure Static Web Apps Dashboard]
+    H --> I[GitHub Pages / Azure Static Web Apps]
 ```
-
-**Benefits of the Target Architecture:**
-1. **Stateless Hub Repository**: The Hub Git history remains pristine (0 data commits).
-2. **Infinite Storage Scale**: Azure Blob Storage handles millions of files and native lifecycle policies (auto-deleting JSONs older than 6 months).
-3. **High Concurrency**: Thousands of CI runners can upload payloads simultaneously without race conditions or `git pull --rebase` workarounds.
