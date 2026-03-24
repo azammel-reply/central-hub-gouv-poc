@@ -164,3 +164,11 @@ graph TD
 **The target**: Transitioning to Azure Blob Storage (V2) actually makes universal compatibility **easier**. 
 - Whether an API is hosted on **GitLab**, **Azure Repos**, or **Bitbucket**, its CI pipeline simply runs `spectral lint` and uses the universal Azure CLI (`az storage blob upload`) or an HTTP curl request with a SAS Token to send its JSON to the bucket.
 - No cross-platform Git authentication is required. The Azure Storage becomes the ultimate agnostic data lake.
+
+### 5. Architect Recommendations for V2 Robustness
+Depending on specific organizational constraints, the following capabilities should be integrated into the V2 roadmap:
+
+- **Event-Driven Triggers**: Without Git commits on the Hub, the dashboard compilation should rely on an **Azure Event Grid Webhook** configured on the Blob Storage. This triggers the GitHub Actions reporting workflow *only* when a new JSON payload arrives, avoiding costly polling.
+- **Waiver Management (Exceptions)**: At the scale of 500+ APIs, strict 100% compliance is impossible due to legacy constraints. Implement a technical waiver process (e.g., an audited `.spectral-ignore` file or `x-owasp-waiver` OpenAPI extensions) to safely neutralize specific rule penalties without falsifying the global API score.
+- **Central Ruleset Versioning**: Updating the central `owasp23-ruleset.spectral.yml` with stricter rules could instantly drop the CI/CD scores of hundreds of APIs worldwide. The central rulesets must be versioned (e.g., `v1.0` strict, `v1.1` where new rules are just warnings) to ensure graceful, progressive adoption by the developers.
+- **Reporting Glass Ceiling**: The static Python HTML generator (`generate_dashboard.py`) will eventually saturate the client's web browser DOM when rendering the violation history of 1000+ APIs. Transition the Python script from generating HTML to pushing aggregated scoring metrics directly into a dedicated enterprise BI workspace (**PowerBI, Grafana, or Azure Log Analytics**).
