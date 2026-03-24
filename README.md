@@ -158,3 +158,9 @@ graph TD
     
     H --> I[GitHub Pages / Azure Static Web Apps]
 ```
+
+### 4. Universal CI/CD Compatibility (GitLab, Azure DevOps, Bitbucket)
+**The limitation**: Cross-platform CIs currently have to execute Git clone/commit/push commands to GitHub just to transmit their JSON results, which feels unnatural.
+**The target**: Transitioning to Azure Blob Storage (V2) actually makes universal compatibility **easier**. 
+- Whether an API is hosted on **GitLab**, **Azure Repos**, or **Bitbucket**, its CI pipeline simply runs `spectral lint` and uses the universal Azure CLI (`az storage blob upload`) or an HTTP curl request with a SAS Token to send its JSON to the bucket.
+- No cross-platform Git authentication is required. The Azure Storage becomes the ultimate agnostic data lake.
