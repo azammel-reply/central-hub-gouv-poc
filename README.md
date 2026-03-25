@@ -19,8 +19,8 @@
               │   central-hub-gouv-poc   │
               │                          │
               │  incoming-reports/*.json  │  ← raw Spectral results
-              │  scripts/config.py        │  ← scoring config
-              │  scripts/score_local.py   │  ← scoring engine
+              │  scripts/scoring_rules.py │  ← scoring config
+              │  scripts/compute_scores.py│  ← scoring engine
               │  templates/dashboard_template.html │  ← HTML template
               │  scripts/generate_dashboard.py     │  ← dashboard generator
               │  rulesets/owasp23-*.yml   │  ← central ruleset
@@ -80,8 +80,8 @@ central-hub-gouv-poc/
 ├── .github/workflows/
 │   └── aggregate-dashboard.yml    # CI/CD: score + deploy
 ├── scripts/
-│   ├── config.py                  # Scoring configuration
-│   ├── score_local.py             # Scoring engine
+│   ├── scoring_rules.py           # Scoring configuration
+│   ├── compute_scores.py          # Scoring engine
 │   └── generate_dashboard.py      # Dashboard generator
 ├── templates/
 │   └── dashboard_template.html    # HTML/CSS/JS template
@@ -97,7 +97,7 @@ central-hub-gouv-poc/
 ```bash
 # Score the incoming reports
 cd scripts
-python score_local.py --results-dir ../incoming-reports --output-dir ../results
+python compute_scores.py --results-dir ../incoming-reports --output-dir ../results
 
 # Generate the dashboard
 python generate_dashboard.py \
@@ -154,7 +154,7 @@ graph TD
     
     subgraph central-hub-gouv-poc [Hub Repository]
     E --> F(Download JSONs from Azure)
-    F --> G(Python score_local.py)
+    F --> G(Python compute_scores.py)
     G --> H(dashboard_template.html)
     end
     

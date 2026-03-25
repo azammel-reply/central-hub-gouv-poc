@@ -24,7 +24,7 @@ jobs:
 
       - name: Aggregate Scores
         working-directory: scripts
-        run: python score_local.py --results-dir ../incoming-reports --output-dir ../results
+        run: python compute_scores.py --results-dir ../incoming-reports --output-dir ../results
 
       - name: Generate Dashboard HTML
         working-directory: scripts

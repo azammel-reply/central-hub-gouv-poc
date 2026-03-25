@@ -21,7 +21,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
-from config import GRADE_COLORS
+from scoring_rules import GRADE_COLORS
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)-5s  %(message)s")
 log = logging.getLogger(__name__)
