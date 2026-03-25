@@ -102,6 +102,13 @@
         .score-cell { font-weight: 700; }
         .occ-cell { font-weight: 700; text-align: right; color: var(--yellow); }
         .date-cell { color: var(--text2); font-size: 0.78rem; }
+        
+        .api-main-row { cursor: pointer; transition: background 0.2s; }
+        .api-main-row:hover { background: rgba(59, 130, 246, 0.1); }
+        .details-bg { background: var(--surface2); padding: 16px; border-radius: 6px; margin: 8px 0; }
+        .details-table { width: 100%; border-collapse: collapse; background: var(--bg); border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .details-table th, .details-table td { padding: 8px 10px; font-size: 0.75rem; text-align: left; }
+        .details-table tr:hover td { background: rgba(255, 255, 255, 0.03); }
 
         .grade-badge {
             display: inline-block;
@@ -126,7 +133,7 @@
 
 <div class="header">
     <h1>🛡️ API Design Governance — Dashboard</h1>
-    <span class="timestamp">Generated: 25/03/2026 17:26</span>
+    <span class="timestamp">Generated: 25/03/2026 17:57</span>
 </div>
 
 <!-- KPI Cards -->
@@ -137,7 +144,7 @@
     </div>
     <div class="kpi-card">
         <div class="label">Average Score</div>
-        <div class="value green">72/100</div>
+        <div class="value yellow">72/100</div>
     </div>
     <div class="kpi-card">
         <div class="label">Compliance Rate</div>
@@ -180,7 +187,7 @@
                 <th>API Name</th><th>Ver</th><th>Domain</th><th>Region</th>
                 <th>Score</th><th>Grade</th><th>Issues</th><th>Ops</th><th>Rank</th><th>Updated</th>
             </tr></thead>
-            <tbody><tr>
+            <tbody><tr class="api-main-row" onclick="toggleDetails('poc-api-1')" title="Click to view rule violations">
             <td>poc-api-1</td>
             <td>1.0.1</td>
             <td>unknown</td>
@@ -190,7 +197,9 @@
             <td>0</td>
             <td>0</td>
             <td>1</td>
-            <td class="date-cell">25/03/2026 16:26:12</td>
+            <td class="date-cell">25/03/2026 17:57:47</td>
+        </tr><tr id="details-poc-api-1" class="api-details-row" style="display:none;">
+            <td colspan="10"><div class='details-bg'>No rule violations recorded.</div></td>
         </tr></tbody>
         </table>
     </div>
@@ -201,7 +210,7 @@
                 <th>API Name</th><th>Ver</th><th>Domain</th><th>Region</th>
                 <th>Score</th><th>Grade</th><th>Issues</th><th>Ops</th><th>Rank</th><th>Updated</th>
             </tr></thead>
-            <tbody><tr>
+            <tbody><tr class="api-main-row" onclick="toggleDetails('poc-api-2')" title="Click to view rule violations">
             <td>poc-api-2</td>
             <td>1.0.1</td>
             <td>unknown</td>
@@ -211,7 +220,12 @@
             <td>26</td>
             <td>0</td>
             <td>2</td>
-            <td class="date-cell">25/03/2026 16:26:12</td>
+            <td class="date-cell">25/03/2026 17:57:47</td>
+        </tr><tr id="details-poc-api-2" class="api-details-row" style="display:none;">
+            <td colspan="10"><div class="details-bg"><table class="details-table">
+                <thead><tr><th>Rule</th><th>Severity</th><th>Occurrences</th><th>Penalty</th></tr></thead>
+                <tbody><tr><td>operation-description</td><td>warning</td><td>7</td><td>-5</td></tr><tr><td>operation-tags</td><td>warning</td><td>7</td><td>-5</td></tr><tr><td>owasp:api4:2023-rate-limit-responses-429</td><td>warning</td><td>2</td><td>-5</td></tr><tr><td>owasp:api8:2023-define-error-responses-401</td><td>warning</td><td>2</td><td>-5</td></tr><tr><td>owasp:api8:2023-define-error-responses-500</td><td>warning</td><td>2</td><td>-5</td></tr><tr><td>info-contact</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>owasp:api1:2023-no-numeric-ids</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>operation-operationId</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>owasp:api2:2023-read-restricted</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>owasp:api8:2023-define-error-validation</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>owasp:api4:2023-rate-limit</td><td>warning</td><td>1</td><td>-5</td></tr></tbody>
+            </table></div></td>
         </tr></tbody>
         </table>
     </div>
@@ -225,7 +239,7 @@
             <th>API Name</th><th>Ver</th><th>Domain</th><th>Region</th>
             <th>Score</th><th>Grade</th><th>Issues</th><th>Ops</th><th>Rank</th><th>Updated</th>
         </tr></thead>
-        <tbody><tr>
+        <tbody><tr class="api-main-row" onclick="toggleDetails('poc-api-1')" title="Click to view rule violations">
             <td>poc-api-1</td>
             <td>1.0.1</td>
             <td>unknown</td>
@@ -235,8 +249,10 @@
             <td>0</td>
             <td>0</td>
             <td>1</td>
-            <td class="date-cell">25/03/2026 16:26:12</td>
-        </tr><tr>
+            <td class="date-cell">25/03/2026 17:57:47</td>
+        </tr><tr id="details-poc-api-1" class="api-details-row" style="display:none;">
+            <td colspan="10"><div class='details-bg'>No rule violations recorded.</div></td>
+        </tr><tr class="api-main-row" onclick="toggleDetails('poc-api-2')" title="Click to view rule violations">
             <td>poc-api-2</td>
             <td>1.0.1</td>
             <td>unknown</td>
@@ -246,12 +262,27 @@
             <td>26</td>
             <td>0</td>
             <td>2</td>
-            <td class="date-cell">25/03/2026 16:26:12</td>
+            <td class="date-cell">25/03/2026 17:57:47</td>
+        </tr><tr id="details-poc-api-2" class="api-details-row" style="display:none;">
+            <td colspan="10"><div class="details-bg"><table class="details-table">
+                <thead><tr><th>Rule</th><th>Severity</th><th>Occurrences</th><th>Penalty</th></tr></thead>
+                <tbody><tr><td>operation-description</td><td>warning</td><td>7</td><td>-5</td></tr><tr><td>operation-tags</td><td>warning</td><td>7</td><td>-5</td></tr><tr><td>owasp:api4:2023-rate-limit-responses-429</td><td>warning</td><td>2</td><td>-5</td></tr><tr><td>owasp:api8:2023-define-error-responses-401</td><td>warning</td><td>2</td><td>-5</td></tr><tr><td>owasp:api8:2023-define-error-responses-500</td><td>warning</td><td>2</td><td>-5</td></tr><tr><td>info-contact</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>owasp:api1:2023-no-numeric-ids</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>operation-operationId</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>owasp:api2:2023-read-restricted</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>owasp:api8:2023-define-error-validation</td><td>warning</td><td>1</td><td>-5</td></tr><tr><td>owasp:api4:2023-rate-limit</td><td>warning</td><td>1</td><td>-5</td></tr></tbody>
+            </table></div></td>
         </tr></tbody>
     </table>
 </div>
 
 <script>
+function toggleDetails(apiName) {
+    const row = document.getElementById('details-' + apiName);
+    if (!row) return;
+    if (row.style.display === 'none') {
+        row.style.display = 'table-row';
+    } else {
+        row.style.display = 'none';
+    }
+}
+
 new Chart(document.getElementById('complianceChart'), {
     type: 'bar',
     data: {
