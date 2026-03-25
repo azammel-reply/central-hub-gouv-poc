@@ -53,18 +53,61 @@ The Governance Hub and its downstream APIs implement advanced structural checks 
    - Generates CSV, JSON, and an interactive HTML dashboard
    - Deploys to GitHub Pages automatically
 
-## Scoring Algorithm
+## 🧮 Mécanique de Scoring (Comment la note est-elle calculée ?)
 
-| Severity | Penalty per distinct rule violated |
-| -------- | ---------------------------------- |
-| Error    | -20 pts                            |
-| Warning  | -5 pts                             |
-| Info     | -2 pts                             |
-| Hint     | -1 pt                              |
+L'algorithme de notation du Hub Central quantifie le niveau de conformité d'une spécification API (OpenAPI) selon les directives **OWASP Top 10 API Security 2023** et les bonnes pratiques de design. 
 
-**Grade Scale**: A (≥85) → B (≥70) → C (≥50) → D (≥30) → E (<30)
+Le calcul part de la note maximale **`100`** et applique des pénalités selon la gravité des règles enfreintes.
 
-> A rule violated 100 times only penalises once — but occurrences are tracked for drill-down.
+### Barème de pénalités
+Les règles sont classées par sévérité dans les fichiers de configuration Spectral (`rulesets/owasp23-ruleset.spectral.yml`) :
+
+| Sévérité | Pénalité par règle enfreinte | Type de Règle (Exemple) |
+| -------- | ---------------------------- | ----------------------- |
+| **Error**| `-20 pts`                    | Bloquante               |
+| **Warning**| `-5 pts`                   | OWASP par défaut        |
+| **Info** | `-2 pts`                     | Information             |
+| **Hint** | `-1 pt`                      | Conseil de design       |
+
+*(Nb : Les règles concernant l'OWASP commencent par le préfixe `owasp:`, les autres sont considérées comme des règles de `Design`).*
+
+### 🔄 Déduplication Intelligente des Pénalités
+L'algorithme pénalise **le type d'erreur enfreint (la règle), et non le volume d'erreurs**.
+> *Exemple : Si votre spécification comporte 50 routes, et que vous oubliez le schéma de sécurité (règle `owasp:api2:2023-read-restricted`) sur les 50 routes, votre score ne va pas baisser de 50 x 5 = 250 points.*
+> *La règle est identifiée comme enfreinte, et on applique la pénalité **une seule fois** (-5 points).* 
+
+Cela garantit que le volume d'endpoints de l'API ne fausse pas l'impact réel sur la sécurité, et que le développeur ne se décourage pas face à 300 erreurs causées par un seul et unique oubli architectural.
+
+### 📐 Les Grades de Qualité
+La note finale est ensuite traduite en un "Grade" (de A à E).
+
+| Score    | Grade | Statut de Conformité |
+|----------|-------|----------------------|
+| **>= 85**| `A`   | ✅ Excellent        |
+| **>= 70**| `B`   | ✅ Bon              |
+| **>= 50**| `C`   | ⚠️ Passable          |
+| **>= 30**| `D`   | ❌ Critique         |
+| **< 30** | `E`   | 🚨 Inacceptable    |
+
+---
+### 🧪 Exemples Concrets
+**Exemple 1 : L'API parfaite (Score 100/100 -> Grade A)**
+L'API respecte scrupuleusement le design et l'authentification OAuth2 + JWT (RFC8725). Aucune pénalité n'est appliquée.
+
+**Exemple 2 : L'oubli de Rate-Limiting (Score 90/100 -> Grade A)**
+Un développeur a bien sécurisé l'API mais a oublié de documenter les headers de Rate-Limiting (`RateLimit-Reset` etc). 
+* Règle enfreinte : `owasp:api4:2023-rate-limit` (Warning, -5 pts).
+* Règle de design enfreinte : `operation-description` absente (Warning, -5 pts).
+* Résultat : **100 - 10 = 90**. Grade A, l'API est toujours publiable mais peut être améliorée.
+
+**Exemple 3 : L'API Passoire de POC-2 (Score 15/100 -> Grade E)**
+L'API a été codée sans aucun respect de la sécurité OWASP.
+* `owasp:api2:2023-auth-insecure-schemes` (Basic Auth au lieu de JWT). (-5 pts)
+* `owasp:api8:2023-no-server-http` (Le serveur utilise HTTP au lieu de HTTPS). (-5 pts)
+* `owasp:api1:2023-no-numeric-ids` (Utilisation d'entiers auto-incrémentés prédictibles pour les IDs). (-5 pts)
+* Et 14 autres règles OWASP violées au fil du fichier (soit 17 règles au total * 5 points = -85 points).
+* Note finale mathématique : 15 (La note est bornée à 0 de toute façon).
+* Résultat : **Grade E**. Le pipeline bloque formellement la mise en production.
 
 ## Onboarding a New API
 

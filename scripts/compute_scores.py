@@ -116,8 +116,9 @@ def process_spectral_file(spectral_file: str) -> dict | None:
 
     score, grade, rules_summary = compute_score(issues)
 
+    from zoneinfo import ZoneInfo
     updated_date = datetime.fromtimestamp(
-        os.path.getmtime(spectral_file), tz=timezone.utc
+        os.path.getmtime(spectral_file), tz=ZoneInfo("Europe/Paris")
     ).strftime("%d/%m/%Y %H:%M:%S")
 
     return {

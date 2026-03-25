@@ -36,26 +36,29 @@ def read_csv(path: str) -> list[dict]:
         return list(csv.DictReader(f))
 
 
-def color_class(value: float) -> str:
-    """Return CSS class name based on threshold."""
-    if value >= 70:
+def color_class(val: float) -> str:
+    """Helper for KPI coloring."""
+    if val >= 80:
         return "green"
-    if value >= 50:
+    if val >= 50:
         return "yellow"
     return "red"
 
 
-def build_api_rows(api_list: list[dict]) -> str:
-    """Build HTML table rows for an API list."""
+def build_api_rows(api_list: list[dict], violations_by_api: dict = None) -> str:
+    """Build HTML table rows for an API list, including a hidden details row for rule violations."""
+    if violations_by_api == None:
+        violations_by_api = {}
     if not api_list:
         return "<tr><td colspan='10' style='text-align:center; padding: 20px; color: var(--text2);'>No APIs to display.</td></tr>"
     rows = ""
     for r in api_list:
+        svc = r.get("service_name", "")
         score_val = int(r.get("numerical_score", 0))
         grade = r.get("grade", "E")
         gc = GRADE_COLORS.get(grade, "#ef4444")
-        rows += f"""<tr>
-            <td>{r.get('service_name','')}</td>
+        rows += f"""<tr class="api-main-row" onclick="toggleDetails('{svc}')" title="Click to view rule violations">
+            <td>{svc}</td>
             <td>{r.get('version','')}</td>
             <td>{r.get('domain','')}</td>
             <td>{r.get('region','')}</td>
@@ -65,6 +68,23 @@ def build_api_rows(api_list: list[dict]) -> str:
             <td>{r.get('operations_count','0')}</td>
             <td>{r.get('rank','')}</td>
             <td class="date-cell">{r.get('updated_date','')}</td>
+        </tr>"""
+        
+        # Build hidden details row
+        api_violations = violations_by_api.get(svc, [])
+        if api_violations:
+            details_rows = ""
+            for v in api_violations:
+                details_rows += f"<tr><td>{v.get('rule')}</td><td>{v.get('severity_label')}</td><td>{v.get('occurrences')}</td><td>-{v.get('penalty')}</td></tr>"
+            details_html = f"""<div class="details-bg"><table class="details-table">
+                <thead><tr><th>Rule</th><th>Severity</th><th>Occurrences</th><th>Penalty</th></tr></thead>
+                <tbody>{details_rows}</tbody>
+            </table></div>"""
+        else:
+            details_html = "<div class='details-bg'>No rule violations recorded.</div>"
+            
+        rows += f"""<tr id="details-{svc}" class="api-details-row" style="display:none;">
+            <td colspan="10">{details_html}</td>
         </tr>"""
     return rows
 
@@ -87,12 +107,19 @@ def generate_dashboard(scores: list[dict], violations: list[dict]) -> str:
         g = r.get("grade", "E")
         grade_counts[g] = grade_counts.get(g, 0) + 1
 
-    # Top violations (split)
+    # Top violations (split) and group violations by API
     owasp_totals: dict[str, int] = {}
     design_totals: dict[str, int] = {}
+    violations_by_api: dict[str, list] = {}
+    
     for v in violations:
         rule = v.get("rule", "")
         occ = int(v.get("occurrences", 0))
+        svc = v.get("service_name", "")
+        
+        if svc:
+            violations_by_api.setdefault(svc, []).append(v)
+            
         if rule.startswith("owasp:"):
             owasp_totals[rule] = owasp_totals.get(rule, 0) + occ
         else:
@@ -130,9 +157,9 @@ def generate_dashboard(scores: list[dict], violations: list[dict]) -> str:
         "{{COMPLIANT_COUNT}}":    str(compliant_count),
         "{{OWASP_VIOLATIONS_ROWS}}": owasp_rows,
         "{{DESIGN_VIOLATIONS_ROWS}}": design_rows,
-        "{{TOP_APIS_ROWS}}":      build_api_rows(top_apis),
-        "{{BOTTOM_APIS_ROWS}}":   build_api_rows(bottom_apis),
-        "{{ALL_APIS_ROWS}}":      build_api_rows(sorted_by_score),
+        "{{TOP_APIS_ROWS}}":      build_api_rows(top_apis, violations_by_api),
+        "{{BOTTOM_APIS_ROWS}}":   build_api_rows(bottom_apis, violations_by_api),
+        "{{ALL_APIS_ROWS}}":      build_api_rows(sorted_by_score, violations_by_api),
         "{{GRADE_LABELS}}":       json.dumps(grade_labels),
         "{{GRADE_VALUES}}":       json.dumps(grade_values),
         "{{GRADE_BAR_COLORS}}":   json.dumps(grade_bar_colors),

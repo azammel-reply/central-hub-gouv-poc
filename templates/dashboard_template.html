@@ -102,6 +102,13 @@
         .score-cell { font-weight: 700; }
         .occ-cell { font-weight: 700; text-align: right; color: var(--yellow); }
         .date-cell { color: var(--text2); font-size: 0.78rem; }
+        
+        .api-main-row { cursor: pointer; transition: background 0.2s; }
+        .api-main-row:hover { background: rgba(59, 130, 246, 0.1); }
+        .details-bg { background: var(--surface2); padding: 16px; border-radius: 6px; margin: 8px 0; }
+        .details-table { width: 100%; border-collapse: collapse; background: var(--bg); border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .details-table th, .details-table td { padding: 8px 10px; font-size: 0.75rem; text-align: left; }
+        .details-table tr:hover td { background: rgba(255, 255, 255, 0.03); }
 
         .grade-badge {
             display: inline-block;
@@ -208,6 +215,16 @@
 </div>
 
 <script>
+function toggleDetails(apiName) {
+    const row = document.getElementById('details-' + apiName);
+    if (!row) return;
+    if (row.style.display === 'none') {
+        row.style.display = 'table-row';
+    } else {
+        row.style.display = 'none';
+    }
+}
+
 new Chart(document.getElementById('complianceChart'), {
     type: 'bar',
     data: {
