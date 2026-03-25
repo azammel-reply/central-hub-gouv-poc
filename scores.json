@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": "2026-03-25T16:57:56.511695+00:00",
+    "timestamp": "2026-03-25T17:09:28.402306+00:00",
     "service_name": "poc-api-1",
     "domain": "unknown",
     "region": "unknown",
@@ -13,18 +13,18 @@
     "operations_count": 0,
     "total_rules_violated": 0,
     "top_violations": [],
-    "updated_date": "25/03/2026 17:57:47",
+    "updated_date": "25/03/2026 18:09:19",
     "rank": 1
   },
   {
-    "timestamp": "2026-03-25T16:57:56.512117+00:00",
+    "timestamp": "2026-03-25T17:09:28.402655+00:00",
     "service_name": "poc-api-2",
     "domain": "unknown",
     "region": "unknown",
     "version": "1.0.1",
     "spec_file": "poc-api-2@1.0.1",
-    "numerical_score": 45,
-    "grade": "D",
+    "numerical_score": 0,
+    "grade": "E",
     "compliant": false,
     "total_issues": 26,
     "operations_count": 0,
@@ -36,7 +36,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 7,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "operation-tags",
@@ -44,7 +44,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 7,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "owasp:api4:2023-rate-limit-responses-429",
@@ -52,7 +52,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 2,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "owasp:api8:2023-define-error-responses-401",
@@ -60,7 +60,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 2,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "owasp:api8:2023-define-error-responses-500",
@@ -68,7 +68,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 2,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "info-contact",
@@ -76,7 +76,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 1,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "owasp:api1:2023-no-numeric-ids",
@@ -84,7 +84,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 1,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "operation-operationId",
@@ -92,7 +92,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 1,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "owasp:api2:2023-read-restricted",
@@ -100,7 +100,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 1,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "owasp:api8:2023-define-error-validation",
@@ -108,7 +108,7 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 1,
-        "penalty": 5
+        "penalty": 10
       },
       {
         "rule": "owasp:api4:2023-rate-limit",
@@ -116,10 +116,10 @@
         "severity": 1,
         "severity_label": "warning",
         "occurrences": 1,
-        "penalty": 5
+        "penalty": 10
       }
     ],
-    "updated_date": "25/03/2026 17:57:47",
+    "updated_date": "25/03/2026 18:09:19",
     "rank": 2
   }
 ]

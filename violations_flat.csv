@@ -1,12 +1,12 @@
 service_name,domain,region,grade,rule,owasp_category,severity_label,occurrences,penalty
-poc-api-2,unknown,unknown,D,operation-description,Other,warning,7,5
-poc-api-2,unknown,unknown,D,operation-tags,Other,warning,7,5
-poc-api-2,unknown,unknown,D,owasp:api4:2023-rate-limit-responses-429,API4 - Unrestricted Resource Consumption,warning,2,5
-poc-api-2,unknown,unknown,D,owasp:api8:2023-define-error-responses-401,API8 - Security Misconfiguration,warning,2,5
-poc-api-2,unknown,unknown,D,owasp:api8:2023-define-error-responses-500,API8 - Security Misconfiguration,warning,2,5
-poc-api-2,unknown,unknown,D,info-contact,Other,warning,1,5
-poc-api-2,unknown,unknown,D,owasp:api1:2023-no-numeric-ids,API1 - Broken Object Level Auth,warning,1,5
-poc-api-2,unknown,unknown,D,operation-operationId,Other,warning,1,5
-poc-api-2,unknown,unknown,D,owasp:api2:2023-read-restricted,API2 - Broken Authentication,warning,1,5
-poc-api-2,unknown,unknown,D,owasp:api8:2023-define-error-validation,API8 - Security Misconfiguration,warning,1,5
-poc-api-2,unknown,unknown,D,owasp:api4:2023-rate-limit,API4 - Unrestricted Resource Consumption,warning,1,5
+poc-api-2,unknown,unknown,E,operation-description,Other,warning,7,10
+poc-api-2,unknown,unknown,E,operation-tags,Other,warning,7,10
+poc-api-2,unknown,unknown,E,owasp:api4:2023-rate-limit-responses-429,API4 - Unrestricted Resource Consumption,warning,2,10
+poc-api-2,unknown,unknown,E,owasp:api8:2023-define-error-responses-401,API8 - Security Misconfiguration,warning,2,10
+poc-api-2,unknown,unknown,E,owasp:api8:2023-define-error-responses-500,API8 - Security Misconfiguration,warning,2,10
+poc-api-2,unknown,unknown,E,info-contact,Other,warning,1,10
+poc-api-2,unknown,unknown,E,owasp:api1:2023-no-numeric-ids,API1 - Broken Object Level Auth,warning,1,10
+poc-api-2,unknown,unknown,E,operation-operationId,Other,warning,1,10
+poc-api-2,unknown,unknown,E,owasp:api2:2023-read-restricted,API2 - Broken Authentication,warning,1,10
+poc-api-2,unknown,unknown,E,owasp:api8:2023-define-error-validation,API8 - Security Misconfiguration,warning,1,10
+poc-api-2,unknown,unknown,E,owasp:api4:2023-rate-limit,API4 - Unrestricted Resource Consumption,warning,1,10
