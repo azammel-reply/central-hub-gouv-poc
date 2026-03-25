@@ -24,7 +24,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from config import (
+from scoring_rules import (
     GRADE_SCALE,
     OWASP_CATEGORY_MAP,
     SEVERITY_LABELS,
