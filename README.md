@@ -145,11 +145,12 @@ graph TD
     
     A[API Feature Branch] -->|1. Spectral Lint| PR[Pull Request]
     PR -->|2. Score < C | B[Bot: Blocks Merge + Comments]
-    PR -->|3. Score >= C | C[Merge to Main]
+    PR -->|2. Score >= C | C[Merge to Main]
     
-    C -->|4. App Auth Upload| D[(Azure Blob Storage)]:::azure
+    B -->|3. Upload Failed Report| D[(Azure Blob Storage)]:::azure
+    C -->|3. Upload Passed Report| D
     
-    D -.->|5. Triggers Webhook| E[GitHub Actions Hub]:::git
+    D -.->|4. Triggers Webhook| E[GitHub Actions Hub]:::git
     
     subgraph central-hub-gouv-poc [Hub Repository]
     E --> F(Download JSONs from Azure)
