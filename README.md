@@ -158,7 +158,7 @@ graph TD
     G --> H(dashboard_template.html)
     end
     
-    H --> I[GitHub Pages / Azure Static Web Apps]
+    H --> I[GitHub Pages / Azure Static Web Apps / BI Dashs]
 ```
 
 ### 4. Universal CI/CD Compatibility (GitLab, Azure DevOps, Bitbucket)
