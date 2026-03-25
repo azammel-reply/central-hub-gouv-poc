@@ -53,61 +53,61 @@ The Governance Hub and its downstream APIs implement advanced structural checks 
    - Generates CSV, JSON, and an interactive HTML dashboard
    - Deploys to GitHub Pages automatically
 
-## 🧮 Mécanique de Scoring (Comment la note est-elle calculée ?)
+## 🧮 Scoring Mechanism (How is the score calculated?)
 
-L'algorithme de notation du Hub Central quantifie le niveau de conformité d'une spécification API (OpenAPI) selon les directives **OWASP Top 10 API Security 2023** et les bonnes pratiques de design. 
+The Central Hub scoring algorithm quantifies the compliance level of an API specification (OpenAPI) against the **OWASP Top 10 API Security 2023** guidelines and design best practices.
 
-Le calcul part de la note maximale **`100`** et applique des pénalités selon la gravité des règles enfreintes.
+The calculation starts from a maximum score of **`100`** and applies penalties based on the severity of the violated rules.
 
-### Barème de pénalités
-Les règles sont classées par sévérité dans les fichiers de configuration Spectral (`rulesets/owasp23-ruleset.spectral.yml`) :
+### Penalty Scale
+Rules are classified by severity in the Spectral configuration files (`rulesets/owasp23-ruleset.spectral.yml`):
 
-| Sévérité | Pénalité par règle enfreinte | Type de Règle (Exemple) |
-| -------- | ---------------------------- | ----------------------- |
-| **Error**| `-20 pts`                    | Bloquante               |
-| **Warning**| `-5 pts`                   | OWASP par défaut        |
-| **Info** | `-2 pts`                     | Information             |
-| **Hint** | `-1 pt`                      | Conseil de design       |
+| Severity | Penalty per violated rule | Rule Type (Example) |
+| -------- | ------------------------- | ------------------- |
+| **Error**| `-20 pts`                 | Blocker             |
+| **Warning**| `-10 pts`               | Default OWASP       |
+| **Info** | `-2 pts`                  | Information         |
+| **Hint** | `-1 pt`                   | Design advice       |
 
-*(Nb : Les règles concernant l'OWASP commencent par le préfixe `owasp:`, les autres sont considérées comme des règles de `Design`).*
+*(Note: Rules concerning OWASP start with the `owasp:` prefix, others are considered `Design` rules).*
 
-### 🔄 Déduplication Intelligente des Pénalités
-L'algorithme pénalise **le type d'erreur enfreint (la règle), et non le volume d'erreurs**.
-> *Exemple : Si votre spécification comporte 50 routes, et que vous oubliez le schéma de sécurité (règle `owasp:api2:2023-read-restricted`) sur les 50 routes, votre score ne va pas baisser de 50 x 5 = 250 points.*
-> *La règle est identifiée comme enfreinte, et on applique la pénalité **une seule fois** (-5 points).* 
+### 🔄 Intelligent Penalty Deduplication
+The algorithm penalizes **the type of error violated (the rule), not the volume of errors**.
+> *Example: If your specification has 50 routes, and you forget the security schema (`owasp:api2:2023-read-restricted` rule) on all 50 routes, your score will not drop by 50 x 10 = 500 points.*
+> *The rule is identified as violated, and the penalty is applied **only once** (-10 points).*
 
-Cela garantit que le volume d'endpoints de l'API ne fausse pas l'impact réel sur la sécurité, et que le développeur ne se décourage pas face à 300 erreurs causées par un seul et unique oubli architectural.
+This guarantees that the volume of API endpoints does not skew the actual security impact, and that developers are not discouraged by 300 errors caused by a single architectural oversight.
 
-### 📐 Les Grades de Qualité
-La note finale est ensuite traduite en un "Grade" (de A à E).
+### 📐 Quality Grades
+The final score is then translated into a "Grade" (from A to E).
 
-| Score    | Grade | Statut de Conformité |
-|----------|-------|----------------------|
-| **>= 85**| `A`   | ✅ Excellent        |
-| **>= 70**| `B`   | ✅ Bon              |
-| **>= 50**| `C`   | ⚠️ Passable          |
-| **>= 30**| `D`   | ❌ Critique         |
-| **< 30** | `E`   | 🚨 Inacceptable    |
+| Score    | Grade | Compliance Status |
+|----------|-------|-------------------|
+| **>= 85**| `A`   | ✅ Excellent     |
+| **>= 70**| `B`   | ✅ Good          |
+| **>= 50**| `C`   | ⚠️ Fair           |
+| **>= 30**| `D`   | ❌ Critical      |
+| **< 30** | `E`   | 🚨 Unacceptable  |
 
 ---
-### 🧪 Exemples Concrets
-**Exemple 1 : L'API parfaite (Score 100/100 -> Grade A)**
-L'API respecte scrupuleusement le design et l'authentification OAuth2 + JWT (RFC8725). Aucune pénalité n'est appliquée.
+### 🧪 Concrete Examples
+**Example 1: The Perfect API (Score 100/100 -> Grade A)**
+The API strictly respects the design and OAuth2 + JWT (RFC8725) authentication. No penalty is applied.
 
-**Exemple 2 : L'oubli de Rate-Limiting (Score 90/100 -> Grade A)**
-Un développeur a bien sécurisé l'API mais a oublié de documenter les headers de Rate-Limiting (`RateLimit-Reset` etc). 
-* Règle enfreinte : `owasp:api4:2023-rate-limit` (Warning, -5 pts).
-* Règle de design enfreinte : `operation-description` absente (Warning, -5 pts).
-* Résultat : **100 - 10 = 90**. Grade A, l'API est toujours publiable mais peut être améliorée.
+**Example 2: Forgotten Rate-Limiting (Score 80/100 -> Grade B)**
+A developer has well-secured the API but forgot to document the Rate-Limiting headers (`RateLimit-Reset` etc).
+* Violated rule: `owasp:api4:2023-rate-limit` (Warning, -10 pts).
+* Violated design rule: missing `operation-description` (Warning, -10 pts).
+* Result: **100 - 20 = 80**. Grade B, the API is still publishable but can be improved.
 
-**Exemple 3 : L'API Passoire de POC-2 (Score 15/100 -> Grade E)**
-L'API a été codée sans aucun respect de la sécurité OWASP.
-* `owasp:api2:2023-auth-insecure-schemes` (Basic Auth au lieu de JWT). (-5 pts)
-* `owasp:api8:2023-no-server-http` (Le serveur utilise HTTP au lieu de HTTPS). (-5 pts)
-* `owasp:api1:2023-no-numeric-ids` (Utilisation d'entiers auto-incrémentés prédictibles pour les IDs). (-5 pts)
-* Et 14 autres règles OWASP violées au fil du fichier (soit 17 règles au total * 5 points = -85 points).
-* Note finale mathématique : 15 (La note est bornée à 0 de toute façon).
-* Résultat : **Grade E**. Le pipeline bloque formellement la mise en production.
+**Example 3: The Sieve API from POC-2 (Score 0/100 -> Grade E)**
+The API was coded with zero respect for OWASP security.
+* `owasp:api2:2023-auth-insecure-schemes` (Basic Auth instead of JWT). (-10 pts)
+* `owasp:api8:2023-no-server-http` (Server uses HTTP instead of HTTPS). (-10 pts)
+* `owasp:api1:2023-no-numeric-ids` (Use of predictable auto-incremented integers for IDs). (-10 pts)
+* And 14 other OWASP rules violated throughout the file (meaning 17 rules in total * 10 points = -170 points).
+* Mathematical final score: 0 (The score is bounded at 0 anyway).
+* Result: **Grade E**. The pipeline formally blocks deployment to production.
 
 ## Onboarding a New API
 
