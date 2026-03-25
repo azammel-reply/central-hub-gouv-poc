@@ -48,7 +48,7 @@ OWASP_CATEGORY_MAP = {
 # ---------------------------------------------------------------------------
 SEVERITY_WEIGHTS = {
     0: 20,   # error   → -20 pts
-    1: 5,    # warning → -5  pts
+    1: 10,   # warning → -10 pts
     2: 2,    # info    → -2  pts
     3: 1,    # hint    → -1  pt
 }

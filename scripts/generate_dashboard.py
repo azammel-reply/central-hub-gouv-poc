@@ -57,7 +57,20 @@ def build_api_rows(api_list: list[dict], violations_by_api: dict = None) -> str:
         score_val = int(r.get("numerical_score", 0))
         grade = r.get("grade", "E")
         gc = GRADE_COLORS.get(grade, "#ef4444")
-        rows += f"""<tr class="api-main-row" onclick="toggleDetails('{svc}')" title="Click to view rule violations">
+        # Build hidden details inside template
+        api_violations = violations_by_api.get(svc, [])
+        if api_violations:
+            details_rows = ""
+            for v in api_violations:
+                details_rows += f"<tr><td style='padding:10px; border-bottom:1px solid var(--border);'>{v.get('rule')}</td><td style='padding:10px; border-bottom:1px solid var(--border);'>{v.get('severity_label')}</td><td style='padding:10px; border-bottom:1px solid var(--border);'>{v.get('occurrences')}</td><td style='padding:10px; border-bottom:1px solid var(--border);'>-{v.get('penalty')}</td></tr>"
+            details_html = f"""<table class="details-table" style="width:100%; border-collapse:collapse; text-align:left;">
+                <thead><tr style="background-color:var(--bg-card);"><th style="padding:10px; border-bottom:2px solid var(--border);">Rule</th><th style="padding:10px; border-bottom:2px solid var(--border);">Severity</th><th style="padding:10px; border-bottom:2px solid var(--border);">Occurrences</th><th style="padding:10px; border-bottom:2px solid var(--border);">Penalty</th></tr></thead>
+                <tbody>{details_rows}</tbody>
+            </table>"""
+        else:
+            details_html = "<div style='color:var(--text2); padding:20px 0;'>No rule violations recorded.</div>"
+            
+        rows += f"""<tr class="api-main-row" onclick="showModal(this)" title="Click to view rule violations" style="cursor:pointer;">
             <td>{svc}</td>
             <td>{r.get('version','')}</td>
             <td>{r.get('domain','')}</td>
@@ -68,23 +81,7 @@ def build_api_rows(api_list: list[dict], violations_by_api: dict = None) -> str:
             <td>{r.get('operations_count','0')}</td>
             <td>{r.get('rank','')}</td>
             <td class="date-cell">{r.get('updated_date','')}</td>
-        </tr>"""
-        
-        # Build hidden details row
-        api_violations = violations_by_api.get(svc, [])
-        if api_violations:
-            details_rows = ""
-            for v in api_violations:
-                details_rows += f"<tr><td>{v.get('rule')}</td><td>{v.get('severity_label')}</td><td>{v.get('occurrences')}</td><td>-{v.get('penalty')}</td></tr>"
-            details_html = f"""<div class="details-bg"><table class="details-table">
-                <thead><tr><th>Rule</th><th>Severity</th><th>Occurrences</th><th>Penalty</th></tr></thead>
-                <tbody>{details_rows}</tbody>
-            </table></div>"""
-        else:
-            details_html = "<div class='details-bg'>No rule violations recorded.</div>"
-            
-        rows += f"""<tr id="details-{svc}" class="api-details-row" style="display:none;">
-            <td colspan="10">{details_html}</td>
+            <td style="display:none;"><template class="violation-data">{details_html}</template></td>
         </tr>"""
     return rows
 
