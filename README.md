@@ -19,10 +19,10 @@
               │   central-hub-gouv-poc   │
               │                          │
               │  incoming-reports/*.json  │  ← raw Spectral results
-              │  dashboard/config.py     │  ← scoring config
-              │  dashboard/score_local.py│  ← scoring engine
-              │  dashboard/template.html │  ← HTML template
-              │  dashboard/generate.py   │  ← dashboard generator
+              │  scripts/config.py        │  ← scoring config
+              │  scripts/score_local.py   │  ← scoring engine
+              │  templates/dashboard_template.html │  ← HTML template
+              │  scripts/generate_dashboard.py     │  ← dashboard generator
               │  rulesets/owasp23-*.yml   │  ← central ruleset
               └────────────┬─────────────┘
                            │ GitHub Actions
@@ -79,10 +79,11 @@ The Governance Hub and its downstream APIs implement advanced structural checks 
 central-hub-gouv-poc/
 ├── .github/workflows/
 │   └── aggregate-dashboard.yml    # CI/CD: score + deploy
-├── dashboard/
+├── scripts/
 │   ├── config.py                  # Scoring configuration
 │   ├── score_local.py             # Scoring engine
-│   ├── generate_dashboard.py      # Dashboard generator
+│   └── generate_dashboard.py      # Dashboard generator
+├── templates/
 │   └── dashboard_template.html    # HTML/CSS/JS template
 ├── incoming-reports/              # Raw Spectral JSON results
 ├── rulesets/
@@ -95,7 +96,7 @@ central-hub-gouv-poc/
 
 ```bash
 # Score the incoming reports
-cd dashboard
+cd scripts
 python score_local.py --results-dir ../incoming-reports --output-dir ../results
 
 # Generate the dashboard

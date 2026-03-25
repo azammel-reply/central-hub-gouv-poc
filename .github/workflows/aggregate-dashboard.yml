@@ -23,11 +23,11 @@ jobs:
         run: pip install --quiet pandas
 
       - name: Aggregate Scores
-        working-directory: dashboard
+        working-directory: scripts
         run: python score_local.py --results-dir ../incoming-reports --output-dir ../results
 
       - name: Generate Dashboard HTML
-        working-directory: dashboard
+        working-directory: scripts
         run: |
           python generate_dashboard.py \
             --scores-file ../results/scores.csv \

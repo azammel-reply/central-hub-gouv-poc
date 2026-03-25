@@ -26,7 +26,7 @@ from config import GRADE_COLORS
 logging.basicConfig(level=logging.INFO, format="%(levelname)-5s  %(message)s")
 log = logging.getLogger(__name__)
 
-TEMPLATE_PATH = Path(__file__).parent / "dashboard_template.html"
+TEMPLATE_PATH = Path(__file__).parent.parent / "templates" / "dashboard_template.html"
 
 
 def read_csv(path: str) -> list[dict]:
