@@ -13,7 +13,7 @@
 			},
 			"end": {
 				"line": 5,
-				"character": 95
+				"character": 74
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -33,7 +33,7 @@
 			},
 			"end": {
 				"line": 12,
-				"character": 28
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -75,7 +75,7 @@
 			},
 			"end": {
 				"line": 12,
-				"character": 28
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -92,11 +92,11 @@
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 23,
+				"line": 19,
 				"character": 14
 			},
 			"end": {
-				"line": 23,
+				"line": 19,
 				"character": 19
 			}
 		},
@@ -114,11 +114,11 @@
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 27,
+				"line": 23,
 				"character": 10
 			},
 			"end": {
-				"line": 27,
+				"line": 23,
 				"character": 15
 			}
 		},
@@ -129,18 +129,18 @@
 		"path": [
 			"components",
 			"securitySchemes",
-			"InsecureNegotiate",
+			"InsecureNeg",
 			"scheme"
 		],
-		"message": "Authentication scheme is considered outdated or insecure: negotiate. Path: #/components/securitySchemes/InsecureNegotiate/scheme",
+		"message": "Authentication scheme is considered outdated or insecure: negotiate. Path: #/components/securitySchemes/InsecureNeg/scheme",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 32,
+				"line": 28,
 				"character": 14
 			},
 			"end": {
-				"line": 32,
+				"line": 28,
 				"character": 23
 			}
 		},
@@ -151,19 +151,19 @@
 		"path": [
 			"components",
 			"securitySchemes",
-			"JWTBearer",
+			"BadOAuth",
 			"description"
 		],
-		"message": "Security schemes using JWTs must explicitly declare support for RFC8725 in the description. Path: #/components/securitySchemes/JWTBearer/description",
+		"message": "Security schemes using JWTs must explicitly declare support for RFC8725 in the description. Path: #/components/securitySchemes/BadOAuth/description",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 38,
+				"line": 33,
 				"character": 19
 			},
 			"end": {
-				"line": 38,
-				"character": 69
+				"line": 33,
+				"character": 29
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -173,181 +173,20 @@
 		"path": [
 			"components",
 			"securitySchemes",
-			"OAuth2Flow",
+			"BadOAuth",
 			"flows",
-			"implicit"
+			"authorizationCode"
 		],
-		"message": "Authentication scheme does not appear to support refresh tokens, meaning access tokens likely do not expire. Path: #/components/securitySchemes/OAuth2Flow/flows/implicit",
+		"message": "Authentication scheme does not appear to support refresh tokens, meaning access tokens likely do not expire. Path: #/components/securitySchemes/BadOAuth/flows/authorizationCode",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 44,
-				"character": 17
+				"line": 35,
+				"character": 26
 			},
 			"end": {
-				"line": 48,
-				"character": 31
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-integer-limit-legacy",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"id"
-		],
-		"message": "Schema of type integer must specify minimum and maximum. Path: #/components/schemas/User/properties/id",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 57,
-				"character": 11
-			},
-			"end": {
-				"line": 59,
-				"character": 23
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-limit",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"name"
-		],
-		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/components/schemas/User/properties/name",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 62,
-				"character": 13
-			},
-			"end": {
-				"line": 63,
-				"character": 22
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-restricted",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"name"
-		],
-		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/components/schemas/User/properties/name",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 62,
-				"character": 13
-			},
-			"end": {
-				"line": 63,
-				"character": 22
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-limit",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"email"
-		],
-		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/components/schemas/User/properties/email",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 64,
-				"character": 14
-			},
-			"end": {
-				"line": 65,
-				"character": 22
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-restricted",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"email"
-		],
-		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/components/schemas/User/properties/email",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 64,
-				"character": 14
-			},
-			"end": {
-				"line": 65,
-				"character": 22
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-limit",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"password"
-		],
-		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/components/schemas/User/properties/password",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 66,
-				"character": 17
-			},
-			"end": {
-				"line": 67,
-				"character": 22
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-restricted",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"password"
-		],
-		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/components/schemas/User/properties/password",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 66,
-				"character": 17
-			},
-			"end": {
-				"line": 67,
-				"character": 22
+				"line": 39,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -357,19 +196,19 @@
 		"path": [
 			"components",
 			"schemas",
-			"User",
+			"BadObject",
 			"properties",
-			"age"
+			"id"
 		],
-		"message": "Schema of type integer must specify format (int32 or int64). Path: #/components/schemas/User/properties/age",
+		"message": "Schema of type integer must specify format (int32 or int64). Path: #/components/schemas/BadObject/properties/id",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 70,
-				"character": 12
+				"line": 45,
+				"character": 11
 			},
 			"end": {
-				"line": 71,
+				"line": 47,
 				"character": 23
 			}
 		},
@@ -380,20 +219,66 @@
 		"path": [
 			"components",
 			"schemas",
-			"User",
+			"BadObject",
 			"properties",
-			"age"
+			"id"
 		],
-		"message": "Schema of type integer must specify minimum and maximum. Path: #/components/schemas/User/properties/age",
+		"message": "Schema of type integer must specify minimum and maximum. Path: #/components/schemas/BadObject/properties/id",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 70,
-				"character": 12
+				"line": 45,
+				"character": 11
 			},
 			"end": {
-				"line": 71,
+				"line": 47,
 				"character": 23
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api4:2023-string-limit",
+		"path": [
+			"components",
+			"schemas",
+			"BadObject",
+			"properties",
+			"callback_url"
+		],
+		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/components/schemas/BadObject/properties/callback_url",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 51,
+				"character": 21
+			},
+			"end": {
+				"line": 52,
+				"character": 22
+			}
+		},
+		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
+	},
+	{
+		"code": "owasp:api4:2023-string-restricted",
+		"path": [
+			"components",
+			"schemas",
+			"BadObject",
+			"properties",
+			"callback_url"
+		],
+		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/components/schemas/BadObject/properties/callback_url",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 51,
+				"character": 21
+			},
+			"end": {
+				"line": 52,
+				"character": 22
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -403,111 +288,20 @@
 		"path": [
 			"components",
 			"schemas",
-			"User",
+			"BadObject",
 			"properties",
-			"tags"
+			"itemsList"
 		],
-		"message": "Schema of type array must specify maxItems.  Path: #/components/schemas/User/properties/tags",
+		"message": "Schema of type array must specify maxItems.  Path: #/components/schemas/BadObject/properties/itemsList",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 72,
-				"character": 13
-			},
-			"end": {
-				"line": 76,
-				"character": 24
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-limit",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"tags",
-			"items"
-		],
-		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/components/schemas/User/properties/tags/items",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 75,
-				"character": 16
-			},
-			"end": {
-				"line": 76,
-				"character": 24
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-restricted",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"properties",
-			"tags",
-			"items"
-		],
-		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/components/schemas/User/properties/tags/items",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 75,
-				"character": 16
-			},
-			"end": {
-				"line": 76,
-				"character": 24
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api3:2023-no-additionalProperties",
-		"path": [
-			"components",
-			"schemas",
-			"User",
-			"additionalProperties"
-		],
-		"message": "If the additionalProperties keyword is used it must be set to false. Path: #/components/schemas/User/additionalProperties",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 77,
-				"character": 28
-			},
-			"end": {
-				"line": 77,
-				"character": 32
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "oas3-unused-component",
-		"path": [
-			"components",
-			"schemas",
-			"ErrorResponse"
-		],
-		"message": "Potentially unused component has been detected.",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 79,
+				"line": 55,
 				"character": 18
 			},
 			"end": {
-				"line": 83,
-				"character": 22
+				"line": 59,
+				"character": 24
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -517,20 +311,21 @@
 		"path": [
 			"components",
 			"schemas",
-			"ErrorResponse",
+			"BadObject",
 			"properties",
-			"message"
+			"itemsList",
+			"items"
 		],
-		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/components/schemas/ErrorResponse/properties/message",
+		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/components/schemas/BadObject/properties/itemsList/items",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 82,
+				"line": 58,
 				"character": 16
 			},
 			"end": {
-				"line": 83,
-				"character": 22
+				"line": 59,
+				"character": 24
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -540,20 +335,21 @@
 		"path": [
 			"components",
 			"schemas",
-			"ErrorResponse",
+			"BadObject",
 			"properties",
-			"message"
+			"itemsList",
+			"items"
 		],
-		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/components/schemas/ErrorResponse/properties/message",
+		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/components/schemas/BadObject/properties/itemsList/items",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 82,
+				"line": 58,
 				"character": 16
 			},
 			"end": {
-				"line": 83,
-				"character": 22
+				"line": 59,
+				"character": 24
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -562,19 +358,19 @@
 		"code": "operation-description",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get"
 		],
 		"message": "Operation \"description\" must be present and non-empty string.",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 88,
+				"line": 62,
 				"character": 8
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -583,19 +379,19 @@
 		"code": "operation-operationId",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get"
 		],
 		"message": "Operation must have \"operationId\".",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 88,
+				"line": 62,
 				"character": 8
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -604,19 +400,19 @@
 		"code": "operation-tags",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get"
 		],
 		"message": "Operation must have non-empty \"tags\" array.",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 88,
+				"line": 62,
 				"character": 8
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -625,163 +421,19 @@
 		"code": "owasp:api2:2023-read-restricted",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get"
 		],
-		"message": "This read operation is not protected by any security scheme. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get",
+		"message": "This read operation is not protected by any security scheme. Path: #/paths/~1bad-data/get",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 88,
+				"line": 62,
 				"character": 8
 			},
 			"end": {
-				"line": 119,
-				"character": 49
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api1:2023-no-numeric-ids",
-		"path": [
-			"paths",
-			"/users/{user_id}/callback_url",
-			"get",
-			"parameters",
-			"0",
-			"schema"
-		],
-		"message": "Use random IDs that cannot be guessed. UUIDs are preferred but any other random string will do. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/0/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 96,
-				"character": 17
-			},
-			"end": {
-				"line": 97,
-				"character": 25
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-integer-format",
-		"path": [
-			"paths",
-			"/users/{user_id}/callback_url",
-			"get",
-			"parameters",
-			"0",
-			"schema"
-		],
-		"message": "Schema of type integer must specify format (int32 or int64). Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/0/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 96,
-				"character": 17
-			},
-			"end": {
-				"line": 97,
-				"character": 25
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-integer-limit-legacy",
-		"path": [
-			"paths",
-			"/users/{user_id}/callback_url",
-			"get",
-			"parameters",
-			"0",
-			"schema"
-		],
-		"message": "Schema of type integer must specify minimum and maximum. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/0/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 96,
-				"character": 17
-			},
-			"end": {
-				"line": 97,
-				"character": 25
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api2:2023-no-credentials-in-url",
-		"path": [
-			"paths",
-			"/users/{user_id}/callback_url",
-			"get",
-			"parameters",
-			"1",
-			"name"
-		],
-		"message": "Security credentials detected in path parameter: password. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/1/name",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 99,
-				"character": 16
-			},
-			"end": {
-				"line": 99,
-				"character": 24
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-limit",
-		"path": [
-			"paths",
-			"/users/{user_id}/callback_url",
-			"get",
-			"parameters",
-			"1",
-			"schema"
-		],
-		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/1/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 101,
-				"character": 17
-			},
-			"end": {
-				"line": 102,
-				"character": 24
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-string-restricted",
-		"path": [
-			"paths",
-			"/users/{user_id}/callback_url",
-			"get",
-			"parameters",
-			"1",
-			"schema"
-		],
-		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/1/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 101,
-				"character": 17
-			},
-			"end": {
-				"line": 102,
-				"character": 24
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -790,21 +442,21 @@
 		"code": "owasp:api7:2023-concerning-url-parameter",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"parameters",
-			"2",
+			"0",
 			"name"
 		],
-		"message": "Make sure to review the way this URL is handled to protect against Server Side Request Forgery.  Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/2/name",
+		"message": "Make sure to review the way this URL is handled to protect against Server Side Request Forgery.  Path: #/paths/~1bad-data/get/parameters/0/name",
 		"severity": 2,
 		"range": {
 			"start": {
-				"line": 104,
+				"line": 69,
 				"character": 16
 			},
 			"end": {
-				"line": 104,
+				"line": 69,
 				"character": 28
 			}
 		},
@@ -814,21 +466,21 @@
 		"code": "owasp:api4:2023-string-limit",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"parameters",
-			"2",
+			"0",
 			"schema"
 		],
-		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/2/schema",
+		"message": "Schema of type string must specify maxLength, enum, or const. Path: #/paths/~1bad-data/get/parameters/0/schema",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 106,
+				"line": 72,
 				"character": 17
 			},
 			"end": {
-				"line": 107,
+				"line": 73,
 				"character": 24
 			}
 		},
@@ -838,21 +490,21 @@
 		"code": "owasp:api4:2023-string-restricted",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"parameters",
-			"2",
+			"0",
 			"schema"
 		],
-		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/parameters/2/schema",
+		"message": "Schema of type string should specify a format, pattern, enum, or const. Path: #/paths/~1bad-data/get/parameters/0/schema",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 106,
+				"line": 72,
 				"character": 17
 			},
 			"end": {
-				"line": 107,
+				"line": 73,
 				"character": 24
 			}
 		},
@@ -862,20 +514,20 @@
 		"code": "owasp:api4:2023-rate-limit-responses-429",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing rate limiting response in responses[429]. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/responses",
+		"message": "Operation is missing rate limiting response in responses[429]. Path: #/paths/~1bad-data/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 108,
+				"line": 74,
 				"character": 16
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -884,20 +536,20 @@
 		"code": "owasp:api4:2023-rate-limit-responses-429",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing rate limiting response in responses[429].content. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/responses",
+		"message": "Operation is missing rate limiting response in responses[429].content. Path: #/paths/~1bad-data/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 108,
+				"line": 74,
 				"character": 16
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -906,20 +558,20 @@
 		"code": "owasp:api8:2023-define-error-responses-401",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing responses[401]. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/responses",
+		"message": "Operation is missing responses[401]. Path: #/paths/~1bad-data/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 108,
+				"line": 74,
 				"character": 16
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -928,20 +580,20 @@
 		"code": "owasp:api8:2023-define-error-responses-401",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing responses[401].content. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/responses",
+		"message": "Operation is missing responses[401].content. Path: #/paths/~1bad-data/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 108,
+				"line": 74,
 				"character": 16
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -950,20 +602,20 @@
 		"code": "owasp:api8:2023-define-error-responses-500",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing responses[500].  Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/responses",
+		"message": "Operation is missing responses[500].  Path: #/paths/~1bad-data/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 108,
+				"line": 74,
 				"character": 16
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -972,20 +624,20 @@
 		"code": "owasp:api8:2023-define-error-responses-500",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing responses[500].content.  Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/responses",
+		"message": "Operation is missing responses[500].content.  Path: #/paths/~1bad-data/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 108,
+				"line": 74,
 				"character": 16
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -994,20 +646,20 @@
 		"code": "owasp:api8:2023-define-error-validation",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"responses"
 		],
-		"message": "Missing error response of either 400, 422 or 4XX.  Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/responses",
+		"message": "Missing error response of either 400, 422 or 4XX.  Path: #/paths/~1bad-data/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 108,
+				"line": 74,
 				"character": 16
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1016,21 +668,21 @@
 		"code": "owasp:api4:2023-rate-limit",
 		"path": [
 			"paths",
-			"/users/{user_id}/callback_url",
+			"/bad-data",
 			"get",
 			"responses",
 			"200"
 		],
-		"message": "All 2XX and 4XX responses should define rate limiting headers. Path: #/paths/~1users~1%7Buser_id%7D~1callback_url/get/responses/200",
+		"message": "All 2XX and 4XX responses should define rate limiting headers. Path: #/paths/~1bad-data/get/responses/200",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 114,
+				"line": 75,
 				"character": 14
 			},
 			"end": {
-				"line": 119,
-				"character": 49
+				"line": 82,
+				"character": 54
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1039,19 +691,19 @@
 		"code": "operation-description",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post"
 		],
 		"message": "Operation \"description\" must be present and non-empty string.",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 122,
+				"line": 83,
 				"character": 9
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1060,19 +712,19 @@
 		"code": "operation-operationId",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post"
 		],
 		"message": "Operation must have \"operationId\".",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 122,
+				"line": 83,
 				"character": 9
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1081,19 +733,19 @@
 		"code": "operation-tags",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post"
 		],
 		"message": "Operation must have non-empty \"tags\" array.",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 122,
+				"line": 83,
 				"character": 9
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1102,19 +754,19 @@
 		"code": "owasp:api2:2023-write-restricted",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post"
 		],
-		"message": "This write operation is not protected by any security scheme. Path: #/paths/~1users/post",
+		"message": "This write operation is not protected by any security scheme. Path: #/paths/~1bad-data/post",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 122,
+				"line": 83,
 				"character": 9
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1123,20 +775,20 @@
 		"code": "owasp:api4:2023-rate-limit-responses-429",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post",
 			"responses"
 		],
-		"message": "Operation is missing rate limiting response in responses[429]. Path: #/paths/~1users/post/responses",
+		"message": "Operation is missing rate limiting response in responses[429]. Path: #/paths/~1bad-data/post/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 130,
+				"line": 90,
 				"character": 16
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1145,20 +797,20 @@
 		"code": "owasp:api4:2023-rate-limit-responses-429",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post",
 			"responses"
 		],
-		"message": "Operation is missing rate limiting response in responses[429].content. Path: #/paths/~1users/post/responses",
+		"message": "Operation is missing rate limiting response in responses[429].content. Path: #/paths/~1bad-data/post/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 130,
+				"line": 90,
 				"character": 16
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1167,20 +819,20 @@
 		"code": "owasp:api8:2023-define-error-responses-401",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post",
 			"responses"
 		],
-		"message": "Operation is missing responses[401]. Path: #/paths/~1users/post/responses",
+		"message": "Operation is missing responses[401]. Path: #/paths/~1bad-data/post/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 130,
+				"line": 90,
 				"character": 16
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1189,20 +841,20 @@
 		"code": "owasp:api8:2023-define-error-responses-401",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post",
 			"responses"
 		],
-		"message": "Operation is missing responses[401].content. Path: #/paths/~1users/post/responses",
+		"message": "Operation is missing responses[401].content. Path: #/paths/~1bad-data/post/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 130,
+				"line": 90,
 				"character": 16
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1211,20 +863,20 @@
 		"code": "owasp:api8:2023-define-error-responses-500",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post",
 			"responses"
 		],
-		"message": "Operation is missing responses[500].  Path: #/paths/~1users/post/responses",
+		"message": "Operation is missing responses[500].  Path: #/paths/~1bad-data/post/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 130,
+				"line": 90,
 				"character": 16
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1233,20 +885,20 @@
 		"code": "owasp:api8:2023-define-error-responses-500",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post",
 			"responses"
 		],
-		"message": "Operation is missing responses[500].content.  Path: #/paths/~1users/post/responses",
+		"message": "Operation is missing responses[500].content.  Path: #/paths/~1bad-data/post/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 130,
+				"line": 90,
 				"character": 16
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1255,20 +907,20 @@
 		"code": "owasp:api8:2023-define-error-validation",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post",
 			"responses"
 		],
-		"message": "Missing error response of either 400, 422 or 4XX.  Path: #/paths/~1users/post/responses",
+		"message": "Missing error response of either 400, 422 or 4XX.  Path: #/paths/~1bad-data/post/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 130,
+				"line": 90,
 				"character": 16
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1277,21 +929,21 @@
 		"code": "owasp:api4:2023-rate-limit",
 		"path": [
 			"paths",
-			"/users",
+			"/bad-data",
 			"post",
 			"responses",
 			"201"
 		],
-		"message": "All 2XX and 4XX responses should define rate limiting headers. Path: #/paths/~1users/post/responses/201",
+		"message": "All 2XX and 4XX responses should define rate limiting headers. Path: #/paths/~1bad-data/post/responses/201",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 131,
+				"line": 91,
 				"character": 14
 			},
 			"end": {
-				"line": 136,
-				"character": 49
+				"line": 92,
+				"character": 25
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1300,19 +952,19 @@
 		"code": "operation-description",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get"
 		],
 		"message": "Operation \"description\" must be present and non-empty string.",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 138,
+				"line": 95,
 				"character": 8
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1321,19 +973,19 @@
 		"code": "operation-operationId",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get"
 		],
 		"message": "Operation must have \"operationId\".",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 138,
+				"line": 95,
 				"character": 8
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1342,19 +994,19 @@
 		"code": "operation-tags",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get"
 		],
 		"message": "Operation must have non-empty \"tags\" array.",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 138,
+				"line": 95,
 				"character": 8
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1363,19 +1015,20 @@
 		"code": "owasp:api2:2023-read-restricted",
 		"path": [
 			"paths",
-			"/users",
-			"get"
+			"/admin",
+			"get",
+			"security"
 		],
-		"message": "This read operation is not protected by any security scheme. Path: #/paths/~1users/get",
+		"message": "This read operation is not protected by any security scheme. Path: #/paths/~1admin/get/security",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 138,
-				"character": 8
+				"line": 96,
+				"character": 15
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 96,
+				"character": 18
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1384,20 +1037,20 @@
 		"code": "owasp:api4:2023-rate-limit-responses-429",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing rate limiting response in responses[429]. Path: #/paths/~1users/get/responses",
+		"message": "Operation is missing rate limiting response in responses[429]. Path: #/paths/~1admin/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 141,
+				"line": 97,
 				"character": 16
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1406,20 +1059,20 @@
 		"code": "owasp:api4:2023-rate-limit-responses-429",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing rate limiting response in responses[429].content. Path: #/paths/~1users/get/responses",
+		"message": "Operation is missing rate limiting response in responses[429].content. Path: #/paths/~1admin/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 141,
+				"line": 97,
 				"character": 16
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1428,20 +1081,20 @@
 		"code": "owasp:api8:2023-define-error-responses-401",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing responses[401]. Path: #/paths/~1users/get/responses",
+		"message": "Operation is missing responses[401]. Path: #/paths/~1admin/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 141,
+				"line": 97,
 				"character": 16
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1450,20 +1103,20 @@
 		"code": "owasp:api8:2023-define-error-responses-401",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing responses[401].content. Path: #/paths/~1users/get/responses",
+		"message": "Operation is missing responses[401].content. Path: #/paths/~1admin/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 141,
+				"line": 97,
 				"character": 16
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1472,20 +1125,20 @@
 		"code": "owasp:api8:2023-define-error-responses-500",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing responses[500].  Path: #/paths/~1users/get/responses",
+		"message": "Operation is missing responses[500].  Path: #/paths/~1admin/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 141,
+				"line": 97,
 				"character": 16
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1494,20 +1147,20 @@
 		"code": "owasp:api8:2023-define-error-responses-500",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get",
 			"responses"
 		],
-		"message": "Operation is missing responses[500].content.  Path: #/paths/~1users/get/responses",
+		"message": "Operation is missing responses[500].content.  Path: #/paths/~1admin/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 141,
+				"line": 97,
 				"character": 16
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1516,20 +1169,20 @@
 		"code": "owasp:api8:2023-define-error-validation",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get",
 			"responses"
 		],
-		"message": "Missing error response of either 400, 422 or 4XX.  Path: #/paths/~1users/get/responses",
+		"message": "Missing error response of either 400, 422 or 4XX.  Path: #/paths/~1admin/get/responses",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 141,
+				"line": 97,
 				"character": 16
 			},
 			"end": {
-				"line": 150,
-				"character": 51
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
@@ -1538,380 +1191,21 @@
 		"code": "owasp:api4:2023-rate-limit",
 		"path": [
 			"paths",
-			"/users",
+			"/admin",
 			"get",
 			"responses",
 			"200"
 		],
-		"message": "All 2XX and 4XX responses should define rate limiting headers. Path: #/paths/~1users/get/responses/200",
+		"message": "All 2XX and 4XX responses should define rate limiting headers. Path: #/paths/~1admin/get/responses/200",
 		"severity": 1,
 		"range": {
 			"start": {
-				"line": 142,
+				"line": 98,
 				"character": 14
 			},
 			"end": {
-				"line": 150,
-				"character": 51
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-array-limit",
-		"path": [
-			"paths",
-			"/users",
-			"get",
-			"responses",
-			"200",
-			"content",
-			"application/json",
-			"schema"
-		],
-		"message": "Schema of type array must specify maxItems.  Path: #/paths/~1users/get/responses/200/content/application~1json/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 146,
-				"character": 21
-			},
-			"end": {
-				"line": 150,
-				"character": 51
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "operation-description",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete"
-		],
-		"message": "Operation \"description\" must be present and non-empty string.",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 153,
-				"character": 11
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "operation-operationId",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete"
-		],
-		"message": "Operation must have \"operationId\".",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 153,
-				"character": 11
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "operation-tags",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete"
-		],
-		"message": "Operation must have non-empty \"tags\" array.",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 153,
-				"character": 11
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api2:2023-write-restricted",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete"
-		],
-		"message": "This write operation is not protected by any security scheme. Path: #/paths/~1admin~1users~1%7Bid%7D/delete",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 153,
-				"character": 11
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api1:2023-no-numeric-ids",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"parameters",
-			"0",
-			"schema"
-		],
-		"message": "Use random IDs that cannot be guessed. UUIDs are preferred but any other random string will do. Path: #/paths/~1admin~1users~1%7Bid%7D/delete/parameters/0/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 161,
-				"character": 17
-			},
-			"end": {
-				"line": 162,
-				"character": 25
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-integer-format",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"parameters",
-			"0",
-			"schema"
-		],
-		"message": "Schema of type integer must specify format (int32 or int64). Path: #/paths/~1admin~1users~1%7Bid%7D/delete/parameters/0/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 161,
-				"character": 17
-			},
-			"end": {
-				"line": 162,
-				"character": 25
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-integer-limit-legacy",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"parameters",
-			"0",
-			"schema"
-		],
-		"message": "Schema of type integer must specify minimum and maximum. Path: #/paths/~1admin~1users~1%7Bid%7D/delete/parameters/0/schema",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 161,
-				"character": 17
-			},
-			"end": {
-				"line": 162,
-				"character": 25
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-rate-limit-responses-429",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"responses"
-		],
-		"message": "Operation is missing rate limiting response in responses[429]. Path: #/paths/~1admin~1users~1%7Bid%7D/delete/responses",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 163,
-				"character": 16
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-rate-limit-responses-429",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"responses"
-		],
-		"message": "Operation is missing rate limiting response in responses[429].content. Path: #/paths/~1admin~1users~1%7Bid%7D/delete/responses",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 163,
-				"character": 16
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api8:2023-define-error-responses-401",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"responses"
-		],
-		"message": "Operation is missing responses[401]. Path: #/paths/~1admin~1users~1%7Bid%7D/delete/responses",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 163,
-				"character": 16
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api8:2023-define-error-responses-401",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"responses"
-		],
-		"message": "Operation is missing responses[401].content. Path: #/paths/~1admin~1users~1%7Bid%7D/delete/responses",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 163,
-				"character": 16
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api8:2023-define-error-responses-500",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"responses"
-		],
-		"message": "Operation is missing responses[500].  Path: #/paths/~1admin~1users~1%7Bid%7D/delete/responses",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 163,
-				"character": 16
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api8:2023-define-error-responses-500",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"responses"
-		],
-		"message": "Operation is missing responses[500].content.  Path: #/paths/~1admin~1users~1%7Bid%7D/delete/responses",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 163,
-				"character": 16
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api8:2023-define-error-validation",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"responses"
-		],
-		"message": "Missing error response of either 400, 422 or 4XX.  Path: #/paths/~1admin~1users~1%7Bid%7D/delete/responses",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 163,
-				"character": 16
-			},
-			"end": {
-				"line": 165,
-				"character": 30
-			}
-		},
-		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
-	},
-	{
-		"code": "owasp:api4:2023-rate-limit",
-		"path": [
-			"paths",
-			"/admin/users/{id}",
-			"delete",
-			"responses",
-			"200"
-		],
-		"message": "All 2XX and 4XX responses should define rate limiting headers. Path: #/paths/~1admin~1users~1%7Bid%7D/delete/responses/200",
-		"severity": 1,
-		"range": {
-			"start": {
-				"line": 164,
-				"character": 14
-			},
-			"end": {
-				"line": 165,
-				"character": 30
+				"line": 99,
+				"character": 28
 			}
 		},
 		"source": "/home/runner/work/poc-api-2/poc-api-2/specs/openapi.yaml"
