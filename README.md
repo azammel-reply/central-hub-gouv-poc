@@ -1,4 +1,4 @@
-# 🛡️ Central API Governance Hub
+# Central API Governance Hub
 
 [![Dashboard](https://github.com/azammel-reply/central-hub-gouv-poc/actions/workflows/aggregate-dashboard.yml/badge.svg)](https://github.com/azammel-reply/central-hub-gouv-poc/actions/workflows/aggregate-dashboard.yml)
 [![Dashboard Live](https://img.shields.io/badge/Dashboard-Live-blue?logo=github)](https://azammel-reply.github.io/central-hub-gouv-poc/dashboard.html)
@@ -53,7 +53,7 @@ The Governance Hub and its downstream APIs implement advanced structural checks 
    - Generates CSV, JSON, and an interactive HTML dashboard
    - Deploys to GitHub Pages automatically
 
-## 🧮 Scoring Mechanism (How is the score calculated?)
+## Scoring Mechanism (How is the score calculated?)
 
 The Central Hub scoring algorithm quantifies the compliance level of an API specification (OpenAPI) against the **OWASP Top 10 API Security 2023** guidelines and design best practices.
 
@@ -71,26 +71,26 @@ Rules are classified by severity in the Spectral configuration files (`rulesets/
 
 *(Note: Rules concerning OWASP start with the `owasp:` prefix, others are considered `Design` rules).*
 
-### 🔄 Intelligent Penalty Deduplication
+### Intelligent Penalty Deduplication
 The algorithm penalizes **the type of error violated (the rule), not the volume of errors**.
 > *Example: If your specification has 50 routes, and you forget the security schema (`owasp:api2:2023-read-restricted` rule) on all 50 routes, your score will not drop by 50 x 10 = 500 points.*
 > *The rule is identified as violated, and the penalty is applied **only once** (-10 points).*
 
 This guarantees that the volume of API endpoints does not skew the actual security impact, and that developers are not discouraged by 300 errors caused by a single architectural oversight.
 
-### 📐 Quality Grades
+### Quality Grades
 The final score is then translated into a "Grade" (from A to E).
 
 | Score    | Grade | Compliance Status |
 |----------|-------|-------------------|
-| **>= 85**| `A`   | ✅ Excellent     |
-| **>= 70**| `B`   | ✅ Good          |
-| **>= 50**| `C`   | ⚠️ Fair           |
-| **>= 30**| `D`   | ❌ Critical      |
-| **< 30** | `E`   | 🚨 Unacceptable  |
+| **>= 85**| `A`   | Excellent     |
+| **>= 70**| `B`   | Good          |
+| **>= 50**| `C`   | Fair           |
+| **>= 30**| `D`   | Critical      |
+| **< 30** | `E`   | Unacceptable  |
 
 ---
-### 🧪 Concrete Examples
+### Concrete Examples
 **Example 1: The Perfect API (Score 100/100 -> Grade A)**
 The API strictly respects the design and OAuth2 + JWT (RFC8725) authentication. No penalty is applied.
 
@@ -161,7 +161,7 @@ open ../results/dashboard.html
 
 ---
 
-## 🚀 Next Phase: Enterprise Industrialization (V2)
+## Next Phase: Enterprise Industrialization (V2)
 
 While the current POC architecture is highly resilient, heavily scaled organizations (e.g., 500+ APIs, 1000+ developers) require further industrialization. The following three pillars represent the target V2 architecture:
 
