@@ -41,7 +41,13 @@ def fetch_kong_data():
     analytics_counts = {}
     try:
         req_url = "https://eu.api.konghq.com/v2/api-requests"
-        req_body = json.dumps({"size": 1000}).encode("utf-8")
+        req_body = json.dumps({
+            "size": 1000,
+            "time_range": {
+                "type": "relative",
+                "time_range": "24h"
+            }
+        }).encode("utf-8")
         req_obj = urllib.request.Request(req_url, data=req_body, headers=HEADERS, method="POST")
         with urllib.request.urlopen(req_obj) as response:
             logs = json.loads(response.read().decode("utf-8")).get("results", [])
