@@ -1,0 +1,56 @@
+{
+  "poc-api-2": {
+    "kong_runtime_status": "Active",
+    "kong_plugins": [
+      "key-auth",
+      "cors"
+    ],
+    "kong_is_secure": true,
+    "kong_thirty_day_traffic": 15000
+  },
+  "local-echo": {
+    "kong_runtime_status": "Active",
+    "kong_plugins": [
+      "post-function",
+      "openid-connect",
+      "konnect-application-auth"
+    ],
+    "kong_is_secure": false,
+    "kong_thirty_day_traffic": 15000
+  },
+  "geographic-service": {
+    "kong_runtime_status": "Inactive",
+    "kong_plugins": [],
+    "kong_is_secure": false,
+    "kong_thirty_day_traffic": 15000
+  },
+  "poc-api-1": {
+    "kong_runtime_status": "Active",
+    "kong_plugins": [
+      "rate-limiting"
+    ],
+    "kong_is_secure": false,
+    "kong_thirty_day_traffic": 5000
+  },
+  "simulated-scor-api": {
+    "kong_runtime_status": "Inactive",
+    "kong_plugins": [],
+    "kong_is_secure": false,
+    "kong_thirty_day_traffic": 15000
+  },
+  "kong-air-flights": {
+    "kong_runtime_status": "Active",
+    "kong_plugins": [
+      "konnect-application-auth",
+      "openid-connect"
+    ],
+    "kong_is_secure": false,
+    "kong_thirty_day_traffic": 15000
+  },
+  "test-web-service": {
+    "kong_runtime_status": "Inactive",
+    "kong_plugins": [],
+    "kong_is_secure": false,
+    "kong_thirty_day_traffic": 15000
+  }
+}
