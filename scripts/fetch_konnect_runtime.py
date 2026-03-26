@@ -67,11 +67,14 @@ def fetch_kong_data():
             print(f" -> Fetched Runtime for {svc_name}: {len(plugins)} plugins")
             
         # Write to JSON
-        os.makedirs("results", exist_ok=True)
-        with open("results/kong_runtime.json", "w", encoding="utf-8") as f:
+        output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results")
+        os.makedirs(output_dir, exist_ok=True)
+        out_path = os.path.join(output_dir, "kong_runtime.json")
+        
+        with open(out_path, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2)
             
-        print("✅ Successfully exported kong_runtime.json")
+        print(f"✅ Successfully exported to {out_path}")
 
     except Exception as e:
         print("❌ Error fetching Kong Konnect runtime data:")
