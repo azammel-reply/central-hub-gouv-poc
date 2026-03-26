@@ -28,8 +28,6 @@ jobs:
 
       - name: Fetch Kong Konnect Runtime Data
         working-directory: scripts
-        env:
-          KONG_PAT: ${{ secrets.HUB_PAT }}
         run: python fetch_konnect_runtime.py
 
       - name: Generate Dashboard HTML
