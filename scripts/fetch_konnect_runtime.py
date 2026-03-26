@@ -37,33 +37,36 @@ def request(url):
 def fetch_kong_data():
     results = {}
     
-    print("Fetching API Requests Analytics...")
-    analytics_counts = {}
+    print("Fetching API Requests Analytics (last 1H window)...")
+    analytics_counts = {}  # keyed by pure service_id
     try:
         req_url = "https://eu.api.konghq.com/v2/api-requests"
-        req_body = json.dumps({
-            "size": 1000,
-            "time_range": {
-                "type": "relative",
-                "time_range": "24h"
-            }
-        }).encode("utf-8")
+        # Default time_range is 1H which is fine for a live dashboard
+        req_body = json.dumps({"size": 1000}).encode("utf-8")
         req_obj = urllib.request.Request(req_url, data=req_body, headers=HEADERS, method="POST")
         with urllib.request.urlopen(req_obj) as response:
             logs = json.loads(response.read().decode("utf-8")).get("results", [])
             for log in logs:
-                s_id = log.get("gateway_service")
-                if not s_id: continue
-                status = log.get("status_code", 200)
-                if s_id not in analytics_counts:
-                    analytics_counts[s_id] = {"success": 0, "error": 0}
+                # gateway_service field contains "cp_id:service_id" composite key
+                raw_gw = log.get("gateway_service", "")
+                if not raw_gw:
+                    continue
+                # Extract pure service_id (after the colon)
+                svc_id = raw_gw.split(":")[-1] if ":" in raw_gw else raw_gw
+                # response_http_status is a string like "200", "401", etc.
+                try:
+                    status = int(log.get("response_http_status", "200"))
+                except (ValueError, TypeError):
+                    status = 200
+                if svc_id not in analytics_counts:
+                    analytics_counts[svc_id] = {"success": 0, "error": 0}
                 if status < 400:
-                    analytics_counts[s_id]["success"] += 1
+                    analytics_counts[svc_id]["success"] += 1
                 else:
-                    analytics_counts[s_id]["error"] += 1
-            print(f" -> Aggregated {len(logs)} recent requests in memory.")
+                    analytics_counts[svc_id]["error"] += 1
+            print(f" -> Aggregated {len(logs)} recent requests across {len(analytics_counts)} services.")
     except Exception as e:
-        print(f"Failed to fetch analytics: {e}")
+        print(f"⚠️  Analytics fetch failed (non-blocking): {e}")
         
     print("Fetching services from Kong Konnect...")
     try:
