@@ -14,8 +14,8 @@ Downloads:
 
 # Try to get PAT from environment, else fallback to hardcoded POC token for the demo
 KONG_PAT = os.environ.get("KONG_PAT", "kpat_zMYwMTvjEynkhHtm23MYvwz7qrF9X0qQnqfecgMo30bwWS1xq")
-# Fixed to Test Control Plane for the POC
-CP_ID = "8a2c4eeb-e72d-477d-9276-b64069869a5a"
+# Fixed to aez-dp-no-prod Control Plane for the POC
+CP_ID = "6993903a-af80-4ead-9909-29f956e5d88e"
 URL_BASE = f"https://eu.api.konghq.com/v2/control-planes/{CP_ID}/core-entities"
 
 HEADERS = {
