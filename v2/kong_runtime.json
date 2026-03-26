@@ -6,7 +6,7 @@
       "cors"
     ],
     "kong_is_secure": true,
-    "kong_thirty_day_traffic": 15000
+    "kong_thirty_day_traffic": "0 OK / 0 ERR"
   },
   "local-echo": {
     "kong_runtime_status": "Active",
@@ -16,13 +16,13 @@
       "konnect-application-auth"
     ],
     "kong_is_secure": false,
-    "kong_thirty_day_traffic": 15000
+    "kong_thirty_day_traffic": "0 OK / 0 ERR"
   },
   "geographic-service": {
     "kong_runtime_status": "Inactive",
     "kong_plugins": [],
     "kong_is_secure": false,
-    "kong_thirty_day_traffic": 15000
+    "kong_thirty_day_traffic": "0 OK / 0 ERR"
   },
   "poc-api-1": {
     "kong_runtime_status": "Active",
@@ -30,13 +30,13 @@
       "rate-limiting"
     ],
     "kong_is_secure": false,
-    "kong_thirty_day_traffic": 5000
+    "kong_thirty_day_traffic": "0 OK / 0 ERR"
   },
   "simulated-scor-api": {
     "kong_runtime_status": "Inactive",
     "kong_plugins": [],
     "kong_is_secure": false,
-    "kong_thirty_day_traffic": 15000
+    "kong_thirty_day_traffic": "0 OK / 0 ERR"
   },
   "kong-air-flights": {
     "kong_runtime_status": "Active",
@@ -45,12 +45,12 @@
       "openid-connect"
     ],
     "kong_is_secure": false,
-    "kong_thirty_day_traffic": 15000
+    "kong_thirty_day_traffic": "0 OK / 0 ERR"
   },
   "test-web-service": {
     "kong_runtime_status": "Inactive",
     "kong_plugins": [],
     "kong_is_secure": false,
-    "kong_thirty_day_traffic": 15000
+    "kong_thirty_day_traffic": "0 OK / 0 ERR"
   }
 }
