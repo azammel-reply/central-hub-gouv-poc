@@ -6,7 +6,7 @@
       "cors"
     ],
     "kong_is_secure": true,
-    "kong_thirty_day_traffic": "0 OK / 0 ERR"
+    "kong_thirty_day_traffic": "0 OK / 3 ERR"
   },
   "local-echo": {
     "kong_runtime_status": "Active",
@@ -30,7 +30,7 @@
       "rate-limiting"
     ],
     "kong_is_secure": false,
-    "kong_thirty_day_traffic": "0 OK / 0 ERR"
+    "kong_thirty_day_traffic": "4 OK / 0 ERR"
   },
   "simulated-scor-api": {
     "kong_runtime_status": "Inactive",
