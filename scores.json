@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": "2026-03-26T10:36:13.719490+00:00",
+    "timestamp": "2026-03-26T10:49:42.109128+00:00",
     "service_name": "poc-api-1",
     "domain": "unknown",
     "region": "unknown",
@@ -13,101 +13,37 @@
     "operations_count": 0,
     "total_rules_violated": 0,
     "top_violations": [],
-    "updated_date": "26/03/2026 11:36:02",
+    "updated_date": "26/03/2026 11:49:32",
     "rank": 1
   },
   {
-    "timestamp": "2026-03-26T10:36:13.724267+00:00",
+    "timestamp": "2026-03-26T10:49:42.117252+00:00",
     "service_name": "poc-api-2",
     "domain": "unknown",
     "region": "unknown",
-    "version": "1.0.1",
-    "spec_file": "poc-api-2@1.0.1",
+    "version": "2.2.1",
+    "spec_file": "poc-api-2@2.2.1",
     "numerical_score": 0,
     "grade": "E",
     "compliant": false,
-    "total_issues": 26,
+    "total_issues": 944,
     "operations_count": 0,
-    "total_rules_violated": 11,
+    "total_rules_violated": 19,
     "top_violations": [
       {
-        "rule": "operation-description",
-        "owasp_category": "Other",
-        "severity": 1,
-        "severity_label": "warning",
-        "occurrences": 7,
-        "penalty": 10
-      },
-      {
-        "rule": "operation-tags",
-        "owasp_category": "Other",
-        "severity": 1,
-        "severity_label": "warning",
-        "occurrences": 7,
-        "penalty": 10
-      },
-      {
-        "rule": "owasp:api4:2023-rate-limit-responses-429",
+        "rule": "owasp:api4:2023-string-limit",
         "owasp_category": "API4 - Unrestricted Resource Consumption",
         "severity": 1,
         "severity_label": "warning",
-        "occurrences": 2,
+        "occurrences": 260,
         "penalty": 10
       },
       {
-        "rule": "owasp:api8:2023-define-error-responses-401",
-        "owasp_category": "API8 - Security Misconfiguration",
+        "rule": "owasp:api4:2023-string-restricted",
+        "owasp_category": "API4 - Unrestricted Resource Consumption",
         "severity": 1,
         "severity_label": "warning",
-        "occurrences": 2,
-        "penalty": 10
-      },
-      {
-        "rule": "owasp:api8:2023-define-error-responses-500",
-        "owasp_category": "API8 - Security Misconfiguration",
-        "severity": 1,
-        "severity_label": "warning",
-        "occurrences": 2,
-        "penalty": 10
-      },
-      {
-        "rule": "info-contact",
-        "owasp_category": "Other",
-        "severity": 1,
-        "severity_label": "warning",
-        "occurrences": 1,
-        "penalty": 10
-      },
-      {
-        "rule": "owasp:api1:2023-no-numeric-ids",
-        "owasp_category": "API1 - Broken Object Level Auth",
-        "severity": 1,
-        "severity_label": "warning",
-        "occurrences": 1,
-        "penalty": 10
-      },
-      {
-        "rule": "operation-operationId",
-        "owasp_category": "Other",
-        "severity": 1,
-        "severity_label": "warning",
-        "occurrences": 1,
-        "penalty": 10
-      },
-      {
-        "rule": "owasp:api2:2023-read-restricted",
-        "owasp_category": "API2 - Broken Authentication",
-        "severity": 1,
-        "severity_label": "warning",
-        "occurrences": 1,
-        "penalty": 10
-      },
-      {
-        "rule": "owasp:api8:2023-define-error-validation",
-        "owasp_category": "API8 - Security Misconfiguration",
-        "severity": 1,
-        "severity_label": "warning",
-        "occurrences": 1,
+        "occurrences": 222,
         "penalty": 10
       },
       {
@@ -115,11 +51,139 @@
         "owasp_category": "API4 - Unrestricted Resource Consumption",
         "severity": 1,
         "severity_label": "warning",
+        "occurrences": 119,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api4:2023-rate-limit-responses-429",
+        "owasp_category": "API4 - Unrestricted Resource Consumption",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 62,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api8:2023-define-error-responses-401",
+        "owasp_category": "API8 - Security Misconfiguration",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 58,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api8:2023-define-error-responses-500",
+        "owasp_category": "API8 - Security Misconfiguration",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 56,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api4:2023-array-limit",
+        "owasp_category": "API4 - Unrestricted Resource Consumption",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 40,
+        "penalty": 10
+      },
+      {
+        "rule": "operation-description",
+        "owasp_category": "Other",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 31,
+        "penalty": 10
+      },
+      {
+        "rule": "operation-operationId",
+        "owasp_category": "Other",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 31,
+        "penalty": 10
+      },
+      {
+        "rule": "operation-tag-defined",
+        "owasp_category": "Other",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 31,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api4:2023-integer-limit-legacy",
+        "owasp_category": "API4 - Unrestricted Resource Consumption",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 21,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api8:2023-define-error-validation",
+        "owasp_category": "API8 - Security Misconfiguration",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 5,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api9:2023-inventory-access",
+        "owasp_category": "API9 - Improper Inventory Management",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 2,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api9:2023-inventory-environment",
+        "owasp_category": "API9 - Improper Inventory Management",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 1,
+        "penalty": 10
+      },
+      {
+        "rule": "oas3-unused-component",
+        "owasp_category": "Other",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 1,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api3:2023-constrained-additionalProperties",
+        "owasp_category": "API3 - Broken Object Property Auth",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 1,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api3:2023-no-additionalProperties",
+        "owasp_category": "API3 - Broken Object Property Auth",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 1,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api2:2023-jwt-best-practices",
+        "owasp_category": "API2 - Broken Authentication",
+        "severity": 1,
+        "severity_label": "warning",
+        "occurrences": 1,
+        "penalty": 10
+      },
+      {
+        "rule": "owasp:api2:2023-short-lived-access-tokens",
+        "owasp_category": "API2 - Broken Authentication",
+        "severity": 1,
+        "severity_label": "warning",
         "occurrences": 1,
         "penalty": 10
       }
     ],
-    "updated_date": "26/03/2026 11:36:02",
+    "updated_date": "26/03/2026 11:49:32",
     "rank": 2
   }
 ]
