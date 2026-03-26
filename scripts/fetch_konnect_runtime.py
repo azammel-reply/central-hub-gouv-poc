@@ -37,12 +37,14 @@ def request(url):
 def fetch_kong_data():
     results = {}
     
-    print("Fetching API Requests Analytics (last 1H window)...")
+    print("Fetching API Requests Analytics (last 7 days)...")
     analytics_counts = {}  # keyed by pure service_id
     try:
         req_url = "https://eu.api.konghq.com/v2/api-requests"
-        # Default time_range is 1H which is fine for a live dashboard
-        req_body = json.dumps({"size": 1000}).encode("utf-8")
+        req_body = json.dumps({
+            "size": 1000,
+            "time_range": {"type": "relative", "time_range": "7D"}
+        }).encode("utf-8")
         req_obj = urllib.request.Request(req_url, data=req_body, headers=HEADERS, method="POST")
         with urllib.request.urlopen(req_obj) as response:
             logs = json.loads(response.read().decode("utf-8")).get("results", [])
