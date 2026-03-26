@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "incoming-reports/*.json"
-    branches: [main]
+    branches: [main, "feature/kong-runtime-v2"]
   workflow_dispatch:
 
 jobs:
@@ -26,12 +26,19 @@ jobs:
         working-directory: scripts
         run: python compute_scores.py --results-dir ../incoming-reports --output-dir ../results
 
+      - name: Fetch Kong Konnect Runtime Data
+        working-directory: scripts
+        env:
+          KONG_PAT: ${{ secrets.HUB_PAT }}
+        run: python fetch_konnect_runtime.py
+
       - name: Generate Dashboard HTML
         working-directory: scripts
         run: |
           python generate_dashboard.py \
             --scores-file ../results/scores.csv \
             --violations-file ../results/violations_flat.csv \
+            --kong-file ../results/kong_runtime.json \
             --output ../results/dashboard.html
 
       - name: Deploy to GitHub Pages

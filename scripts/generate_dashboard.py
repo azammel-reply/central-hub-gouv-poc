@@ -5,9 +5,10 @@ Generates a static HTML dashboard from scores.csv and violations_flat.csv.
 Loads the HTML template from dashboard_template.html and injects data.
 
 Usage:
-  python3 dashboard/generate_dashboard.py \
+  python3 scripts/generate_dashboard.py \
     --scores-file results/scores.csv \
     --violations-file results/violations_flat.csv \
+    --kong-file results/kong_runtime.json \
     --output results/dashboard.html
 """
 
@@ -45,12 +46,12 @@ def color_class(val: float) -> str:
     return "red"
 
 
-def build_api_rows(api_list: list[dict], violations_by_api: dict = None) -> str:
+def build_api_rows(api_list: list[dict], kong_data: dict, violations_by_api: dict = None) -> str:
     """Build HTML table rows for an API list, including a hidden details row for rule violations."""
     if violations_by_api == None:
         violations_by_api = {}
     if not api_list:
-        return "<tr><td colspan='10' style='text-align:center; padding: 20px; color: var(--text2);'>No APIs to display.</td></tr>"
+        return "<tr><td colspan='13' style='text-align:center; padding: 20px; color: var(--text2);'>No APIs to display.</td></tr>"
     rows = ""
     for r in api_list:
         svc = r.get("service_name", "")
@@ -70,11 +71,30 @@ def build_api_rows(api_list: list[dict], violations_by_api: dict = None) -> str:
         else:
             details_html = "<div style='color:var(--text2); padding:20px 0;'>No rule violations recorded.</div>"
             
+        
+        # Kong Runtime Data
+        kd = kong_data.get(svc, {})
+        k_status = kd.get("kong_runtime_status", "Unmanaged")
+        k_plugins = kd.get("kong_plugins", [])
+        k_traffic = kd.get("kong_thirty_day_traffic", "-")
+        
+        if k_status == "Active":
+            status_html = '<span class="grade-badge" style="background:var(--green)">Active</span>'
+        elif k_status == "Unmanaged":
+            status_html = '<span style="color:var(--text2); font-size:0.8rem;">Design Only</span>'
+        else:
+            status_html = '<span class="grade-badge" style="background:var(--red)">Inactive</span>'
+            
+        plugins_html = " ".join([f"<span style='background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:2px 6px; font-size:10px; display:inline-block; margin:2px;'>{p}</span>" for p in k_plugins]) if k_plugins else "<span style='color:var(--text2)'>None</span>"
+        
         rows += f"""<tr class="api-main-row" onclick="showModal(this)" title="Click to view rule violations" style="cursor:pointer;">
             <td>{svc}</td>
             <td>{r.get('version','')}</td>
             <td>{r.get('domain','')}</td>
             <td>{r.get('region','')}</td>
+            <td>{status_html}</td>
+            <td style="max-width:200px;">{plugins_html}</td>
+            <td style="font-family:monospace;">{k_traffic}</td>
             <td class="score-cell">{score_val}</td>
             <td><span class="grade-badge" style="background:{gc}">{grade}</span></td>
             <td>{r.get('total_issues','0')}</td>
@@ -86,7 +106,7 @@ def build_api_rows(api_list: list[dict], violations_by_api: dict = None) -> str:
     return rows
 
 
-def generate_dashboard(scores: list[dict], violations: list[dict]) -> str:
+def generate_dashboard(scores: list[dict], violations: list[dict], kong_data: dict) -> str:
     """Load the HTML template and inject computed data."""
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
 
@@ -154,9 +174,9 @@ def generate_dashboard(scores: list[dict], violations: list[dict]) -> str:
         "{{COMPLIANT_COUNT}}":    str(compliant_count),
         "{{OWASP_VIOLATIONS_ROWS}}": owasp_rows,
         "{{DESIGN_VIOLATIONS_ROWS}}": design_rows,
-        "{{TOP_APIS_ROWS}}":      build_api_rows(top_apis, violations_by_api),
-        "{{BOTTOM_APIS_ROWS}}":   build_api_rows(bottom_apis, violations_by_api),
-        "{{ALL_APIS_ROWS}}":      build_api_rows(sorted_by_score, violations_by_api),
+        "{{TOP_APIS_ROWS}}":      build_api_rows(top_apis, kong_data, violations_by_api),
+        "{{BOTTOM_APIS_ROWS}}":   build_api_rows(bottom_apis, kong_data, violations_by_api),
+        "{{ALL_APIS_ROWS}}":      build_api_rows(sorted_by_score, kong_data, violations_by_api),
         "{{GRADE_LABELS}}":       json.dumps(grade_labels),
         "{{GRADE_VALUES}}":       json.dumps(grade_values),
         "{{GRADE_BAR_COLORS}}":   json.dumps(grade_bar_colors),
@@ -187,18 +207,24 @@ def main():
     parser = argparse.ArgumentParser(description="Generate HTML dashboard")
     parser.add_argument("--scores-file",     default="results/scores.csv")
     parser.add_argument("--violations-file", default="results/violations_flat.csv")
+    parser.add_argument("--kong-file",       default="results/kong_runtime.json")
     parser.add_argument("--output",          default="results/dashboard.html")
     args = parser.parse_args()
 
     scores = read_csv(args.scores_file)
     violations = read_csv(args.violations_file)
+    
+    kong_data = {}
+    if os.path.exists(args.kong_file):
+        with open(args.kong_file, "r", encoding="utf-8") as f:
+            kong_data = json.load(f)
 
     if not scores:
         log.error("No data in %s", args.scores_file)
         sys.exit(1)
 
     # Generate dashboard
-    html = generate_dashboard(scores, violations)
+    html = generate_dashboard(scores, violations, kong_data)
     output_dir = os.path.dirname(args.output) or "."
     os.makedirs(output_dir, exist_ok=True)
 
