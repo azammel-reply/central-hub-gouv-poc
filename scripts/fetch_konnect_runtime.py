@@ -37,6 +37,28 @@ def request(url):
 def fetch_kong_data():
     results = {}
     
+    print("Fetching API Requests Analytics...")
+    analytics_counts = {}
+    try:
+        req_url = "https://eu.api.konghq.com/v2/api-requests"
+        req_body = json.dumps({"size": 1000}).encode("utf-8")
+        req_obj = urllib.request.Request(req_url, data=req_body, headers=HEADERS, method="POST")
+        with urllib.request.urlopen(req_obj) as response:
+            logs = json.loads(response.read().decode("utf-8")).get("results", [])
+            for log in logs:
+                s_id = log.get("gateway_service")
+                if not s_id: continue
+                status = log.get("status_code", 200)
+                if s_id not in analytics_counts:
+                    analytics_counts[s_id] = {"success": 0, "error": 0}
+                if status < 400:
+                    analytics_counts[s_id]["success"] += 1
+                else:
+                    analytics_counts[s_id]["error"] += 1
+            print(f" -> Aggregated {len(logs)} recent requests in memory.")
+    except Exception as e:
+        print(f"Failed to fetch analytics: {e}")
+        
     print("Fetching services from Kong Konnect...")
     try:
         services_resp = request(f"{URL_BASE}/services")
@@ -50,9 +72,9 @@ def fetch_kong_data():
             pl_resp = request(f"{URL_BASE}/services/{svc_id}/plugins")
             plugins = [p["name"] for p in pl_resp.get("data", [])]
             
-            # Mocking analytics for now (unless we integrate the analytics V2 API which takes time)
-            # In a real holy-grail enterprise dashboard, we would query the `/v2/control-planes/{cp_id}/analytics` endpoint
-            mock_traffic = 5000 if svc_name == "poc-api-1" else 15000
+            # Fetch Real Traffic from aggregated memory
+            ac = analytics_counts.get(svc_id, {"success": 0, "error": 0})
+            real_traffic = f"{ac['success']} OK / {ac['error']} ERR"
             
             # Identify Security Rating based on plugins
             is_secure = "key-auth" in plugins or "oidc" in plugins or "jwt" in plugins
@@ -61,10 +83,10 @@ def fetch_kong_data():
                 "kong_runtime_status": "Active" if len(plugins) > 0 else "Inactive",
                 "kong_plugins": plugins,
                 "kong_is_secure": is_secure,
-                "kong_thirty_day_traffic": mock_traffic
+                "kong_thirty_day_traffic": real_traffic
             }
             
-            print(f" -> Fetched Runtime for {svc_name}: {len(plugins)} plugins")
+            print(f" -> Fetched Runtime for {svc_name}: {len(plugins)} plugins | Traffic: {real_traffic}")
             
         # Write to JSON
         output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results")
