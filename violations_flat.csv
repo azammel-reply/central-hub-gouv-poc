@@ -18,3 +18,19 @@ poc-api-2,unknown,unknown,E,owasp:api3:2023-constrained-additionalProperties,API
 poc-api-2,unknown,unknown,E,owasp:api3:2023-no-additionalProperties,API3 - Broken Object Property Auth,warning,1,10
 poc-api-2,unknown,unknown,E,owasp:api2:2023-jwt-best-practices,API2 - Broken Authentication,warning,1,10
 poc-api-2,unknown,unknown,E,owasp:api2:2023-short-lived-access-tokens,API2 - Broken Authentication,warning,1,10
+poc-api-3,unknown,unknown,E,owasp:api4:2023-string-limit,API4 - Unrestricted Resource Consumption,warning,21,10
+poc-api-3,unknown,unknown,E,owasp:api4:2023-rate-limit,API4 - Unrestricted Resource Consumption,warning,17,10
+poc-api-3,unknown,unknown,E,owasp:api4:2023-rate-limit-responses-429,API4 - Unrestricted Resource Consumption,warning,14,10
+poc-api-3,unknown,unknown,E,owasp:api8:2023-define-error-responses-401,API8 - Security Misconfiguration,warning,13,10
+poc-api-3,unknown,unknown,E,owasp:api8:2023-define-error-responses-500,API8 - Security Misconfiguration,warning,13,10
+poc-api-3,unknown,unknown,E,owasp:api4:2023-string-restricted,API4 - Unrestricted Resource Consumption,warning,9,10
+poc-api-3,unknown,unknown,E,operation-tag-defined,Other,warning,7,10
+poc-api-3,unknown,unknown,E,owasp:api8:2023-define-error-validation,API8 - Security Misconfiguration,warning,5,10
+poc-api-3,unknown,unknown,E,operation-description,Other,warning,5,10
+poc-api-3,unknown,unknown,E,owasp:api4:2023-integer-format,API4 - Unrestricted Resource Consumption,warning,4,10
+poc-api-3,unknown,unknown,E,owasp:api4:2023-integer-limit-legacy,API4 - Unrestricted Resource Consumption,warning,4,10
+poc-api-3,unknown,unknown,E,owasp:api2:2023-write-restricted,API2 - Broken Authentication,warning,4,10
+poc-api-3,unknown,unknown,E,owasp:api2:2023-read-restricted,API2 - Broken Authentication,warning,3,10
+poc-api-3,unknown,unknown,E,owasp:api4:2023-array-limit,API4 - Unrestricted Resource Consumption,warning,2,10
+poc-api-3,unknown,unknown,E,owasp:api9:2023-inventory-access,API9 - Improper Inventory Management,warning,1,10
+poc-api-3,unknown,unknown,E,owasp:api9:2023-inventory-environment,API9 - Improper Inventory Management,warning,1,10
