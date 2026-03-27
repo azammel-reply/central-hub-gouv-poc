@@ -17,7 +17,7 @@
 				"character": 48
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api9:2023-inventory-environment",
@@ -38,7 +38,7 @@
 				"character": 48
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api2:2023-read-restricted",
@@ -59,7 +59,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-tag-defined",
@@ -82,7 +82,7 @@
 				"character": 15
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-integer-format",
@@ -106,7 +106,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-integer-limit-legacy",
@@ -130,7 +130,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-integer-format",
@@ -154,7 +154,7 @@
 				"character": 24
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-integer-limit-legacy",
@@ -178,7 +178,7 @@
 				"character": 24
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -200,7 +200,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -222,7 +222,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-validation",
@@ -244,7 +244,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -267,7 +267,7 @@
 				"character": 33
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-array-limit",
@@ -295,7 +295,7 @@
 				"character": 55
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-integer-format",
@@ -323,7 +323,7 @@
 				"character": 33
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-integer-limit-legacy",
@@ -351,7 +351,7 @@
 				"character": 33
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-integer-format",
@@ -379,7 +379,7 @@
 				"character": 33
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-integer-limit-legacy",
@@ -407,7 +407,7 @@
 				"character": 33
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -430,7 +430,7 @@
 				"character": 35
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -453,7 +453,7 @@
 				"character": 35
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -476,7 +476,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api2:2023-write-restricted",
@@ -497,7 +497,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-tag-defined",
@@ -520,7 +520,7 @@
 				"character": 15
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -542,7 +542,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -564,7 +564,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -586,7 +586,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -608,7 +608,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -630,7 +630,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -652,7 +652,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -675,7 +675,7 @@
 				"character": 49
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -698,7 +698,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -721,7 +721,7 @@
 				"character": 53
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-description",
@@ -742,7 +742,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api2:2023-read-restricted",
@@ -763,7 +763,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-tag-defined",
@@ -786,7 +786,7 @@
 				"character": 15
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -810,7 +810,7 @@
 				"character": 24
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -832,7 +832,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -854,7 +854,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -876,7 +876,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -898,7 +898,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -920,7 +920,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -942,7 +942,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-validation",
@@ -964,7 +964,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -987,7 +987,7 @@
 				"character": 49
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -1010,7 +1010,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-description",
@@ -1031,7 +1031,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api2:2023-write-restricted",
@@ -1052,7 +1052,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-tag-defined",
@@ -1075,7 +1075,7 @@
 				"character": 15
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -1099,7 +1099,7 @@
 				"character": 24
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -1121,7 +1121,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -1143,7 +1143,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -1165,7 +1165,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -1187,7 +1187,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -1209,7 +1209,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -1231,7 +1231,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -1254,7 +1254,7 @@
 				"character": 49
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -1277,7 +1277,7 @@
 				"character": 34
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -1300,7 +1300,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-description",
@@ -1321,7 +1321,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api2:2023-write-restricted",
@@ -1342,7 +1342,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-tag-defined",
@@ -1365,7 +1365,7 @@
 				"character": 15
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -1389,7 +1389,7 @@
 				"character": 24
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -1411,7 +1411,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -1433,7 +1433,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -1455,7 +1455,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -1477,7 +1477,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -1499,7 +1499,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -1521,7 +1521,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-validation",
@@ -1543,7 +1543,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -1566,7 +1566,7 @@
 				"character": 35
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -1589,7 +1589,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-description",
@@ -1610,7 +1610,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api2:2023-read-restricted",
@@ -1631,7 +1631,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-tag-defined",
@@ -1654,7 +1654,7 @@
 				"character": 15
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -1678,7 +1678,7 @@
 				"character": 24
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -1700,7 +1700,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -1722,7 +1722,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -1744,7 +1744,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -1766,7 +1766,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -1788,7 +1788,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -1810,7 +1810,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-validation",
@@ -1832,7 +1832,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -1855,7 +1855,7 @@
 				"character": 51
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-array-limit",
@@ -1881,7 +1881,7 @@
 				"character": 51
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -1904,7 +1904,7 @@
 				"character": 37
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-description",
@@ -1925,7 +1925,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api2:2023-write-restricted",
@@ -1946,7 +1946,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "operation-tag-defined",
@@ -1969,7 +1969,7 @@
 				"character": 15
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -1993,7 +1993,7 @@
 				"character": 24
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2020,7 +2020,7 @@
 				"character": 30
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -2042,7 +2042,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit-responses-429",
@@ -2064,7 +2064,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -2086,7 +2086,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-401",
@@ -2108,7 +2108,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -2130,7 +2130,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-responses-500",
@@ -2152,7 +2152,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api8:2023-define-error-validation",
@@ -2174,7 +2174,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -2197,7 +2197,7 @@
 				"character": 36
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -2220,7 +2220,7 @@
 				"character": 45
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-rate-limit",
@@ -2243,7 +2243,7 @@
 				"character": 44
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2266,7 +2266,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2289,7 +2289,7 @@
 				"character": 23
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2312,7 +2312,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2335,7 +2335,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2358,7 +2358,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2381,7 +2381,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2404,7 +2404,7 @@
 				"character": 27
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2427,7 +2427,7 @@
 				"character": 27
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2450,7 +2450,7 @@
 				"character": 23
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2473,7 +2473,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2496,7 +2496,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2519,7 +2519,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2542,7 +2542,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2565,7 +2565,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2588,7 +2588,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2611,7 +2611,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2634,7 +2634,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2657,7 +2657,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2680,7 +2680,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2703,7 +2703,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2726,7 +2726,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2749,7 +2749,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-limit",
@@ -2772,7 +2772,7 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	},
 	{
 		"code": "owasp:api4:2023-string-restricted",
@@ -2795,6 +2795,6 @@
 				"character": 22
 			}
 		},
-		"source": "/Users/e.zammel/workspace/spectral-scor-poc/poc-api-3/specs/openapi.yaml"
+		"source": "/home/runner/work/poc-api-3/poc-api-3/specs/openapi.yaml"
 	}
 ]
