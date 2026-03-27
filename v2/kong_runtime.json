@@ -6,7 +6,7 @@
       "cors"
     ],
     "kong_is_secure": true,
-    "kong_thirty_day_traffic": "0 OK / 3 ERR"
+    "kong_thirty_day_traffic": "0 OK / 4 ERR"
   },
   "local-echo": {
     "kong_runtime_status": "Active",
