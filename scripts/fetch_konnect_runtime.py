@@ -41,34 +41,57 @@ def fetch_kong_data():
     
     print("Fetching API Requests Analytics (last 7 days)...")
     analytics_counts = {}  # keyed by pure service_id
+    total_fetched = 0
+    MAX_PAGES = 50  # Safety cap: 50 pages × 1000 = 50,000 requests max
     try:
         req_url = "https://eu.api.konghq.com/v2/api-requests"
-        req_body = json.dumps({
-            "size": 1000,
-            "time_range": {"type": "relative", "time_range": "7D"}
-        }).encode("utf-8")
-        req_obj = urllib.request.Request(req_url, data=req_body, headers=HEADERS, method="POST")
-        with urllib.request.urlopen(req_obj) as response:
-            logs = json.loads(response.read().decode("utf-8")).get("results", [])
-            for log in logs:
-                # gateway_service field contains "cp_id:service_id" composite key
-                raw_gw = log.get("gateway_service", "")
-                if not raw_gw:
-                    continue
-                # Extract pure service_id (after the colon)
-                svc_id = raw_gw.split(":")[-1] if ":" in raw_gw else raw_gw
-                # response_http_status is a string like "200", "401", etc.
-                try:
-                    status = int(log.get("response_http_status", "200"))
-                except (ValueError, TypeError):
-                    status = 200
-                if svc_id not in analytics_counts:
-                    analytics_counts[svc_id] = {"success": 0, "error": 0}
-                if status < 400:
-                    analytics_counts[svc_id]["success"] += 1
-                else:
-                    analytics_counts[svc_id]["error"] += 1
-            print(f" -> Aggregated {len(logs)} recent requests across {len(analytics_counts)} services.")
+        cursor = None
+        page = 0
+
+        while page < MAX_PAGES:
+            page += 1
+            payload = {
+                "size": 1000,
+                "time_range": {"type": "relative", "time_range": "7D"}
+            }
+            if cursor:
+                payload["cursor"] = cursor
+
+            req_body = json.dumps(payload).encode("utf-8")
+            req_obj = urllib.request.Request(req_url, data=req_body, headers=HEADERS, method="POST")
+            with urllib.request.urlopen(req_obj) as response:
+                data = json.loads(response.read().decode("utf-8"))
+                logs = data.get("results", [])
+                meta = data.get("meta", {})
+
+                for log in logs:
+                    # gateway_service field contains "cp_id:service_id" composite key
+                    raw_gw = log.get("gateway_service", "")
+                    if not raw_gw:
+                        continue
+                    # Extract pure service_id (after the colon)
+                    svc_id = raw_gw.split(":")[-1] if ":" in raw_gw else raw_gw
+                    # response_http_status is a string like "200", "401", etc.
+                    try:
+                        status = int(log.get("response_http_status", "200"))
+                    except (ValueError, TypeError):
+                        status = 200
+                    if svc_id not in analytics_counts:
+                        analytics_counts[svc_id] = {"success": 0, "error": 0}
+                    if status < 400:
+                        analytics_counts[svc_id]["success"] += 1
+                    else:
+                        analytics_counts[svc_id]["error"] += 1
+
+                total_fetched += len(logs)
+                print(f" -> Page {page}: {len(logs)} requests fetched (total: {total_fetched})")
+
+                # If fewer results than requested or no cursor → we've reached the end
+                cursor = meta.get("cursor")
+                if len(logs) < 1000 or not cursor:
+                    break
+
+        print(f" ✅ Aggregated {total_fetched} requests across {len(analytics_counts)} services.")
     except Exception as e:
         print(f"⚠️  Analytics fetch failed (non-blocking): {e}")
         
