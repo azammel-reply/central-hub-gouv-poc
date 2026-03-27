@@ -1,217 +1,296 @@
-# Central API Governance Hub
+# Central API Governance Hub — V2 (Runtime Edition)
 
-[![Dashboard](https://github.com/azammel-reply/central-hub-gouv-poc/actions/workflows/aggregate-dashboard.yml/badge.svg)](https://github.com/azammel-reply/central-hub-gouv-poc/actions/workflows/aggregate-dashboard.yml)
-[![Dashboard Live](https://img.shields.io/badge/Dashboard-Live-blue?logo=github)](https://azammel-reply.github.io/central-hub-gouv-poc/dashboard.html)
+[![Dashboard V2](https://github.com/azammel-reply/central-hub-gouv-poc/actions/workflows/aggregate-dashboard.yml/badge.svg?branch=feature/kong-runtime-v2)](https://github.com/azammel-reply/central-hub-gouv-poc/actions/workflows/aggregate-dashboard.yml)
+[![V2 Dashboard Live](https://img.shields.io/badge/Dashboard_V2-Live-blue?logo=github)](https://azammel-reply.github.io/central-hub-gouv-poc/v2/dashboard.html)
+[![V1 Dashboard](https://img.shields.io/badge/Dashboard_V1-Stable-gray?logo=github)](https://azammel-reply.github.io/central-hub-gouv-poc/dashboard.html)
 
-> Central governance hub that collects API linting results from multiple repositories, scores them against the OWASP API Security Top 10 2023 ruleset, and publishes an automated compliance dashboard.
+> **V2** extends the governance hub beyond design-time API linting. It correlates **Spectral/OWASP** compliance scores with **live runtime data** from **Kong Konnect** — real traffic analytics, active plugins, and security posture — delivering a single pane of glass for API governance.
+
+---
 
 ## Architecture
 
 ```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  poc-api-1   │     │  poc-api-2   │     │  api-xxx-N   │
-│  (Grade A)   │     │  (Grade E)   │     │  (Grade ?)   │
-└──────┬───────┘     └──────┬───────┘     └──────┬───────┘
-       │                    │                    │
-       └────── push JSON ───┼──── push JSON ─────┘
-                            ▼
-              ┌──────────────────────────┐
-              │   central-hub-gouv-poc   │
-              │                          │
-              │  incoming-reports/*.json  │  ← raw Spectral results
-              │  scripts/scoring_rules.py │  ← scoring config
-              │  scripts/compute_scores.py│  ← scoring engine
-              │  templates/dashboard_template.html │  ← HTML template
-              │  scripts/generate_dashboard.py     │  ← dashboard generator
-              │  rulesets/owasp23-*.yml   │  ← central ruleset
-              └────────────┬─────────────┘
-                           │ GitHub Actions
-                           ▼
-                 GitHub Pages Dashboard
-          azammel-reply.github.io/central-hub-gouv-poc
+            ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+            │  poc-api-1   │   │  poc-api-2   │   │  poc-api-3   │
+            │  Petstore    │   │  HTTPBin     │   │  User Mgmt   │
+            │  Grade A     │   │  Grade E     │   │  Grade ?     │
+            │  ✅ On Kong   │   │  ✅ On Kong   │   │  ❌ Design    │
+            └──────┬───────┘   └──────┬───────┘   └──────┬───────┘
+                   │                  │                   │
+                   └── Spectral JSON ─┼── Spectral JSON ──┘
+                                      ▼
+                   ┌─────────────────────────────────────┐
+                   │      central-hub-gouv-poc (V2)      │
+                   │                                     │
+                   │  incoming-reports/*.json  ← linting │
+                   │  scripts/compute_scores.py          │
+                   │  scripts/fetch_konnect_runtime.py   │  ← NEW V2
+                   │  scripts/generate_dashboard.py      │
+                   │  templates/dashboard_template.html   │
+                   └──────────────┬──────────────────────┘
+                                  │
+                     ┌────────────┼────────────┐
+                     ▼            ▼             ▼
+               Kong Konnect    Scoring       GitHub Pages
+               Analytics API   Engine        /v2/dashboard.html
+               (7D traffic)   (OWASP)
 ```
 
-## Enterprise-Grade Resilience
+---
 
-The Governance Hub and its downstream APIs implement advanced structural checks for high-scale enterprise scenarios:
+## V2 vs V1 — What's New
 
-- **Spoke API CI/CD Guardrails**: 
-  - **Missing Spec Handling**: Custom `if/exit 0` guards to avoid failing pipelines when specs are moving or absent.
-  - **Path-based Execution Filters**: Linting triggers strictly only on `specs/**` file changes.
-  - **Checksum Optimization**: Diff comparison blocks redundant commits/pushes for unmodified APIs.
-  - **Git Collision Resilience**: Up to 3x `git pull --rebase` exponential retrys against `non-fast-forward` merge blocks when dozens of APIs simultaneously push reports.
-- **Hub Version Accumulation Management**:
-  - `score_local.py` mathematically parses semantic version fragments (`1.10.0` vs `1.2.0`) from the incoming JSON filenames.
-  - It automatically deduplicates and **retains only the latest absolute version** for any API. This guarantees Dashboard accuracy and prevents accumulating "garbage reports" over years.
-
-## How It Works
-
-1. **API repos** (poc-api-1, poc-api-2, ...) run Spectral against the central OWASP ruleset on every push to `main`.
-2. Linting results (JSON) are pushed to `incoming-reports/` via a Governance Bot.
-3. The **Aggregate Dashboard** workflow detects new/changed JSON files and:
-   - Scores each API using a deduplicated penalty system
-   - Generates CSV, JSON, and an interactive HTML dashboard
-   - Deploys to GitHub Pages automatically
-
-## Scoring Mechanism (How is the score calculated?)
-
-The Central Hub scoring algorithm quantifies the compliance level of an API specification (OpenAPI) against the **OWASP Top 10 API Security 2023** guidelines and design best practices.
-
-The calculation starts from a maximum score of **`100`** and applies penalties based on the severity of the violated rules.
-
-### Penalty Scale
-Rules are classified by severity in the Spectral configuration files (`rulesets/owasp23-ruleset.spectral.yml`):
-
-| Severity | Penalty per violated rule | Rule Type (Example) |
-| -------- | ------------------------- | ------------------- |
-| **Error**| `-20 pts`                 | Blocker             |
-| **Warning**| `-10 pts`               | Default OWASP       |
-| **Info** | `-2 pts`                  | Information         |
-| **Hint** | `-1 pt`                   | Design advice       |
-
-*(Note: Rules concerning OWASP start with the `owasp:` prefix, others are considered `Design` rules).*
-
-### Intelligent Penalty Deduplication
-The algorithm penalizes **the type of error violated (the rule), not the volume of errors**.
-> *Example: If your specification has 50 routes, and you forget the security schema (`owasp:api2:2023-read-restricted` rule) on all 50 routes, your score will not drop by 50 x 10 = 500 points.*
-> *The rule is identified as violated, and the penalty is applied **only once** (-10 points).*
-
-This guarantees that the volume of API endpoints does not skew the actual security impact, and that developers are not discouraged by 300 errors caused by a single architectural oversight.
-
-### Quality Grades
-The final score is then translated into a "Grade" (from A to E).
-
-| Score    | Grade | Compliance Status |
-|----------|-------|-------------------|
-| **>= 85**| `A`   | Excellent     |
-| **>= 70**| `B`   | Good          |
-| **>= 50**| `C`   | Fair           |
-| **>= 30**| `D`   | Critical      |
-| **< 30** | `E`   | Unacceptable  |
+| Feature | V1 (main) | V2 (this branch) |
+|---------|-----------|-------------------|
+| Spectral/OWASP linting | ✅ | ✅ |
+| Scoring & grading (A→E) | ✅ | ✅ |
+| Kong Runtime status | ❌ | ✅ Active / Inactive / Design Only |
+| Kong Plugins display | ❌ | ✅ rate-limiting, key-auth, oidc... |
+| Real traffic analytics | ❌ | ✅ Success / Error counts (7 days) |
+| Cursor-based pagination | ❌ | ✅ Up to 50K requests |
+| `KONG_PAT` as GitHub Secret | ❌ | ✅ No hardcoded tokens |
+| 3rd API (Design Only) | ❌ | ✅ poc-api-3 |
 
 ---
-### Concrete Examples
-**Example 1: The Perfect API (Score 100/100 -> Grade A)**
-The API strictly respects the design and OAuth2 + JWT (RFC8725) authentication. No penalty is applied.
 
-**Example 2: Forgotten Rate-Limiting (Score 80/100 -> Grade B)**
-A developer has well-secured the API but forgot to document the Rate-Limiting headers (`RateLimit-Reset` etc).
-* Violated rule: `owasp:api4:2023-rate-limit` (Warning, -10 pts).
-* Violated design rule: missing `operation-description` (Warning, -10 pts).
-* Result: **100 - 20 = 80**. Grade B, the API is still publishable but can be improved.
+## Connected Projects
 
-**Example 3: The Sieve API from POC-2 (Score 0/100 -> Grade E)**
-The API was coded with zero respect for OWASP security.
-* `owasp:api2:2023-auth-insecure-schemes` (Basic Auth instead of JWT). (-10 pts)
-* `owasp:api8:2023-no-server-http` (Server uses HTTP instead of HTTPS). (-10 pts)
-* `owasp:api1:2023-no-numeric-ids` (Use of predictable auto-incremented integers for IDs). (-10 pts)
-* And 14 other OWASP rules violated throughout the file (meaning 17 rules in total * 10 points = -170 points).
-* Mathematical final score: 0 (The score is bounded at 0 anyway).
-* Result: **Grade E**. The pipeline formally blocks deployment to production.
+| Repository | API | Kong? | Description |
+|-----------|-----|-------|-------------|
+| [poc-api-1](https://github.com/azammel-reply/poc-api-1) | Petstore (OAS 2.0) | ✅ `poc-api-1` on Konnect | Best-practice API, Grade A. Proxied through Kong with `rate-limiting` plugin. |
+| [poc-api-2](https://github.com/azammel-reply/poc-api-2) | HTTPBin (OAS 2.0) | ✅ `poc-api-2` on Konnect | Intentionally insecure API, Grade E. Protected by `key-auth` + `cors` plugins. |
+| [poc-api-3](https://github.com/azammel-reply/poc-api-3) | User Management (OAS 3.0) | ❌ Design Only | Internal IAM API, not deployed on Kong. Demonstrates pure design-time governance. |
 
-## Onboarding a New API
+### How each API flows into the dashboard
 
-1. Create a new repository with your OpenAPI spec in `specs/openapi.yaml`.
-2. Copy the workflow from [poc-api-1/.github/workflows/lint-and-push.yml](https://github.com/reply-fr/poc-api-1/blob/main/.github/workflows/lint-and-push.yml).
-3. Add a GitHub secret `HUB_PAT` — a Personal Access Token with `repo` scope from the hub owner.
-4. Push to `main` — the API will appear on the dashboard automatically!
+```
+poc-api-1 / poc-api-2 / poc-api-3
+    │
+    │  1. Push to main triggers Spectral lint (GitHub Actions)
+    │  2. Results JSON pushed to central-hub incoming-reports/
+    │     └── poc-api-3 pushes to branch: feature/kong-runtime-v2 (V2 only)
+    │
+    ▼
+central-hub-gouv-poc (Aggregate Dashboard workflow)
+    │
+    │  3. compute_scores.py → scores.csv + violations_flat.csv
+    │  4. fetch_konnect_runtime.py → kong_runtime.json  ← V2 only
+    │  5. generate_dashboard.py → dashboard.html
+    │
+    ▼
+GitHub Pages /v2/dashboard.html
+```
+
+---
+
+## How the Runtime Integration Works
+
+### `fetch_konnect_runtime.py` — The V2 Engine
+
+This script bridges the gap between design-time linting and live operations by querying **two Kong Konnect APIs**:
+
+#### Step 1: Analytics API (Traffic Data)
+
+```
+POST https://eu.api.konghq.com/v2/api-requests
+Body: {"size": 1000, "time_range": {"type": "relative", "time_range": "7D"}}
+```
+
+- Returns individual request logs for the **last 7 days**
+- Uses **cursor-based pagination** to fetch ALL requests (up to 50 pages × 1000 = 50K requests)
+- Each log contains:
+  - `gateway_service`: `"<control_plane_id>:<service_id>"` — composite key identifying the Kong service
+  - `response_http_status`: `"200"`, `"401"`, etc. — string, not integer
+- The script splits status codes: `< 400` = ✅ Success, `>= 400` = ❌ Error
+
+#### Step 2: Admin API (Service Metadata)
+
+```
+GET https://eu.api.konghq.com/v2/control-planes/{CP_ID}/core-entities/services
+GET .../{service_id}/plugins
+```
+
+- Lists all services registered on the control plane
+- For each service, fetches its active plugins
+- **Matching**: The service `id` (UUID) from the Admin API matches the extracted `service_id` from the Analytics API — this is how traffic counts are linked to named services
+
+#### Step 3: Output
+
+Produces `results/kong_runtime.json`:
+
+```json
+{
+  "poc-api-1": {
+    "kong_runtime_status": "Active",
+    "kong_plugins": ["rate-limiting"],
+    "kong_is_secure": false,
+    "kong_thirty_day_traffic": "4 OK / 0 ERR"
+  },
+  "poc-api-2": {
+    "kong_runtime_status": "Active",
+    "kong_plugins": ["key-auth", "cors"],
+    "kong_is_secure": true,
+    "kong_thirty_day_traffic": "0 OK / 3 ERR"
+  }
+}
+```
+
+APIs **not on Kong** (like poc-api-3) won't appear in this JSON, and the dashboard renders them as `Design Only` with no traffic data.
+
+---
 
 ## Project Structure
 
 ```
 central-hub-gouv-poc/
 ├── .github/workflows/
-│   └── aggregate-dashboard.yml    # CI/CD: score + deploy
+│   └── aggregate-dashboard.yml       # CI/CD: score + runtime + deploy
 ├── scripts/
-│   ├── scoring_rules.py           # Scoring configuration
-│   ├── compute_scores.py          # Scoring engine
-│   └── generate_dashboard.py      # Dashboard generator
+│   ├── scoring_rules.py              # Scoring config (penalties, grades)
+│   ├── compute_scores.py             # Scoring engine (CSV output)
+│   ├── fetch_konnect_runtime.py      # V2: Kong Konnect runtime fetcher
+│   └── generate_dashboard.py         # Dashboard HTML generator
 ├── templates/
-│   └── dashboard_template.html    # HTML/CSS/JS template
-├── incoming-reports/              # Raw Spectral JSON results
+│   └── dashboard_template.html       # HTML/CSS/JS dashboard template
+├── incoming-reports/                  # Raw Spectral JSON from API repos
+│   ├── poc-api-1@1.0.1.json
+│   ├── poc-api-2@1.0.0.json          # (Note: poc-api-2 renamed as 2.2.1)
+│   └── poc-api-3@1.0.0.json          # V2 branch only
 ├── rulesets/
 │   └── owasp23-ruleset.spectral.yml  # Central OWASP ruleset
-├── results/                       # Generated output (CSV/JSON/HTML)
+├── results/                           # .gitignored — generated at CI time
 └── README.md
 ```
+
+---
+
+## GitHub Secrets
+
+| Secret | Where | Purpose |
+|--------|-------|---------|
+| `HUB_PAT` | poc-api-1, poc-api-2, poc-api-3 | GitHub PAT (`ghp_...`) to push lint results to central-hub |
+| `KONG_PAT` | central-hub-gouv-poc | Kong Konnect PAT (`kpat_...`) for Admin + Analytics API calls |
+
+> ⚠️ **No tokens are hardcoded in source code.** `fetch_konnect_runtime.py` reads `KONG_PAT` from the environment and prints a warning if missing.
+
+---
+
+## Kong Konnect Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Region | `eu` (Europe) |
+| Control Plane | `aez-dp-no-prod` |
+| Control Plane ID | `6993903a-af80-4ead-9909-29f956e5d88e` |
+| Analytics Endpoint | `POST https://eu.api.konghq.com/v2/api-requests` |
+| Admin Endpoint | `GET https://eu.api.konghq.com/v2/control-planes/{CP_ID}/core-entities/...` |
+| Analytics Window | Last 7 days (`time_range: "7D"`) |
+| Pagination | Cursor-based, 1000/page, max 50 pages (50K requests) |
+
+---
 
 ## Local Development
 
 ```bash
-# Score the incoming reports
+# 1. Set your Kong PAT
+export KONG_PAT=kpat_your_kong_pat_here
+
+# 2. Score the incoming reports
 cd scripts
 python compute_scores.py --results-dir ../incoming-reports --output-dir ../results
 
-# Generate the dashboard
+# 3. Fetch Kong runtime data (requires KONG_PAT)
+python fetch_konnect_runtime.py
+
+# 4. Generate the dashboard
 python generate_dashboard.py \
   --scores-file ../results/scores.csv \
   --violations-file ../results/violations_flat.csv \
+  --kong-file ../results/kong_runtime.json \
   --output ../results/dashboard.html
 
-# Open in browser
+# 5. Open in browser
 open ../results/dashboard.html
 ```
 
-## Related Repositories
+---
 
-| Repository                                         | Grade | Description                       |
-| -------------------------------------------------- | ----- | --------------------------------- |
-| [poc-api-1](https://github.com/reply-fr/poc-api-1) | A     | Best-practice OWASP-compliant API |
-| [poc-api-2](https://github.com/reply-fr/poc-api-2) | E     | Intentionally insecure API        |
+## Onboarding a New API
+
+### Design-Only API (no Kong)
+
+1. Create a repo with your OpenAPI spec at `specs/openapi.yaml`
+2. Copy the workflow from [poc-api-3/.github/workflows/lint-and-push.yml](https://github.com/azammel-reply/poc-api-3)
+3. **Important**: If V2 only, set the workflow to clone `-b feature/kong-runtime-v2`:
+   ```yaml
+   git clone -b feature/kong-runtime-v2 https://${HUB_PAT}@github.com/azammel-reply/central-hub-gouv-poc.git hub-repo
+   ```
+4. Add secret `HUB_PAT` (GitHub PAT with `repo` scope)
+5. Push to `main` → API appears on V2 dashboard as **"Design Only"**
+
+### Runtime API (on Kong)
+
+1. Same steps as above
+2. Also create a Kong Service + Route on the `aez-dp-no-prod` control plane
+3. The `fetch_konnect_runtime.py` script will **automatically discover** it via the Admin API
+4. Dashboard shows: runtime status, plugins, and real traffic counts
 
 ---
 
-## Next Phase: Enterprise Industrialization (V2)
+## Scoring Mechanism
 
-While the current POC architecture is highly resilient, heavily scaled organizations (e.g., 500+ APIs, 1000+ developers) require further industrialization. The following three pillars represent the target V2 architecture:
+Starting from **100 points**, penalties are deducted per **unique rule violated** (not per occurrence):
 
-### 1. Stateless Hub (Azure Blob Storage)
-**The limitation**: Thousands of APIs pushing continuous JSON reports will eventually cause Git history bloat and hit GitHub API rate limits. 
-**The target**: Eliminate Git as a database and migrate the storage of raw `spectral-results.json` files into **Microsoft Azure Blob Storage**. 
-- The Hub Git history remains pristine (0 data commits).
-- Azure Blob Storage native lifecycle policies auto-delete JSONs older than 6 months.
+| Severity | Penalty | Example |
+|----------|---------|---------|
+| Error | -20 pts | Blockers |
+| Warning | -10 pts | OWASP rules |
+| Info | -2 pts | Informational |
+| Hint | -1 pt | Design advice |
 
-### 2. Zero-Trust Security (GitHub App Registration)
-**The limitation**: For POC simplicity, all API spoke pipelines share a static GitHub Personal Access Token (`HUB_PAT`) to authenticate and push to the Hub.
-**The target**: Replace the PAT with a dedicated **GitHub App**. Each API repository will install the App and dynamically request a short-lived OAuth token strictly scoped to write to the storage layer, ensuring true zero-trust security and granular auditability.
+### Grades
 
-### 3. Shift-Left (Pull Request Feedback)
-**The limitation**: Currently, the central dashboard updates *after* code is merged to `main`, meaning non-compliant API designs are already in production.
-**The target**: Integrate Spectral execution directly on feature branches during **Pull Requests**. If the score drops below an acceptable grade (e.g., below 'C'), the CI pipeline fails. Furthermore, a Git bot automatically posts a comment on the PR detailing the exact OWASP violations to fix *before* the branch can be merged.
+| Score | Grade | Status |
+|-------|-------|--------|
+| ≥ 85 | **A** | Excellent |
+| ≥ 70 | **B** | Good |
+| ≥ 50 | **C** | Fair |
+| ≥ 30 | **D** | Critical |
+| < 30 | **E** | Unacceptable |
 
-### Target Architecture Diagram (Phase 2)
+> **Deduplication**: 50 endpoints missing the same rule = 1 penalty, not 50. This prevents endpoint volume from skewing the score.
 
-```mermaid
-graph TD
-    classDef azure fill:#0078D4,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef git fill:#24292e,stroke:#fff,stroke-width:2px,color:#fff;
-    
-    A[API Feature Branch] -->|1. Spectral Lint| PR[Pull Request]
-    PR -->|2. Score < C | B[Bot: Blocks Merge + Comments]
-    PR -->|2. Score >= C | C[Merge to Main]
-    
-    B -->|3. Upload Failed Report| D[(Azure Blob Storage)]:::azure
-    C -->|3. Upload Passed Report| D
-    
-    D -.->|4. Triggers Webhook| E[GitHub Actions Hub]:::git
-    
-    subgraph central-hub-gouv-poc [Hub Repository]
-    E --> F(Download JSONs from Azure)
-    F --> G(Python compute_scores.py)
-    G --> H(dashboard_template.html)
-    end
-    
-    H --> I[GitHub Pages / Azure Static Web Apps / BI Dashs]
+---
+
+## CI/CD Pipeline (V2)
+
+```yaml
+# aggregate-dashboard.yml (simplified)
+jobs:
+  build-dashboard:
+    steps:
+      - Checkout Code
+      - Setup Python 3.12
+      - pip install pandas
+      - python compute_scores.py          # → scores.csv, violations_flat.csv
+      - python fetch_konnect_runtime.py   # → kong_runtime.json (uses KONG_PAT secret)
+      - python generate_dashboard.py      # → dashboard.html
+      - Deploy to GitHub Pages /v2/       # peaceiris/actions-gh-pages
 ```
 
-### 4. Universal CI/CD Compatibility (GitLab, Azure DevOps, Bitbucket)
-**The limitation**: Cross-platform CIs currently have to execute Git clone/commit/push commands to GitHub just to transmit their JSON results, which feels unnatural.
-**The target**: Transitioning to Azure Blob Storage (V2) actually makes universal compatibility **easier**. 
-- Whether an API is hosted on **GitLab**, **Azure Repos**, or **Bitbucket**, its CI pipeline simply runs `spectral lint` and uses the universal Azure CLI (`az storage blob upload`) or an HTTP curl request with a SAS Token to send its JSON to the bucket.
-- No cross-platform Git authentication is required. The Azure Storage becomes the ultimate agnostic data lake.
+---
 
-### 5. Architect Recommendations for V2 Robustness
-Depending on specific organizational constraints, the following capabilities should be integrated into the V2 roadmap:
+## Branching Strategy
 
-- **Event-Driven Triggers**: Without Git commits on the Hub, the dashboard compilation should rely on an **Azure Event Grid Webhook** configured on the Blob Storage. This triggers the GitHub Actions reporting workflow *only* when a new JSON payload arrives, avoiding costly polling.
-- **Reporting Glass Ceiling**: The static Python HTML generator (`generate_dashboard.py`) will eventually saturate the client's web browser DOM when rendering the violation history of 1000+ APIs. Transition the Python script from generating HTML to pushing aggregated scoring metrics directly into a dedicated enterprise BI workspace (**PowerBI, Grafana, or Azure Log Analytics**).
+```
+main                    → Production V1 dashboard (design-time only)
+                           Deployed to: /dashboard.html
+                           APIs: poc-api-1, poc-api-2
+
+feature/kong-runtime-v2 → V2 dashboard (design + runtime)
+                           Deployed to: /v2/dashboard.html
+                           APIs: poc-api-1, poc-api-2, poc-api-3
+```
+
+Both dashboards coexist on GitHub Pages. V1 remains stable for production demos while V2 is the development frontier.
