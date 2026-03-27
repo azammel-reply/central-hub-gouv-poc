@@ -1,3 +1,4 @@
 timestamp,service_name,domain,region,version,spec_file,numerical_score,grade,compliant,total_issues,operations_count,rank,updated_date
-2026-03-27T09:47:08.804391+00:00,poc-api-1,unknown,unknown,1.0.1,poc-api-1@1.0.1,100,A,True,0,0,1,27/03/2026 10:46:57
-2026-03-27T09:47:08.812291+00:00,poc-api-2,unknown,unknown,2.2.1,poc-api-2@2.2.1,0,E,False,944,0,2,27/03/2026 10:46:57
+2026-03-27T09:52:06.833638+00:00,poc-api-1,unknown,unknown,1.0.1,poc-api-1@1.0.1,100,A,True,0,0,1,27/03/2026 10:51:55
+2026-03-27T09:52:06.846292+00:00,poc-api-2,unknown,unknown,2.2.1,poc-api-2@2.2.1,0,E,False,944,0,2,27/03/2026 10:51:55
+2026-03-27T09:52:06.847045+00:00,poc-api-3,unknown,unknown,1.0.0,poc-api-3@1.0.0,0,E,False,123,0,3,27/03/2026 10:51:55
