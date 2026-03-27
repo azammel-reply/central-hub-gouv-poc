@@ -1,0 +1,19 @@
+[
+	{
+		"code": "unrecognized-format",
+		"path": [],
+		"message": "The provided document does not match any of the registered formats [OpenAPI 2.0 (Swagger), OpenAPI 3.x, OpenAPI 3.0.x, OpenAPI 3.1.x]",
+		"severity": 1,
+		"range": {
+			"start": {
+				"line": 0,
+				"character": 0
+			},
+			"end": {
+				"line": 7,
+				"character": 0
+			}
+		},
+		"source": "/home/runner/work/poc-api-1/poc-api-1/specs/openapi.yaml"
+	}
+]
